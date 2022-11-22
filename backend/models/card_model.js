@@ -25,6 +25,7 @@ const card = {
         [card.pin_code, id],
         callback
       );
-    }
+    },
+    
   };
   module.exports = card;
