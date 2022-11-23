@@ -1,8 +1,18 @@
 const db = require('../database');
-
+const bcrypt = require("bcryptjs");
 //TODO: CARD_NUMBER --> ID:KSI? TOKENIT, LOGIN-ENDPOINT
 
+const saltRounds = 10;
+
+
+
 const card = {
+
+
+    checkPin: function(username, callback) {
+      return db.query('SELECT pin_code FROM card WHERE card_number = ?',[username], callback); 
+    },
+
     getById: function(id, callback) {
       return db.query('select * from card where card_number = ?', [id], callback);
     },
