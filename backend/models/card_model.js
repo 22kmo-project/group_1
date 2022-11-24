@@ -1,7 +1,16 @@
 const db = require('../database');
 const bcrypt = require("bcryptjs");
+<<<<<<< HEAD
 
 const saltRounds = 10;
+=======
+//TODO: CARD_NUMBER --> ID:KSI? TOKENIT, LOGIN-ENDPOINT
+
+const saltRounds = 10;
+
+
+
+>>>>>>> 4ac78494d7ea47ec3bdd241b06340ad2bb0cea9e
 const card = {
 
 

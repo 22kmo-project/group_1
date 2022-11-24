@@ -48,4 +48,8 @@ function authenticateToken(req, res, next) {
   })
 }
 
+<<<<<<< HEAD
 module.exports = app;
+=======
+module.exports = app;
+>>>>>>> 4ac78494d7ea47ec3bdd241b06340ad2bb0cea9e
