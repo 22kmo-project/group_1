@@ -1,11 +1,16 @@
 const db = require('../database');
 const bcrypt = require("bcryptjs");
+<<<<<<< HEAD
+
+const saltRounds = 10;
+=======
 //TODO: CARD_NUMBER --> ID:KSI? TOKENIT, LOGIN-ENDPOINT
 
 const saltRounds = 10;
 
 
 
+>>>>>>> 4ac78494d7ea47ec3bdd241b06340ad2bb0cea9e
 const card = {
 
 
@@ -24,11 +29,12 @@ const card = {
 
 
     add: function(card, callback) {
+      bcrypt.hash(card.pin_code,saltRounds,function(err,hash){
       return db.query(
         'insert into card (card_number, pin_code, debit_credit, id_account, card_owner) values(?,?,?,?,?)',
-        [card.card_number, card.pin_code, card.debit_credit, card.id_account, card.card_owner],
-        callback
-      );
+        [card.card_number, hash, card.debit_credit, card.id_account, card.card_owner],
+        callback)
+      });
     },
 
 
@@ -37,12 +43,13 @@ const card = {
     },
 
     
-    update: function(id, card, callback) {
+    update: function(card, callback) {
+      bcrypt.hash(card.pin_code,saltRounds,function(err, hash) {
       return db.query(
         'update card set pin_code = ? where card_number = ?',
-        [card.pin_code, id],
-        callback
-      );
+        [hash,card.card_number],
+        callback)
+      });
     },
     
   };

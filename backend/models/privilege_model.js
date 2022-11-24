@@ -12,7 +12,7 @@ const privileges = {
     },
 
 
-    add: function(card, callback) {
+    add: function(privileges, callback) {
       return db.query(
         'insert into privileges (id_customer, id_account, account_owner) values(?,?,?)',
         [privileges.id_customer, privileges.id_account, privileges.account_owner],

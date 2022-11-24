@@ -7,6 +7,8 @@ const account = {
     getAll: function(callback) {
       return db.query('select * from account', callback);
     },
+
+
     add: function(account, callback) {
       return db.query(
         'insert into account (account_number, credit_limit, debit_balance, used_credit) values(?,?,?,?)',
@@ -14,6 +16,8 @@ const account = {
         callback
       );
     },
+
+
     delete: function(id, callback) {
       return db.query('delete from account where id_account = ?', [id], callback);
     },

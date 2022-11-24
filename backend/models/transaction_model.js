@@ -12,7 +12,7 @@ const transactions = {
     },
 
 
-    add: function(card, callback) {
+    add: function(transactions, callback) {
       return db.query(
         'insert into transactions (card_number, date, description, sum) values(?,?,?,?)',
         [transactions.card_number, transactions.date, transactions.description, transactions.sum],
@@ -26,7 +26,7 @@ const transactions = {
     },
 
     
-    update: function(id, card, callback) {
+    update: function(id, transactions, callback) {
       return db.query(
         'update transactions set description = ? where id_transactions = ?',
         [transactions.description, id],

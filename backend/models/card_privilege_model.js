@@ -12,7 +12,7 @@ const privileges = {
     },
 
 
-    add: function(card, callback) {
+    add: function(card_privileges, callback) {
       return db.query(
         'insert into card_privileges (id_account, card_number) values(?,?)',
         [card_privileges.id_account, card_privileges.card_number],
@@ -26,7 +26,7 @@ const privileges = {
     },
 
     
-    update: function(id, card, callback) {
+    update: function(id, card_privileges, callback) {
       return db.query(
         'update card_privileges set id_account = ? where id_cardprivileges = ?',
         [card_privileges.id_account, id],

@@ -12,7 +12,7 @@ const customer = {
     },
 
 
-    add: function(card, callback) {
+    add: function(customer, callback) {
       return db.query(
         'insert into customer (fname, lname, street_address, phone_number) values(?,?,?,?)',
         [customer.fname, customer.lname, customer.street_address, customer.phone_number],
@@ -26,7 +26,7 @@ const customer = {
     },
 
     
-    update: function(id, card, callback) {
+    update: function(id, customer, callback) {
       return db.query(
         'update customer set phone_number = ? where id_customer = ?',
         [customer.phone_number, id],
