@@ -21,12 +21,11 @@ const account = {
     delete: function(id, callback) {
       return db.query('delete from account where id_account = ?', [id], callback);
     },
+
+    
     update: function(id, account, callback) {
-      return db.query(
-        'update account set credit_limit = ? where id_account = ?',
-        [account.credit_limit, id],
-        callback
-      );
+        return db.query('update account set credit_limit = ? where id_account = ?',
+        [account.credit_limit,id], callback);
     }
   };
   module.exports = account;

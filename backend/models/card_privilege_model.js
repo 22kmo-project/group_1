@@ -1,7 +1,7 @@
 const db = require('../database');
 
 
-const privileges = {
+const card_privileges = {
     getById: function(id, callback) {
       return db.query('select * from card_privileges where id_cardprivileges = ?', [id], callback);
     },
@@ -34,4 +34,4 @@ const privileges = {
       );
     }
   };
-  module.exports = privileges;
+  module.exports = card_privileges;

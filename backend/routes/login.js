@@ -5,7 +5,6 @@ const card = require('../models/card_model.js');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 
-
 router.post('/', 
   function(request, response) {
     if(request.body.card_number && request.body.pin_code){
@@ -22,39 +21,28 @@ router.post('/',
                 console.log("database pincode: " + dbResult[0].pin_code);
                 if(compareResult == true) {
                   console.log("success");
+                  
                   const token = generateAccessToken({ card: cardNumber });
                   response.send(token);
                 } else {
-                    console.log("wrong pincode");
-                    response.send(false);
+                  response.send(card.checkLoginTries(cardNumber));
                 }            
               }
               );
-            }
-            else{
-              if (cardNumber == "admin" && cardPin == "root") {
-                console.log("ADMIN LOGIN");
-                const token = generateAccessToken({ card: cardNumber });
-                response.send("ADMIN TOKEN: \n" + token);
-              } else {
-                console.log("card does not exists");
-                response.send(false);
-              }
+            }else {
+              response.send(card.checkForAdminLogin(cardNumber,cardPin));
+              
             }
           }
-          }
-        );
-      }
-    else{
+        }
+  )}else{
       console.log("card_number or pincode missing");
       response.send(false);
-    }
-  }
-);
+    };
 
 function generateAccessToken(card) {
   dotenv.config();
   return jwt.sign(card, process.env.MY_TOKEN, { expiresIn: '1800s' });
 }
-
+});
 module.exports=router;
