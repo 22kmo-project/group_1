@@ -5,6 +5,8 @@
 #include <QtNetwork>
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
+#include <QObject>
+#include "bankwindow.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -25,6 +27,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    bankwindow *objectBankWindow;
     QNetworkAccessManager *loginManager;
     QNetworkReply *reply;
     QByteArray response_data;
