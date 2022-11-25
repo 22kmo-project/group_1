@@ -12,6 +12,9 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete objectBankWindow;
+    objectBankWindow=nullptr;
+
 }
 
 
@@ -42,6 +45,15 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     int test=QString::compare(response_data,"false");
     qDebug()<<test;
 
+    //Esimerkeissä allaoleva, mutta toimii ilmankin
+
+    /*QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+    QJsonObject json_obj = json_doc.object();
+    QString tokenstring;
+
+    tokenstring = json_obj["token"].toString();
+    QByteArray token = tokenstring.toUtf8();*/
+
     if(response_data.length()==0){
         ui->labelInfo->setText("Palvelin ei vastaa");
     }
@@ -56,9 +68,9 @@ void MainWindow::loginSlot(QNetworkReply *reply)
                 ui->labelInfo->setText("Tunnus ja salasana eivät täsmää");
             }
             else {
-      /*       objectBankWindow=new bankWindow(cardnum);
-                objectBankWindow->setWebToken("Bearer"+response_data);
-                objectBankWindow->show();*/
+                objectBankWindow=new bankwindow(cardnum);
+                objectBankWindow->setWebToken("Bearer "+response_data);
+                objectBankWindow->show();
             }
         }
     }
