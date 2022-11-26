@@ -1,18 +1,32 @@
 const db = require('../database');
 const bcrypt = require("bcryptjs");
-<<<<<<< HEAD
-
-const saltRounds = 10;
-=======
-//TODO: CARD_NUMBER --> ID:KSI? TOKENIT, LOGIN-ENDPOINT
+const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken');
 
 const saltRounds = 10;
 
+let tries = 3;
 
-
->>>>>>> 4ac78494d7ea47ec3bdd241b06340ad2bb0cea9e
 const card = {
 
+    checkLoginTries: function(cardNumber) {
+      tries--;
+      console.log("tries left: " + tries +"\ntry again.");
+      if (tries == 0) {
+        console.log(cardNumber + " card locked, db connection closed.");
+      }  
+  },
+
+    checkForAdminLogin: function(card_number, pin_code) {
+      if (card_number == "admin" && pin_code == "root") {
+        console.log("ADMIN LOGIN\n");
+        const adminToken = generateAdminAccessToken({admin: card_number});
+        return "ADMIN TOKEN: \n" + adminToken;
+      } else {
+        console.log("card does not exists");
+        return false;
+      }
+    },
 
     checkPin: function(username, callback) {
       return db.query('SELECT pin_code FROM card WHERE card_number = ?',[username], callback); 
@@ -52,5 +66,10 @@ const card = {
       });
     },
     
+    
   };
-  module.exports = card;
+function generateAdminAccessToken(admin) {
+    dotenv.config();
+    return jwt.sign(admin, process.env.MY_TOKEN, { expiresIn: '24h' });
+}
+module.exports = card;
