@@ -1,11 +1,11 @@
 #ifndef BANKWINDOW_H
 #define BANKWINDOW_H
 
-#include <QObject>
 #include <QDialog>
 #include <QtNetwork>
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
+#include <QDebug>
 
 namespace Ui {
 class bankwindow;
@@ -23,18 +23,20 @@ public:
 
 private slots:
 
+    void bankSlot (QNetworkReply *reply);
+    void dataSlot (QNetworkReply *reply);
+
+
 private:
     Ui::bankwindow *ui;
     QByteArray webToken;
+    QString idAccount;
     QString myCard;
 
-    QNetworkAccessManager *cardManager;
-    QNetworkAccessManager *pinManager;
+    QNetworkAccessManager *dataManager;
+    void checkAccount(QString cardnum);
     QNetworkReply *reply;
     QByteArray response_data;
-
-
-
 };
 
 #endif // BANKWINDOW_H
