@@ -55,7 +55,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     QByteArray token = tokenstring.toUtf8();*/
 
     if(response_data.length()==0){
-        ui->labelInfo->setText("Palvelin ei vastaa");
+        ui->labelInfo->setText("Palvelin ei vastaaa");
     }
     else {
         if(QString::compare(response_data,"-4078")==0){
