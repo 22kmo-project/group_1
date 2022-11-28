@@ -9,10 +9,12 @@ router.post('/',
   function(request, response) {
     if(request.body.card_number && request.body.pin_code){
       const cardNumber = request.body.card_number;
-      const cardPin = request.body.pin_code;
+      const cardPin = request.body.pin_code; 
+
+        console.log("\nGiven cardnumber:" + cardNumber + " and pincode:" + cardPin);
+        card.checkLocked();
 
         card.checkPin(cardNumber, function(dbError, dbResult) {
-          console.log("Given card number and pincode: "+cardNumber+ " "+ cardPin);
           if(dbError){
             response.json(dbError);
           } else{
@@ -21,17 +23,16 @@ router.post('/',
                 console.log("database pincode: " + dbResult[0].pin_code);
                 if(compareResult == true) {
                   console.log("success");
-                  
                   const token = generateAccessToken({ card: cardNumber });
                   response.send(token);
                 } else {
-                  response.send(card.checkLoginTries(cardNumber));
+                  response.send(card.checkLoginTries());
+                  
                 }            
               }
               );
             }else {
               response.send(card.checkForAdminLogin(cardNumber,cardPin));
-              
             }
           }
         }
