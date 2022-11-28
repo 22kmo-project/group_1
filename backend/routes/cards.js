@@ -54,7 +54,7 @@ function(request, response) {
     if (err) {
       response.json(err);
     } else {
-      response.json(dbResult.affectedRows);
+      response.json(dbResult);
     }
   });
 });
