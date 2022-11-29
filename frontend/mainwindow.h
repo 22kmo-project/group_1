@@ -5,9 +5,9 @@
 #include <QtNetwork>
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
-#include <QObject>
 #include "bankwindow.h"
-
+#include <QDebug>
+#include "url.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -31,6 +31,7 @@ private:
     QNetworkAccessManager *loginManager;
     QNetworkReply *reply;
     QByteArray response_data;
-    QString cardnum;
+    QString cardNumber;
+    QString cardPin;
 };
 #endif // MAINWINDOW_H
