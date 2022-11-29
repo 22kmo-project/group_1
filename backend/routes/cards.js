@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const card = require('../models/card_model.js');
 
+
+
 router.get('/:id?',
  function(request, response) {
   if (request.params.id) {
