@@ -37,19 +37,26 @@ void bankwindow::checkAccount(QString cardnum)
     reply = dataManager->get(request);
 }
 
-
-void bankwindow::dataSlot(QNetworkReply *reply)
+void bankwindow::on_saldoButton_clicked()
 {
-    response_data=reply->readAll();
-    qDebug()<<"dataslot response data"<<response_data;
-    QByteArray response_data=reply->readAll();
-    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-    QJsonArray json_array = json_doc.array();
-    foreach (const QJsonValue &value, json_array) {
-        QJsonObject json_obj = value.toObject();
-    }
 
-    reply->deleteLater();
-    dataManager->deleteLater();
+}
+
+
+void bankwindow::on_tapahtumaButton_clicked()
+{
+
+}
+
+
+void bankwindow::on_nostoButton_clicked()
+{
+
+}
+
+
+void bankwindow::on_kirjauduUlosButton_clicked()
+{
+
 }
 

@@ -27,6 +27,14 @@ private slots:
     void dataSlot (QNetworkReply *reply);
 
 
+    void on_saldoButton_clicked();
+
+    void on_tapahtumaButton_clicked();
+
+    void on_nostoButton_clicked();
+
+    void on_kirjauduUlosButton_clicked();
+
 private:
     Ui::bankwindow *ui;
     QByteArray webToken;
