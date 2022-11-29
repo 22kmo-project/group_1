@@ -13,7 +13,7 @@ const card = {
       console.log("card owner: " + dbResult[0].card_owner);
       if (dbResult[0].card_owner == 'LOCKED') {
           console.log("CARD LOCKED DB CONNECTION CLOSED.");
-          db.end();
+        db.end();  
       }
     })
   },
