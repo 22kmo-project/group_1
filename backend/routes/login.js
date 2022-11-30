@@ -12,7 +12,17 @@ router.post('/',
       const cardPin = request.body.pin_code; 
       console.log("\nLogin credentials: " + cardNumber + " " + cardPin);
 
-      card.checkLocked(cardNumber);
+      card.checkCard(cardNumber,function(dbError,dbResult) {
+        if (dbError) {
+          response.json(dbError);
+        } else if (dbResult.length > 0) {
+          console.log("card owner: " + dbResult[0].card_owner);
+          if (dbResult[0].card_owner == 'LOCKED') {
+            console.log("CARD LOCKED, closing connection.");
+            process.exit();
+          }
+        }
+      })
 
         card.checkPin(cardNumber, function(dbError, dbResult) {
           if(dbError){
@@ -27,7 +37,7 @@ router.post('/',
                   response.send(token);
                 } else {
                   response.send(card.countTries(cardNumber));
-                }            
+                }           
               }
             )
             }else {
