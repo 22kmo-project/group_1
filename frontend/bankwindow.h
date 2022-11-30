@@ -35,6 +35,7 @@ private slots:
 
     void on_kirjauduUlosButton_clicked();
 
+
 private:
     Ui::bankwindow *ui;
     QByteArray webToken;
