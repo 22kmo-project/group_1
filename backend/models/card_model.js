@@ -8,46 +8,45 @@ let tries = 3;
 
 const card = {
 
-  checkLocked: function() {
-    db.query("select card_owner,card_number from card",function(err,dbResult){
-      console.log("card owner: " + dbResult[0].card_owner);
-      if (dbResult[0].card_owner == 'LOCKED') {
-          console.log("CARD LOCKED DB CONNECTION CLOSED.");
-        db.end();  
-      }
-    })
-  },
-
-  checkLoginTries: function(checkLocked) {
-    tries = tries -1;
-    console.log("Tries left: "+tries);
-    if (tries == 0) {
-      db.query("select card_owner,card_number from card",function(err,dbResult){
-        return db.query("update card set card_owner = 'LOCKED' where card_number = ?",[dbResult[0].card_number],checkLocked);
-      });
-    }
-  },
-
-  checkForAdminLogin: function(card_number, pin_code) {
-      if (card_number == "admin" && pin_code == "root") {
-        console.log("ADMIN LOGIN\n");
-        const adminToken = generateAdminAccessToken({admin: card_number});
-        return "ADMIN TOKEN: \n" + adminToken;
-      } else {
-        console.log("card does not exists");
-        return false;
+    countTries: function(card_number) {
+      tries = tries -1;
+      console.log("Tries left: "+tries);
+      if (tries == 0) {
+        console.log("failed 3 tries, locking card and closing connection.");
+        db.query("select card_owner from card where card_number = ?",[card_number],function(err,dbResult){
+          return db.query("update card set card_owner = 'LOCKED' where card_number = ?",[card_number]);
+        });
       }
     },
 
+    checkAdminLogin: function(card_number,pin_code) {
+      if (card_number == "admin") {
+        if (pin_code == "root") {
+          console.log("ADMIN LOGIN SUCCESS\n");
+          const adminToken = generateAdminAccessToken({admin: card_number});
+          return "ADMIN TOKEN:\n" + adminToken;
+        } else {
+          console.log("wrong pincode for admin login");
+          return false;
+        }
+    } else {
+      console.log("card does not exists");
+      return false;
+    }
+  },
 
-    checkPin: function(cardNumber, callback) {
-      return db.query('SELECT pin_code FROM card WHERE card_number = ?',[cardNumber], callback); 
+    checkCard: function(card_number,callback){
+      return db.query("select card_owner from card where card_number = ?",[card_number],callback);
+    },
+    
+    checkPin: function(cardNumber,checkCard) {
+      
+      return db.query('SELECT pin_code FROM card WHERE card_number = ?',[cardNumber],checkCard); 
     },
 
     getById: function(id, callback) {
       return db.query('select * from card where card_number = ?', [id], callback);
     },
-
 
     getAll: function(callback) {
       return db.query('select * from card', callback);
