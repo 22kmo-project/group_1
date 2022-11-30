@@ -47,13 +47,9 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     qDebug()<<"test"<<test;
 
     if(response_data.length()==0){
-<<<<<<< HEAD
-        ui->labelInfo->setText("Palvelin ei vastaaa");
-=======
         ui->textCardNum->clear();
         ui->textPinCode->clear();
         ui->labelInfo->setText("Palvelin ei vastaa");
->>>>>>> 1fb19e3a6956041404bcba832511877399da8f1d
     }
     else {
         if(QString::compare(response_data,"-4078")==0){
