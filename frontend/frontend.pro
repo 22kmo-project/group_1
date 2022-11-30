@@ -13,16 +13,28 @@ SOURCES += \
     bankwindow.cpp \
     main.cpp \
     mainwindow.cpp \
+    nostosummawindow.cpp \
+    nostowindow.cpp \
+    saldowindow.cpp \
+    tapahtumawindow.cpp \
     url.cpp
 
 HEADERS += \
     bankwindow.h \
     mainwindow.h \
+    nostosummawindow.h \
+    nostowindow.h \
+    saldowindow.h \
+    tapahtumawindow.h \
     url.h
 
 FORMS += \
     bankwindow.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    nostosummawindow.ui \
+    nostowindow.ui \
+    saldowindow.ui \
+    tapahtumawindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

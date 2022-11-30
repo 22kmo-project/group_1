@@ -21,7 +21,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_loginButton_clicked()
 {
-
+    qDebug() << "login clicked";
     cardNumber=ui->textCardNum->text();
     cardPin=ui->textPinCode->text();
 
