@@ -9,10 +9,22 @@ router.post('/',
   function(request, response) {
     if(request.body.card_number && request.body.pin_code){
       const cardNumber = request.body.card_number;
-      const cardPin = request.body.pin_code;
+      const cardPin = request.body.pin_code; 
+      console.log("\nLogin credentials: " + cardNumber + " " + cardPin);
+
+      card.checkCard(cardNumber,function(dbError,dbResult) {
+        if (dbError) {
+          response.json(dbError);
+        } else if (dbResult.length > 0) {
+          console.log("card owner: " + dbResult[0].card_owner);
+          if (dbResult[0].card_owner == 'LOCKED') {
+            console.log("CARD LOCKED, closing connection.");
+            process.exit();
+          }
+        }
+      })
 
         card.checkPin(cardNumber, function(dbError, dbResult) {
-          console.log("Given card number and pincode: "+cardNumber+ " "+ cardPin);
           if(dbError){
             response.json(dbError);
           } else{
@@ -21,17 +33,15 @@ router.post('/',
                 console.log("database pincode: " + dbResult[0].pin_code);
                 if(compareResult == true) {
                   console.log("success");
-                  
                   const token = generateAccessToken({ card: cardNumber });
                   response.send(token);
                 } else {
-                  response.send(card.checkLoginTries(cardNumber));
-                }            
+                  response.send(card.countTries(cardNumber));
+                }           
               }
-              );
+            )
             }else {
-              response.send(card.checkForAdminLogin(cardNumber,cardPin));
-              
+              response.send(card.checkAdminLogin(cardNumber,cardPin));
             }
           }
         }
@@ -40,9 +50,10 @@ router.post('/',
       response.send(false);
     };
 
-function generateAccessToken(card) {
+  function generateAccessToken(card) {
   dotenv.config();
   return jwt.sign(card, process.env.MY_TOKEN, { expiresIn: '1800s' });
-}
+  }
 });
+
 module.exports=router;
