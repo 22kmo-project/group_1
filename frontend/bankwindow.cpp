@@ -39,24 +39,24 @@ void bankwindow::checkAccount(QString cardnum)
 
 void bankwindow::on_saldoButton_clicked()
 {
-
+    qDebug () << "saldo";
 }
 
 
 void bankwindow::on_tapahtumaButton_clicked()
 {
-
+    qDebug () << "tapahtuma";
 }
 
 
 void bankwindow::on_nostoButton_clicked()
 {
-
+    qDebug () << "nosto";
 }
 
 
 void bankwindow::on_kirjauduUlosButton_clicked()
 {
-
+    qDebug () << "kirjaudu ulos";
 }
 
