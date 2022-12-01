@@ -8,10 +8,12 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    qDebug() << "konstruktori";
 }
 
 MainWindow::~MainWindow()
 {
+    qDebug() << "destruktori";
     delete ui;
     delete objectBankWindow;
     objectBankWindow=nullptr;
@@ -68,6 +70,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
                 objectBankWindow=new bankwindow(cardNumber);
                 objectBankWindow->setWebToken("Bearer "+response_data);
                 objectBankWindow->show();
+                this->hide();
             }
         }
     }

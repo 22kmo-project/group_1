@@ -1,19 +1,31 @@
 #include "bankwindow.h"
 #include "ui_bankwindow.h"
 #include "url.h"
+#include "nostosummawindow.h"
+
 
 bankwindow::bankwindow(QString cardNumber, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::bankwindow)
 {
     ui->setupUi(this);
-    ui->labelAccount->setText(cardNumber);
+    //ui->labelAccount->setText(cardNumber);
     myCard=cardNumber;
+
+
+
+
+
 }
 
 bankwindow::~bankwindow()
 {
     delete ui;
+
+    delete objectnostoSummaWindow;
+    objectnostoSummaWindow=nullptr;
+
+
 }
 
 void bankwindow::setWebToken(const QByteArray &newWebToken)
@@ -48,10 +60,25 @@ void bankwindow::on_tapahtumaButton_clicked()
     qDebug () << "tapahtuma";
 }
 
+void bankwindow::openNostoSummaWindow() //nosto nappii
+{
 
-void bankwindow::on_nostoButton_clicked()
+    //iNostoSummaWindow = new nostoSummaWindow();
+    //iNostoSummaWindow->show();
+}
+
+void bankwindow::on_nostoButton_clicked() // nosto nappii
 {
     qDebug () << "nosto";
+    objectnostoSummaWindow =new nostoSummaWindow(webToken, myCard);
+    objectnostoSummaWindow->show();
+
+
+
+
+
+    //connect(ui->nostoButton, SIGNAL(click()), this, SLOT(openNostoSummaWindow())); //Ehkä vääräs paikassa liittyy nostonappii
+    //openNostoSummaWindow();
 }
 
 

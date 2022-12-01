@@ -1,9 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <author/>
- <comment/>
- <exportmacro/>
  <class>nostoSummaWindow</class>
- <widget name="nostoSummaWindow" class="QWidget">
+ <widget class="QWidget" name="nostoSummaWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -15,7 +13,98 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <widget class="QLabel" name="nostoSummaLabel">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>80</y>
+     <width>141</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Valitse nostettava summa</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton20e">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>120</y>
+     <width>80</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>20e</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton40e">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>160</y>
+     <width>80</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>40e</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton60e">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>200</y>
+     <width>80</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>60e</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton100e">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>120</y>
+     <width>80</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>100e</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton200e">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>160</y>
+     <width>80</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>200e</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton500e">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>200</y>
+     <width>80</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>500e</string>
+   </property>
+  </widget>
  </widget>
- <pixmapfunction/>
+ <resources/>
  <connections/>
 </ui>
