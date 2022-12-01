@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const card = require('../models/card_model.js');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const db = require('../database');
+
 
 router.post('/', 
   function(request, response) {
@@ -51,8 +53,8 @@ router.post('/',
     };
 
   function generateAccessToken(card) {
-  dotenv.config();
-  return jwt.sign(card, process.env.MY_TOKEN, { expiresIn: '1800s' });
+    dotenv.config();
+    return jwt.sign(card, process.env.MY_TOKEN, { expiresIn: '1800s' });
   }
 });
 
