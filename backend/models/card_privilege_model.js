@@ -29,7 +29,7 @@ const card_privileges = {
     update: function(id, card_privileges, callback) {
       return db.query(
         'update card_privileges set id_account = ? where id_cardprivileges = ?',
-        [card_privileges.id_account, id],
+        [card_privileges.id_account,card_privileges.card_number, id],
         callback
       );
     }
