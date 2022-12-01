@@ -2,12 +2,13 @@
 #define TAPAHTUMAWINDOW_H
 
 #include <QWidget>
+#include <QDialog>
 
 namespace Ui {
 class tapahtumaWindow;
 }
 
-class tapahtumaWindow : public QWidget
+class tapahtumaWindow : public QDialog
 {
     Q_OBJECT
 
