@@ -26,7 +26,7 @@ router.post('/',
 
         card.checkPin(cardNumber, function(dbError, dbResult) {
           if(dbError){
-            response.json(dbError);
+        // response.json(dbError);
           } else{
             if (dbResult.length > 0) {
               bcrypt.compare(cardPin,dbResult[0].pin_code, function(err,compareResult){
