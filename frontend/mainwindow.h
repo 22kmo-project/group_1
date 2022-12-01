@@ -33,5 +33,6 @@ private:
     QByteArray response_data;
     QString cardNumber;
     QString cardPin;
+    int loginTries = 3;
 };
 #endif // MAINWINDOW_H

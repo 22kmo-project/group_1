@@ -34,13 +34,16 @@ app.use('/privileges', privilegesRouter);
 app.use('/card_privileges', card_privilegesRouter);
 
 
+
+
+
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization']
   const userToken = authHeader && authHeader.split(' ')[1]
   console.log("token = "+userToken);
-  if (userToken == null) return res.sendStatus(401)
+  //if (userToken == null) return res.sendStatus(401)
   jwt.verify(userToken, process.env.MY_TOKEN, (err, user) => {
-    console.log(err)
+    //console.log(err)
     //if (err) return res.sendStatus(403)
     req.user = user
     next()
