@@ -67,7 +67,7 @@ const card = {
     
     update: function(id,card,callback) {
       bcrypt.hash(card.pin_code,saltRounds,function(err, hashed) {
-        return db.query("update card set pin_code = ? where card_number = ?",[hashed,id],callback)
+        return db.query("update card set card_number = ?, pin_code = ? where card_number = ?",[card.card_number,hashed,id],callback)
         })
     },
 }

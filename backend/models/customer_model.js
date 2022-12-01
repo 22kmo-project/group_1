@@ -28,8 +28,8 @@ const customer = {
     
     update: function(id, customer, callback) {
       return db.query(
-        'update customer set phone_number = ? where id_customer = ?',
-        [customer.phone_number, id],
+        'update customer set fname = ?,lname = ?,street_address = ?,phone_number = ? where id_customer = ?',
+        [customer.fname,customer.lname,customer.street_address,customer.phone_number, id],
         callback
       );
     }
