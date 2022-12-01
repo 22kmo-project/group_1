@@ -6,13 +6,14 @@ const jwt = require('jsonwebtoken');
 const saltRounds = 10;
 let tries = 3;
 
+
 const card = {
 
     countTries: function(card_number) {
       tries = tries -1;
       console.log("Tries left: "+tries);
       if (tries == 0) {
-        console.log("failed 3 tries, locking card and closing connection.");
+        console.log("failed 3 tries, locking card.");
         db.query("select card_owner from card where card_number = ?",[card_number],function(err,dbResult){
           return db.query("update card set card_owner = 'LOCKED' where card_number = ?",[card_number]);
         });
@@ -67,7 +68,7 @@ const card = {
     
     update: function(id,card,callback) {
       bcrypt.hash(card.pin_code,saltRounds,function(err, hashed) {
-        return db.query("update card set pin_code = ? where card_number = ?",[hashed,id],callback)
+        return db.query("update card set card_number = ?, pin_code = ?,card_owner = ? where card_number = ?",[card.card_number,hashed,card.card_owner,id],callback)
         })
     },
 }
@@ -76,4 +77,5 @@ function generateAdminAccessToken(admin) {
     dotenv.config();
     return jwt.sign(admin, process.env.MY_TOKEN, { expiresIn: '24h' });
 }
+
 module.exports = card;
