@@ -2,7 +2,7 @@
 #include "ui_tapahtumawindow.h"
 
 tapahtumaWindow::tapahtumaWindow(QWidget *parent) :
-    QWidget(parent),
+    QDialog(parent),
     ui(new Ui::tapahtumaWindow)
 {
     ui->setupUi(this);

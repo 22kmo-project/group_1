@@ -2,7 +2,7 @@
 #include "ui_nostowindow.h"
 
 nostoWindow::nostoWindow(QWidget *parent) :
-    QWidget(parent),
+    QDialog(parent),
     ui(new Ui::nostoWindow)
 {
     ui->setupUi(this);
