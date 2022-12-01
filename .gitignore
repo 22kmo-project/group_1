@@ -3,3 +3,4 @@ backend/*.env
 frontend/build/
 frontend/*.user
 build-frontend-Desktop_Qt_5_15_2_MinGW_32_bit-Debug
+.qtc_clangd

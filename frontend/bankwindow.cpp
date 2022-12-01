@@ -10,7 +10,7 @@ bankwindow::bankwindow(QString cardNumber, QWidget *parent) :
 {
 
     ui->setupUi(this);
-    ui->label->setText(cardNumber);
+    //ui->label->setText(cardNumber);
     myCard=cardNumber;
 }
 
@@ -44,6 +44,9 @@ void bankwindow::checkAccount(QString cardnum)
 void bankwindow::on_saldoButton_clicked()
 {
     qDebug () << "saldo";
+    objectsaldoWindow = new saldoWindow(webToken,myCard);
+    objectsaldoWindow->show();
+    this->close();
 }
 
 
@@ -74,6 +77,7 @@ void bankwindow::on_nostoButton_clicked() // nosto nappii
     qDebug () << "nosto";
     objectnostoSummaWindow =new nostoSummaWindow(webToken, myCard);
     objectnostoSummaWindow->show();
+    this->close();
 }
 
 
