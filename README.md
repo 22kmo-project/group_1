@@ -1,1 +1,1 @@
-# group_1 + jokikokko
+# group_1
