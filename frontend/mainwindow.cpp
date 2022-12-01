@@ -8,10 +8,12 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    qDebug() << "konstruktori";
 }
 
 MainWindow::~MainWindow()
 {
+    qDebug() << "destruktori";
     delete ui;
     delete objectBankWindow;
     objectBankWindow=nullptr;
@@ -45,7 +47,6 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     qDebug()<<"response data"<<response_data;
     int test=QString::compare(response_data, "false");
     qDebug()<<"test"<<test;
-
     if(response_data.length()==0){
         ui->textCardNum->clear();
         ui->textPinCode->clear();
@@ -68,6 +69,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
                 objectBankWindow=new bankwindow(cardNumber);
                 objectBankWindow->setWebToken("Bearer "+response_data);
                 objectBankWindow->show();
+                this->hide();
             }
         }
     }
