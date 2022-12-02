@@ -17,7 +17,7 @@ class saldoWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit saldoWindow(QByteArray wt, QString cardnum, QWidget *parent = nullptr);
+    explicit saldoWindow(QByteArray wt,QString cardnum, QWidget *parent = nullptr);
     ~saldoWindow();
     void setWebToken(const QByteArray &newWebToken);
 
@@ -32,6 +32,7 @@ private:
     Ui::saldoWindow *ui;
     QByteArray webToken;
     QString card_number;
+    QString idAccount;
     void checkAccount(QString cardnum);
     QByteArray response_data;
     QNetworkAccessManager *saldoManager;
