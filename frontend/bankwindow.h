@@ -52,7 +52,6 @@ private:
     nostoSummaWindow *objectnostoSummaWindow;
     saldoWindow *objectsaldoWindow;
     QNetworkAccessManager *dataManager;
-    void checkAccount(QString cardnum);
     QNetworkReply *reply;
     QByteArray response_data;
 };
