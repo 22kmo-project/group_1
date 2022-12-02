@@ -24,6 +24,7 @@ public:
 private slots:
     void saldoSlot (QNetworkReply *reply);
     void asiakasSlot (QNetworkReply *reply);
+    void tapahtumaSlot (QNetworkReply *reply);
 
     void on_suljeButton_clicked();
 
@@ -36,6 +37,7 @@ private:
     QByteArray response_data;
     QNetworkAccessManager *saldoManager;
     QNetworkAccessManager *asiakasManager;
+    QNetworkAccessManager *tapahtumaManager;
     QNetworkReply *reply;
     QString account_id;
 };

@@ -10,6 +10,7 @@ bankwindow::bankwindow(QString cardNumber, QWidget *parent) :
 {
 
     ui->setupUi(this);
+    ui->labelAccount->setText(cardNumber);
     myCard=cardNumber;
 
 
