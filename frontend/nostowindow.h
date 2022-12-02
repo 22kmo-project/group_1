@@ -2,12 +2,13 @@
 #define NOSTOWINDOW_H
 
 #include <QWidget>
+#include <QDialog>
 
 namespace Ui {
 class nostoWindow;
 }
 
-class nostoWindow : public QWidget
+class nostoWindow : public QDialog
 {
     Q_OBJECT
 

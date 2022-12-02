@@ -1,11 +1,14 @@
 #ifndef BANKWINDOW_H
 #define BANKWINDOW_H
-
+#include "nostosummawindow.h"
 #include <QDialog>
 #include <QtNetwork>
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
 #include <QDebug>
+#include <QWidget>
+#include "saldowindow.h"
+
 
 namespace Ui {
 class bankwindow;
@@ -13,6 +16,8 @@ class bankwindow;
 
 class bankwindow : public QDialog
 {
+    Q_OBJECT
+
 public:
     explicit bankwindow(QString cardnum,QWidget *parent = nullptr);
     ~bankwindow();
@@ -21,9 +26,12 @@ public:
 
     void setWebToken(const QByteArray &newWebToken);
 
+public slots:
+    void openNostoSummaWindow();
+
+
 private slots:
 
-    void bankSlot (QNetworkReply *reply);
     void dataSlot (QNetworkReply *reply);
 
 
@@ -41,7 +49,8 @@ private:
     QByteArray webToken;
     QString idAccount;
     QString myCard;
-
+    nostoSummaWindow *objectnostoSummaWindow;
+    saldoWindow *objectsaldoWindow;
     QNetworkAccessManager *dataManager;
     void checkAccount(QString cardnum);
     QNetworkReply *reply;

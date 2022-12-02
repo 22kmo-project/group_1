@@ -26,7 +26,7 @@ const privileges = {
     },
 
     
-    update: function(id, card, callback) {
+    update: function(id, privileges, callback) {
       return db.query(
         'update privileges set account_owner = ? where id_privileges = ?',
         [privileges.account_owner, id],

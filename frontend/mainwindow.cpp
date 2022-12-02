@@ -8,10 +8,12 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    qDebug() << "konstruktori";
 }
 
 MainWindow::~MainWindow()
 {
+    qDebug() << "destruktori";
     delete ui;
     delete objectBankWindow;
     objectBankWindow=nullptr;
@@ -41,15 +43,20 @@ void MainWindow::on_loginButton_clicked()
 
 void MainWindow::loginSlot(QNetworkReply *reply)
 {
+
+
     response_data=reply->readAll();
     qDebug()<<"response data"<<response_data;
     int test=QString::compare(response_data, "false");
     qDebug()<<"test"<<test;
-
     if(response_data.length()==0){
-        ui->textCardNum->clear();
+        loginTries = loginTries - 1;
         ui->textPinCode->clear();
-        ui->labelInfo->setText("Palvelin ei vastaa");
+        ui->labelInfo->setText("Väärä pin. Yrityksiä: "  + QString::number(loginTries));
+        if (loginTries == 0) {
+            ui->labelInfo->clear();
+            ui->labelInfo->setText("Kortti lukittu.");
+        }
     }
     else {
         if(QString::compare(response_data,"-4078")==0){
@@ -68,6 +75,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
                 objectBankWindow=new bankwindow(cardNumber);
                 objectBankWindow->setWebToken("Bearer "+response_data);
                 objectBankWindow->show();
+                this->hide();
             }
         }
     }
