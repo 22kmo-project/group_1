@@ -1,6 +1,8 @@
 #include "nostosummawindow.h"
 #include "ui_nostosummawindow.h"
 #include "url.h"
+#include<unistd.h>
+
 
 nostoSummaWindow::nostoSummaWindow(QByteArray wt, QString cardnum, QWidget *parent) :
     QDialog(parent),
@@ -22,11 +24,19 @@ nostoSummaWindow::nostoSummaWindow(QByteArray wt, QString cardnum, QWidget *pare
     connect(nostoManager, SIGNAL(finished(QNetworkReply)), this, SLOT(bankSlot(QNetworkReply)));
 
     reply = nostoManager->get(request);
+
+    ui->tiliLabel->setText(myCard);
+    ui->nimi_label->setText(clientName);
+
+
 }
+
+
 
 nostoSummaWindow::~nostoSummaWindow()
 {
     delete ui;
+
 }
 
 void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
@@ -37,11 +47,12 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
         QJsonObject json_obj = json_doc.object();
 
         myCard=QString::number(json_obj["id_client"].toInt());
-        myAccountId=QString::number(json_obj["id_account"].toInt());
+        myAccountId=QString::number(json_obj["id_customer"].toInt());
 
         clientName=json_obj["client_name"].toString();
         balance=QString::number(json_obj["balance"].toDouble());
         balanceValue=QString(balance).toDouble();
+        //ui->tiliLabel->setText(myAccountId);
 
 
         reply->deleteLater();
@@ -66,40 +77,73 @@ void nostoSummaWindow::balanceSlot(QNetworkReply *reply)
         balanceManager = new QNetworkAccessManager(this);
         connect(balanceManager, SIGNAL(finished(QNetworkReply)), this, SLOT(clientSlot(QNetworkReply)));
         reply = balanceManager->get(request);
+
 }
 
 void nostoSummaWindow::on_pushButton20e_clicked()
 {
+
     qDebug()<<"20e";
+    countMoney(balanceValue,20);
+
 }
 
 
 void nostoSummaWindow::on_pushButton40e_clicked()
 {
     qDebug()<<"40e";
+    countMoney(balanceValue,40);
 }
 
 
 void nostoSummaWindow::on_pushButton60e_clicked()
 {
     qDebug()<<"60e";
+    countMoney(balanceValue,60);
 }
 
 
 void nostoSummaWindow::on_pushButton100e_clicked()
 {
     qDebug()<<"100e";
+    countMoney(balanceValue,100);
 }
 
 
 void nostoSummaWindow::on_pushButton200e_clicked()
 {
     qDebug()<<"200e";
+    countMoney(balanceValue,200);
 }
 
 
 void nostoSummaWindow::on_pushButton500e_clicked()
 {
     qDebug()<<"500e";
+    countMoney(balanceValue,500);
+
 }
+
+void nostoSummaWindow::on_suljeButton_clicked()
+{
+    qDebug () << "sulje";
+    this->hide();
+
+}
+
+void nostoSummaWindow::countMoney(double balance, double amount)
+{
+    if(balance<amount)
+    {
+        ui->nosto_info->setText("Tilillä ei riittävästi katetta.");
+    }
+    else
+    {
+        balance=balance-amount;
+        ui->nosto_info->setText("Nosto onnistui");
+        QString balanceAsString = QString::number(balance);
+        ui->kyhny_info->setText("Massia jäljellä: " +balanceAsString);
+    }
+}
+
 

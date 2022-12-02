@@ -38,18 +38,23 @@ private slots:
 
     void balanceSlot (QNetworkReply *reply);
 
+    void on_suljeButton_clicked();
+
+    void countMoney(double balance, double amount);
+
 private:
     Ui::nostoSummaWindow *ui;
     QByteArray webToken;
-    QString myCard;
+    QString myCard="66456535303353"; //kovakoodattu että voi testata, saa poistaa
     QString myAccountId;
-    QString clientName;
+    QString clientName="Jari aarnio"; //kovakoodattu että voi testata, saa poistaa
     QString balance;
-    double balanceValue;
+    double balanceValue=400; //kovakoodattu että voi testata, saa poistaa
     QNetworkAccessManager *nostoManager;
     QNetworkAccessManager *balanceManager;
     QNetworkReply *reply;
     QByteArray response_data;
+
 };
 
 #endif // NOSTOSUMMAWINDOW_H
