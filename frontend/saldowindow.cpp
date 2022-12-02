@@ -2,7 +2,7 @@
 #include "ui_saldowindow.h"
 #include "url.h"
 
-saldoWindow::saldoWindow(QByteArray wt, QString cardnum, QWidget *parent) :
+saldoWindow::saldoWindow(QByteArray wt,QString cardnum, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::saldoWindow)
 {
@@ -10,7 +10,6 @@ saldoWindow::saldoWindow(QByteArray wt, QString cardnum, QWidget *parent) :
 
     wt=webToken;
     cardnum=card_number;
-
     QString site_url=url::getBaseUrl()+"cards/"+card_number;
     QNetworkRequest request((site_url));
     qDebug()<<site_url;
@@ -37,7 +36,6 @@ void saldoWindow::saldoSlot(QNetworkReply *reply)
     QString tiedot;
     foreach (const QJsonValue &value, json_array) {
            QJsonObject json_obj = value.toObject();
-           //saldo+="Tilin saldo:"+json_obj["debit_balance"].toString();
            tiedot+=json_obj["card_owner"].toString()+" ,\n"+QString::number(json_obj["card_number"].toInt())+" ,\n"+
                            QString::number(json_obj["id_account"].toInt())+" ,\n"+json_obj["debit_credit"].toString();
         }
@@ -45,7 +43,7 @@ void saldoWindow::saldoSlot(QNetworkReply *reply)
 
     reply->deleteLater();
     saldoManager->deleteLater();
-
+        qDebug()<<"id"<<idAccount;
     QString site_url=url::getBaseUrl()+"accounts/1";
         qDebug()<<site_url;
     QNetworkRequest request((site_url));

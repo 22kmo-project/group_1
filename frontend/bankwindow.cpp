@@ -10,8 +10,18 @@ bankwindow::bankwindow(QString cardNumber, QWidget *parent) :
 {
 
     ui->setupUi(this);
-    //ui->label->setText(cardNumber);
     myCard=cardNumber;
+
+
+    QString site_url=url::getBaseUrl()+"cards/"+myCard;
+    QNetworkRequest request((site_url));
+    //WEBTOKEN ALKU
+    request.setRawHeader(QByteArray("Authorization"),(webToken));
+    //WEBTOKEN LOPPU
+    dataManager = new QNetworkAccessManager(this);
+
+    connect(dataManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(dataSlot(QNetworkReply*)));
+    reply = dataManager->get(request);
 }
 
 bankwindow::~bankwindow()
@@ -19,6 +29,8 @@ bankwindow::~bankwindow()
     delete ui;
     delete objectnostoSummaWindow;
     objectnostoSummaWindow=nullptr;
+    delete objectsaldoWindow;
+    objectsaldoWindow=nullptr;
 }
 
 void bankwindow::setWebToken(const QByteArray &newWebToken)
@@ -26,20 +38,6 @@ void bankwindow::setWebToken(const QByteArray &newWebToken)
     webToken = newWebToken;
 }
 
-void bankwindow::checkAccount(QString cardnum)
-{
-    QString site_url=url::getBaseUrl()+"cards"+cardnum;
-    QNetworkRequest request((site_url));
-    qDebug()<<site_url;
-    //WEBTOKEN ALKU
-    request.setRawHeader(QByteArray("Authorization"),(webToken));
-    //WEBTOKEN LOPPU
-    dataManager = new QNetworkAccessManager(this);
-
-    connect(dataManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(dataSlot(QNetworkReply*)));
-
-    reply = dataManager->get(request);
-}
 
 void bankwindow::on_saldoButton_clicked()
 {
@@ -58,8 +56,13 @@ void bankwindow::on_tapahtumaButton_clicked()
 void bankwindow::dataSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
+    qDebug()<<response_data;
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-    QJsonArray json_array = json_doc.array();
+    QJsonObject json_obj = json_doc.object();
+    QString omistaja = json_obj["card_owner"].toString();
+    //omistaja = json_obj["card_owner"].toString();
+    ui->labelOmistaja->setText(omistaja);
+    qDebug()<<omistaja;
 
     reply->deleteLater();
     dataManager->deleteLater();
@@ -74,10 +77,10 @@ void bankwindow::openNostoSummaWindow() //nosto nappii
 
 void bankwindow::on_nostoButton_clicked() // nosto nappii
 {
-    qDebug () << "nosto";
-    objectnostoSummaWindow =new nostoSummaWindow(webToken, myCard);
+    /*qDebug () << "nosto";
+    objectnostoSummaWindow =new nostoSummaWindow(webToken, myCard, idAccount);
     objectnostoSummaWindow->show();
-    this->close();
+    this->close();*/
 }
 
 
