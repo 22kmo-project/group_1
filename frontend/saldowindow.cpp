@@ -2,7 +2,7 @@
 #include "ui_saldowindow.h"
 #include "url.h"
 
-saldoWindow::saldoWindow(QByteArray wt,QString cardnum, QWidget *parent) :
+saldoWindow::saldoWindow(QByteArray wt,QString cardnum,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::saldoWindow)
 {
@@ -43,7 +43,6 @@ void saldoWindow::saldoSlot(QNetworkReply *reply)
 
     reply->deleteLater();
     saldoManager->deleteLater();
-        qDebug()<<"id"<<idAccount;
     QString site_url=url::getBaseUrl()+"accounts/1";
         qDebug()<<site_url;
     QNetworkRequest request((site_url));
