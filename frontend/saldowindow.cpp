@@ -2,7 +2,7 @@
 #include "ui_saldowindow.h"
 #include "url.h"
 
-saldoWindow::saldoWindow(QByteArray wt, QString cardnum, QWidget *parent) :
+saldoWindow::saldoWindow(QByteArray wt,QString cardnum,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::saldoWindow)
 {
@@ -10,7 +10,6 @@ saldoWindow::saldoWindow(QByteArray wt, QString cardnum, QWidget *parent) :
 
     wt=webToken;
     cardnum=card_number;
-
     QString site_url=url::getBaseUrl()+"cards/"+card_number;
     QNetworkRequest request((site_url));
     qDebug()<<site_url;
@@ -37,15 +36,13 @@ void saldoWindow::saldoSlot(QNetworkReply *reply)
     QString tiedot;
     foreach (const QJsonValue &value, json_array) {
            QJsonObject json_obj = value.toObject();
-           //saldo+="Tilin saldo:"+json_obj["debit_balance"].toString();
            tiedot+=json_obj["card_owner"].toString()+" ,\n"+QString::number(json_obj["card_number"].toInt())+" ,\n"+
                            QString::number(json_obj["id_account"].toInt())+" ,\n"+json_obj["debit_credit"].toString();
-        }
+    }
     ui->labelAsiakas->setText(tiedot);
 
     reply->deleteLater();
     saldoManager->deleteLater();
-
     QString site_url=url::getBaseUrl()+"accounts/1";
         qDebug()<<site_url;
     QNetworkRequest request((site_url));
@@ -68,10 +65,31 @@ void saldoWindow::asiakasSlot(QNetworkReply *reply)
     qDebug()<<Saldo;
     ui->labelSaldo->setText("Saldo: "+Saldo);
 
+    QString site_url=url::getBaseUrl()+"transactions/1";
+        qDebug()<<site_url;
+    QNetworkRequest request((site_url));
+    //WEBTOKEN ALKU
+    request.setRawHeader(QByteArray("Authorization"),(webToken));
+    //WEBTOKEN LOPPU
+    tapahtumaManager = new QNetworkAccessManager(this);
+    connect(tapahtumaManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(tapahtumaSlot(QNetworkReply*)));
+    reply = tapahtumaManager->get(request);
+
+
+}
+
+void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
+    QByteArray response_data=reply->readAll();
+        qDebug()<<response_data;
+        QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+        QJsonObject json_obj = json_doc.object();
+        QString tapahtuma;
+        tapahtuma = json_obj["description"].toString();
+        qDebug()<<tapahtuma;
+        ui->labelTapahtuma->setText("tapahtumat: " + tapahtuma);
+
     reply->deleteLater();
-    asiakasManager->deleteLater();
-
-
+    tapahtumaManager->deleteLater();
 }
 
 void saldoWindow::on_suljeButton_clicked()

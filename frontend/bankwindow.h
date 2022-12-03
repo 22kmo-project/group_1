@@ -8,7 +8,7 @@
 #include <QDebug>
 #include <QWidget>
 #include "saldowindow.h"
-
+#include "tapahtumawindow.h"
 
 namespace Ui {
 class bankwindow;
@@ -50,9 +50,9 @@ private:
     QString idAccount;
     QString myCard;
     nostoSummaWindow *objectnostoSummaWindow;
+    tapahtumaWindow *objecttapahtumaWindow;
     saldoWindow *objectsaldoWindow;
     QNetworkAccessManager *dataManager;
-    void checkAccount(QString cardnum);
     QNetworkReply *reply;
     QByteArray response_data;
 };
