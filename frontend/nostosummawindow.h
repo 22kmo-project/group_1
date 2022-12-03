@@ -17,7 +17,7 @@ class nostoSummaWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit nostoSummaWindow(QByteArray webToken, QString myCard, QString idAccount,  QWidget *parent = nullptr);
+    explicit nostoSummaWindow(QByteArray webToken, QString myCard, QWidget *parent = nullptr);
     const QString &getWebToken() const;
     ~nostoSummaWindow();
 
@@ -37,8 +37,6 @@ private slots:
 
     void nostoSlot (QNetworkReply *reply);
 
-    void balanceSlot (QNetworkReply *reply);
-
     void on_suljeButton_clicked();
 
     void countMoney(double balance, double amount);
@@ -52,7 +50,6 @@ private:
     QString balance;
     double balanceValue=400; //kovakoodattu että voi testata, saa poistaa
     QNetworkAccessManager *nostoManager;
-    QNetworkAccessManager *balanceManager;
     QNetworkReply *reply;
     QByteArray response_data;
 

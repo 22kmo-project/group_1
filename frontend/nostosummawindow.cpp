@@ -4,7 +4,7 @@
 
 
 
-nostoSummaWindow::nostoSummaWindow(QByteArray webToken, QString myCard, QString idAccount, QWidget *parent) :
+nostoSummaWindow::nostoSummaWindow(QByteArray webToken, QString myCard, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::nostoSummaWindow)
 {
@@ -13,7 +13,7 @@ nostoSummaWindow::nostoSummaWindow(QByteArray webToken, QString myCard, QString 
     ui->setupUi(this);
 
     qDebug()<<webToken;
-    QString site_url=url::getBaseUrl()+"cards"+myCard;
+    QString site_url=url::getBaseUrl()+"cards/"+myCard;
     QNetworkRequest request((site_url));
     qDebug()<<site_url;
     //WEBTOKEN ALKU
@@ -21,7 +21,7 @@ nostoSummaWindow::nostoSummaWindow(QByteArray webToken, QString myCard, QString 
     //WEBTOKEN LOPPU
     nostoManager = new QNetworkAccessManager(this);
 
-    connect(nostoManager, SIGNAL(finished(QNetworkReply)), this, SLOT(bankSlot(QNetworkReply)));
+    connect(nostoManager, SIGNAL(finished(QNetworkReply)), this, SLOT(nostoSlot(QNetworkReply)));
 
     reply = nostoManager->get(request);
 
@@ -48,15 +48,6 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
         QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
         QJsonObject json_obj = json_doc.object();
 
-        myCard=QString::number(json_obj["id_client"].toInt());
-        idAccount=QString::number(json_obj["id_customer"].toInt());
-
-        clientName=json_obj["client_name"].toString();
-        balance=QString::number(json_obj["balance"].toDouble());
-        balanceValue=QString(balance).toDouble();
-        //ui->tiliLabel->setText(myAccountId);
-
-
         QString omistaja = json_obj["card_owner"].toString();
         ui->nimi_label->setText(omistaja);
         qDebug()<<omistaja;
@@ -66,26 +57,7 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
         nostoManager->deleteLater();
 }
 
-void nostoSummaWindow::balanceSlot(QNetworkReply *reply)
-{
-    QByteArray response_data=reply->readAll();
-        qDebug()<<response_data;
-        QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-        QJsonArray json_array = json_doc.array();
 
-        reply->deleteLater();
-        balanceManager->deleteLater();
-
-        QString site_url=url::getBaseUrl()+"/account/"+myCard;
-        QNetworkRequest request((site_url));
-        //WEBTOKEN ALKU
-        request.setRawHeader(QByteArray("Authorization"),(webToken));
-        //WEBTOKEN LOPPU
-        balanceManager = new QNetworkAccessManager(this);
-        connect(balanceManager, SIGNAL(finished(QNetworkReply)), this, SLOT(clientSlot(QNetworkReply)));
-        reply = balanceManager->get(request);
-
-}
 
 void nostoSummaWindow::on_pushButton20e_clicked()
 {
