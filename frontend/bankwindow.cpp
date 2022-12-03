@@ -4,15 +4,14 @@
 #include "nostosummawindow.h"
 
 
-bankwindow::bankwindow(QString cardNumber, QWidget *parent) :
+bankwindow::bankwindow(QString cardNumber,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::bankwindow)
 {
 
     ui->setupUi(this);
     myCard=cardNumber;
-
-
+    qDebug()<<"constru crdnumber"<<cardNumber;
     QString site_url=url::getBaseUrl()+"cards/"+myCard;
     QNetworkRequest request((site_url));
     //WEBTOKEN ALKU
@@ -31,6 +30,8 @@ bankwindow::~bankwindow()
     objectnostoSummaWindow=nullptr;
     delete objectsaldoWindow;
     objectsaldoWindow=nullptr;
+    delete objecttapahtumaWindow;
+    objecttapahtumaWindow=nullptr;
 }
 
 void bankwindow::setWebToken(const QByteArray &newWebToken)
@@ -51,6 +52,9 @@ void bankwindow::on_saldoButton_clicked()
 void bankwindow::on_tapahtumaButton_clicked()
 {
     qDebug () << "tapahtuma";
+    objecttapahtumaWindow = new tapahtumaWindow(webToken,myCard);
+    objecttapahtumaWindow->show();
+    this->close();
 }
 
 void bankwindow::dataSlot(QNetworkReply *reply)
@@ -60,7 +64,6 @@ void bankwindow::dataSlot(QNetworkReply *reply)
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
     QString omistaja = json_obj["card_owner"].toString();
-    //omistaja = json_obj["card_owner"].toString();
     ui->labelOmistaja->setText(omistaja);
     qDebug()<<omistaja;
 

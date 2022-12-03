@@ -30,8 +30,6 @@ private slots:
 
     void on_peruutaButton_clicked();
 
-    void on_seuraavaButton_clicked();
-
     void on_pushButton_2_clicked();
 
     void on_pushButton_3_clicked();
