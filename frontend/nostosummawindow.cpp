@@ -25,9 +25,6 @@ nostoSummaWindow::nostoSummaWindow(QByteArray webToken, QString myCard, QWidget 
 
     reply = nostoManager->get(request);
 
-    ui->tiliLabel->setText(myCard);     //tämä on tilinumero
-    ui->nimi_label->setText(clientName); //tämä on tilin omistajan nimi
-
 
 }
 
