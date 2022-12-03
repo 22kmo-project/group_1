@@ -25,6 +25,8 @@ public:
     QPushButton *tapahtumaButton;
     QPushButton *nostoButton;
     QPushButton *kirjauduUlosButton;
+    QLabel *labelCredit;
+    QLabel *labelOmistaja;
 
     void setupUi(QWidget *bankwindow)
     {
@@ -46,6 +48,12 @@ public:
         kirjauduUlosButton = new QPushButton(bankwindow);
         kirjauduUlosButton->setObjectName(QString::fromUtf8("kirjauduUlosButton"));
         kirjauduUlosButton->setGeometry(QRect(210, 200, 83, 29));
+        labelCredit = new QLabel(bankwindow);
+        labelCredit->setObjectName(QString::fromUtf8("labelCredit"));
+        labelCredit->setGeometry(QRect(140, 130, 63, 20));
+        labelOmistaja = new QLabel(bankwindow);
+        labelOmistaja->setObjectName(QString::fromUtf8("labelOmistaja"));
+        labelOmistaja->setGeometry(QRect(150, 250, 63, 20));
 
         retranslateUi(bankwindow);
 
@@ -60,6 +68,8 @@ public:
         tapahtumaButton->setText(QCoreApplication::translate("bankwindow", "Selaa tilitapahtumia", nullptr));
         nostoButton->setText(QCoreApplication::translate("bankwindow", "Nosta rahaa", nullptr));
         kirjauduUlosButton->setText(QCoreApplication::translate("bankwindow", "Kirjaudu ulos", nullptr));
+        labelCredit->setText(QString());
+        labelOmistaja->setText(QString());
     } // retranslateUi
 
 };

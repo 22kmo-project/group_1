@@ -1,0 +1,16 @@
+release/bankwindow.o
+release/kortinvalintawindow.o
+release/main.o
+release/mainwindow.o
+release/nostosummawindow.o
+release/nostowindow.o
+release/saldowindow.o
+release/tapahtumawindow.o
+release/url.o
+release/moc_bankwindow.o
+release/moc_kortinvalintawindow.o
+release/moc_mainwindow.o
+release/moc_nostosummawindow.o
+release/moc_nostowindow.o
+release/moc_saldowindow.o
+release/moc_tapahtumawindow.o

@@ -1,0 +1,16 @@
+debug/bankwindow.o
+debug/kortinvalintawindow.o
+debug/main.o
+debug/mainwindow.o
+debug/nostosummawindow.o
+debug/nostowindow.o
+debug/saldowindow.o
+debug/tapahtumawindow.o
+debug/url.o
+debug/moc_bankwindow.o
+debug/moc_kortinvalintawindow.o
+debug/moc_mainwindow.o
+debug/moc_nostosummawindow.o
+debug/moc_nostowindow.o
+debug/moc_saldowindow.o
+debug/moc_tapahtumawindow.o
