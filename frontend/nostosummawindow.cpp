@@ -1,7 +1,7 @@
 #include "nostosummawindow.h"
 #include "ui_nostosummawindow.h"
 #include "url.h"
-#include<unistd.h>
+
 
 
 nostoSummaWindow::nostoSummaWindow(QByteArray wt, QString cardnum, QWidget *parent) :
@@ -25,8 +25,8 @@ nostoSummaWindow::nostoSummaWindow(QByteArray wt, QString cardnum, QWidget *pare
 
     reply = nostoManager->get(request);
 
-    ui->tiliLabel->setText(myCard);
-    ui->nimi_label->setText(clientName);
+    ui->tiliLabel->setText(myCard);     //tämä on tilinumero
+    ui->nimi_label->setText(clientName); //tämä on tilin omistajan nimi
 
 
 }
@@ -127,11 +127,11 @@ void nostoSummaWindow::on_pushButton500e_clicked()
 void nostoSummaWindow::on_suljeButton_clicked()
 {
     qDebug () << "sulje";
-    this->hide();
+    this->close();
 
 }
 
-void nostoSummaWindow::countMoney(double balance, double amount)
+void nostoSummaWindow::countMoney(double balance, double amount)    //tämä funktio tarkistaa onko tilillä katetta
 {
     if(balance<amount)
     {
