@@ -38,7 +38,7 @@ void saldoWindow::saldoSlot(QNetworkReply *reply)
            QJsonObject json_obj = value.toObject();
            tiedot+=json_obj["card_owner"].toString()+" ,\n"+QString::number(json_obj["card_number"].toInt())+" ,\n"+
                            QString::number(json_obj["id_account"].toInt())+" ,\n"+json_obj["debit_credit"].toString();
-        }
+    }
     ui->labelAsiakas->setText(tiedot);
 
     reply->deleteLater();
@@ -65,10 +65,31 @@ void saldoWindow::asiakasSlot(QNetworkReply *reply)
     qDebug()<<Saldo;
     ui->labelSaldo->setText("Saldo: "+Saldo);
 
+    QString site_url=url::getBaseUrl()+"transactions/1";
+        qDebug()<<site_url;
+    QNetworkRequest request((site_url));
+    //WEBTOKEN ALKU
+    request.setRawHeader(QByteArray("Authorization"),(webToken));
+    //WEBTOKEN LOPPU
+    tapahtumaManager = new QNetworkAccessManager(this);
+    connect(tapahtumaManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(tapahtumaSlot(QNetworkReply*)));
+    reply = tapahtumaManager->get(request);
+
+
+}
+
+void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
+    QByteArray response_data=reply->readAll();
+        qDebug()<<response_data;
+        QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+        QJsonObject json_obj = json_doc.object();
+        QString tapahtuma;
+        tapahtuma = json_obj["description"].toString();
+        qDebug()<<tapahtuma;
+        ui->labelTapahtuma->setText("tapahtumat: " + tapahtuma);
+
     reply->deleteLater();
-    asiakasManager->deleteLater();
-
-
+    tapahtumaManager->deleteLater();
 }
 
 void saldoWindow::on_suljeButton_clicked()
