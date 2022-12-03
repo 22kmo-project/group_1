@@ -10,7 +10,7 @@ bankwindow::bankwindow(QString cardNumber,QWidget *parent) :
 {
 
     ui->setupUi(this);
-    ui->labelAccount->setText(cardNumber);
+    //ui->labelAccount->setText(cardNumber);
     myCard=cardNumber;
     qDebug()<<"constru crdnumber"<<cardNumber;
     QString site_url=url::getBaseUrl()+"cards/"+myCard;
@@ -82,7 +82,7 @@ void bankwindow::openNostoSummaWindow() //nosto nappii
 void bankwindow::on_nostoButton_clicked() // nosto nappii
 {
     qDebug () << "nosto";
-    objectnostoSummaWindow =new nostoSummaWindow(webToken, myCard, idAccount);
+    objectnostoSummaWindow =new nostoSummaWindow(webToken, myCard);
     objectnostoSummaWindow->show();
     this->close();
 }
