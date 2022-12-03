@@ -78,10 +78,10 @@ void bankwindow::openNostoSummaWindow() //nosto nappii
 
 void bankwindow::on_nostoButton_clicked() // nosto nappii
 {
-    /*qDebug () << "nosto";
+    qDebug () << "nosto";
     objectnostoSummaWindow =new nostoSummaWindow(webToken, myCard, idAccount);
     objectnostoSummaWindow->show();
-    this->close();*/
+    this->close();
 }
 
 

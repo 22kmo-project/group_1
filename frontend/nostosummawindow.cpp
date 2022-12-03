@@ -4,16 +4,16 @@
 
 
 
-nostoSummaWindow::nostoSummaWindow(QByteArray wt, QString cardnum, QWidget *parent) :
+nostoSummaWindow::nostoSummaWindow(QByteArray webToken, QString myCard, QString idAccount, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::nostoSummaWindow)
 {
-    wt=webToken;
-    cardnum=myCard;
+
+
     ui->setupUi(this);
 
     qDebug()<<webToken;
-    QString site_url=url::getBaseUrl()+"cards"+cardnum;
+    QString site_url=url::getBaseUrl()+"cards"+myCard;
     QNetworkRequest request((site_url));
     qDebug()<<site_url;
     //WEBTOKEN ALKU
@@ -40,19 +40,26 @@ nostoSummaWindow::~nostoSummaWindow()
 }
 
 void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
+
 {
+
     QByteArray response_data=reply->readAll();
         qDebug()<<response_data;
         QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
         QJsonObject json_obj = json_doc.object();
 
         myCard=QString::number(json_obj["id_client"].toInt());
-        myAccountId=QString::number(json_obj["id_customer"].toInt());
+        idAccount=QString::number(json_obj["id_customer"].toInt());
 
         clientName=json_obj["client_name"].toString();
         balance=QString::number(json_obj["balance"].toDouble());
         balanceValue=QString(balance).toDouble();
         //ui->tiliLabel->setText(myAccountId);
+
+
+        QString omistaja = json_obj["card_owner"].toString();
+        ui->nimi_label->setText(omistaja);
+        qDebug()<<omistaja;
 
 
         reply->deleteLater();

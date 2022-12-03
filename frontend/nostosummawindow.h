@@ -17,9 +17,10 @@ class nostoSummaWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit nostoSummaWindow(QByteArray wt, QString cardnum, QWidget *parent = nullptr);
+    explicit nostoSummaWindow(QByteArray webToken, QString myCard, QString idAccount,  QWidget *parent = nullptr);
     const QString &getWebToken() const;
     ~nostoSummaWindow();
+
 
 private slots:
     void on_pushButton20e_clicked();
@@ -46,8 +47,8 @@ private:
     Ui::nostoSummaWindow *ui;
     QByteArray webToken;
     QString myCard="66456535303353"; //kovakoodattu että voi testata, saa poistaa
-    QString myAccountId;
-    QString clientName="Jari aarnio"; //kovakoodattu että voi testata, saa poistaa
+    QString idAccount;
+    QString clientName; //kovakoodattu että voi testata, saa poistaa
     QString balance;
     double balanceValue=400; //kovakoodattu että voi testata, saa poistaa
     QNetworkAccessManager *nostoManager;
