@@ -14,3 +14,22 @@ tapahtumaWindow::~tapahtumaWindow()
 {
     delete ui;
 }
+
+void tapahtumaWindow::on_forwardButton_clicked()
+{
+
+}
+
+
+void tapahtumaWindow::on_backwardButton_clicked()
+{
+
+}
+
+
+void tapahtumaWindow::on_closeButton_clicked()
+{
+    qDebug () << "sulje";
+    this->close();
+}
+

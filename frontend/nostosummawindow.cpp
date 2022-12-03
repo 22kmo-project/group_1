@@ -52,6 +52,7 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
 
         reply->deleteLater();
         nostoManager->deleteLater();
+
 }
 
 

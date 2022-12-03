@@ -36,8 +36,8 @@ void saldoWindow::saldoSlot(QNetworkReply *reply)
     QString tiedot;
     foreach (const QJsonValue &value, json_array) {
            QJsonObject json_obj = value.toObject();
-           tiedot+=json_obj["card_owner"].toString()+" ,\n"+QString::number(json_obj["card_number"].toInt())+" ,\n"+
-                           QString::number(json_obj["id_account"].toInt())+" ,\n"+json_obj["debit_credit"].toString();
+           tiedot+="Asiakas: "+json_obj["card_owner"].toString()+" ,\n Kortin numero: "+QString::number(json_obj["card_number"].toInt())+" ,\n Tilin numero: "+
+                           QString::number(json_obj["id_account"].toInt())+" ,\n Debit/Credit: "+json_obj["debit_credit"].toString();
     }
     ui->labelAsiakas->setText(tiedot);
 
