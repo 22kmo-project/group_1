@@ -7,6 +7,8 @@
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
 #include <QDebug>
+#include <QJsonArray>
+
 namespace Ui {
 class saldoWindow;
 }
@@ -31,7 +33,6 @@ private:
     Ui::saldoWindow *ui;
     QByteArray webToken;
     QString card_number;
-    QString id_account;
     void checkAccount(QString cardnum);
     QByteArray response_data;
     QNetworkAccessManager *saldoManager;
