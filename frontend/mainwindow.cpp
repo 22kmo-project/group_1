@@ -73,14 +73,22 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     else {
         if(QString::compare(response_data,"-4078")==0){
             ui->lineEditKirjaudu->clear();
+<<<<<<< HEAD
             ui->labelInfo->setText("Virhe tietokanta yhteydessä");
             kirjautuminen--;
+=======
+            ui->labelInfo->setText("Virhe tietokantayhteydessä!");
+>>>>>>> 100c93329f7d488ec83f50f77a2982d818757cf1
         }
         else {
             if(test==0){
                 ui->lineEditKirjaudu->clear();
+<<<<<<< HEAD
                 ui->labelInfo->setText("Tunnus ja salasana eivät täsmää");
                 kirjautuminen--;
+=======
+                ui->labelInfo->setText("Tunnus ja salasana eivät täsmää!");
+>>>>>>> 100c93329f7d488ec83f50f77a2982d818757cf1
             }
              else {
                 objectBankWindow=new bankwindow(cardNumber);
