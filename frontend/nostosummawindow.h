@@ -6,6 +6,7 @@
 #include <QDialog>
 #include <QNetworkAccessManager>
 #include <QtNetwork>
+#include <QJsonDocument>
 
 
 namespace Ui {
