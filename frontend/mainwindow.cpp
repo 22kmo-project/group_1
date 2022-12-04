@@ -75,12 +75,14 @@ void MainWindow::loginSlot(QNetworkReply *reply)
             ui->lineEditKirjaudu->clear();
             ui->labelInfo->setText("Virhe tietokanta yhteydessä");
             kirjautuminen--;
+            ui->labelInfo->setText("Virhe tietokantayhteydessä!");
         }
         else {
             if(test==0){
                 ui->lineEditKirjaudu->clear();
                 ui->labelInfo->setText("Tunnus ja salasana eivät täsmää");
                 kirjautuminen--;
+                ui->labelInfo->setText("Tunnus ja salasana eivät täsmää!");
             }
              else {
                 objectBankWindow=new bankwindow(cardNumber);
