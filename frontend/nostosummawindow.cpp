@@ -4,6 +4,7 @@
 
 
 
+
 nostoSummaWindow::nostoSummaWindow(QByteArray webToken, QString myCard, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::nostoSummaWindow)
@@ -21,11 +22,12 @@ nostoSummaWindow::nostoSummaWindow(QByteArray webToken, QString myCard, QWidget 
     //WEBTOKEN LOPPU
     nostoManager = new QNetworkAccessManager(this);
 
-    connect(nostoManager, SIGNAL(finished(QNetworkReply)), this, SLOT(nostoSlot(QNetworkReply)));
+    connect(nostoManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(nostoSlot(QNetworkReply*)));
 
     reply = nostoManager->get(request);
-
-
+    qDebug()<<"Tilinumero on:" << myCard;
+    ui->tiliLabel->setText(myCard);
+// Tämä toimii oikein hienosti
 }
 
 
@@ -36,23 +38,23 @@ nostoSummaWindow::~nostoSummaWindow()
 
 }
 
-void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
+void nostoSummaWindow::nostoSlot(QNetworkReply *reply) //Omistaja toimii saldo ei
 
 {
-
     QByteArray response_data=reply->readAll();
-        qDebug()<<response_data;
-        QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-        QJsonObject json_obj = json_doc.object();
+    qDebug()<<response_data; //toimii tuo tietokannasta tiedot
+    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+    QJsonArray json_array = json_doc.array();
+    QJsonObject json_obj = json_doc.object();
+    QString omistaja=json_obj["card_owner"].toString();
+    QString Saldo=QString::number(json_obj["debit_balance"].toDouble());
 
-        QString omistaja = json_obj["card_owner"].toString();
-        ui->nimi_label->setText(omistaja);
-        qDebug()<<omistaja;
+    qDebug()<<Saldo;
 
-
-        reply->deleteLater();
-        nostoManager->deleteLater();
-
+    ui->testikyhny->setText(Saldo);
+    ui->nimi_label->setText(omistaja);
+    qDebug()<<"Omistajan nimi on:" << omistaja;  //omistaja toimii
+    qDebug()<<"Saldo on:" << Saldo; //Saldo näkyy aina että 0 eli ei toimi.
 }
 
 
@@ -61,7 +63,8 @@ void nostoSummaWindow::on_pushButton20e_clicked()
 {
 
     qDebug()<<"20e";
-    countMoney(balanceValue,20);
+    countMoney(SaldoValue,20);
+
 
 }
 
@@ -69,35 +72,35 @@ void nostoSummaWindow::on_pushButton20e_clicked()
 void nostoSummaWindow::on_pushButton40e_clicked()
 {
     qDebug()<<"40e";
-    countMoney(balanceValue,40);
+    countMoney(SaldoValue,40);
 }
 
 
 void nostoSummaWindow::on_pushButton60e_clicked()
 {
     qDebug()<<"60e";
-    countMoney(balanceValue,60);
+    countMoney(SaldoValue,60);
 }
 
 
 void nostoSummaWindow::on_pushButton100e_clicked()
 {
     qDebug()<<"100e";
-    countMoney(balanceValue,100);
+    countMoney(SaldoValue,100);
 }
 
 
 void nostoSummaWindow::on_pushButton200e_clicked()
 {
     qDebug()<<"200e";
-    countMoney(balanceValue,200);
+    countMoney(SaldoValue,200);
 }
 
 
 void nostoSummaWindow::on_pushButton500e_clicked()
 {
     qDebug()<<"500e";
-    countMoney(balanceValue,500);
+    countMoney(SaldoValue,500);
 
 }
 
