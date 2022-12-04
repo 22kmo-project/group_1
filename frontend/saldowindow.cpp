@@ -82,9 +82,13 @@ void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
     QByteArray response_data=reply->readAll();
         qDebug()<<response_data;
         QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-        QJsonObject json_obj = json_doc.object();
+        QJsonArray json_array = json_doc.array();
         QString tapahtuma;
-        tapahtuma = json_obj["description"].toString();
+        foreach (const QJsonValue &value, json_array) {
+               QJsonObject json_obj = value.toObject();
+               tapahtuma+="Asiakas: "+json_obj["card_owner"].toString()+" ,\n Kortin numero: "+QString::number(json_obj["card_number"].toInt())+" ,\n Tilin numero: "+
+                               QString::number(json_obj["id_account"].toInt())+" ,\n Debit/Credit: "+json_obj["debit_credit"].toString();
+        }
         qDebug()<<tapahtuma;
         ui->labelTapahtuma->setText("tapahtumat: " + tapahtuma);
 
