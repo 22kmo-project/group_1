@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -54,6 +52,9 @@ void MainWindow::on_loginButton_clicked()
 void MainWindow::loginSlot(QNetworkReply *reply)
 {
 
+    //TODO: lisää card locked notif kirjautuessa.
+    // sleep,close implementointi, poista bäkistä process exit ja db endit jatkuvalle toiminolle frontissa.
+
 
     response_data=reply->readAll();
     qDebug()<<"response data"<<response_data;
@@ -62,29 +63,31 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     if(response_data.length()==0){
         loginTries = loginTries - 1;
         ui->lineEditKirjaudu->clear();
-        ui->labelInfo->setText("Väärä pin. Yrityksiä: "  + QString::number(loginTries));
+        ui->labelInfo->setText("Väärä pin. Syötä pin uudelleen. Yrityksiä: "  + QString::number(loginTries));
+        kirjautuminen--;
         if (loginTries == 0) {
             ui->labelInfo->clear();
-            ui->labelInfo->setText("Kortti lukittu.");
-
+            ui->labelInfo->setText("Kortti lukittu. Ohjelma suljetaan...");
         }
     }
     else {
         if(QString::compare(response_data,"-4078")==0){
             ui->lineEditKirjaudu->clear();
             ui->labelInfo->setText("Virhe tietokanta yhteydessä");
+            kirjautuminen--;
         }
         else {
             if(test==0){
                 ui->lineEditKirjaudu->clear();
                 ui->labelInfo->setText("Tunnus ja salasana eivät täsmää");
+                kirjautuminen--;
             }
-            else {
+             else {
                 objectBankWindow=new bankwindow(cardNumber);
                 objectBankWindow->setWebToken("Bearer "+response_data);
                 objectBankWindow->show();
                 this->hide();
-            }
+             }
         }
     }
     reply->deleteLater();

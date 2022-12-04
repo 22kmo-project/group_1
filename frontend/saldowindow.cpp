@@ -88,6 +88,8 @@ void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
         qDebug()<<tapahtuma;
         ui->labelTapahtuma->setText("tapahtumat: " + tapahtuma);
 
+
+
     reply->deleteLater();
     tapahtumaManager->deleteLater();
 }
