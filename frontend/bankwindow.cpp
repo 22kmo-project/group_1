@@ -11,9 +11,10 @@ bankwindow::bankwindow(QString cardNumber,QWidget *parent) :
 
     ui->setupUi(this);
     ui->labelLocked->hide();
-    //ui->labelAccount->setText(cardNumber);
-    myCard=cardNumber;
-    qDebug()<<"constru crdnumber"<<cardNumber;
+
+    //ui->labelAccount->setText(myCard);
+    myCard = cardNumber;
+    qDebug()<<"constru crdnumber"<<myCard;
     QString site_url=url::getBaseUrl()+"cards/"+myCard;
     QNetworkRequest request((site_url));
     //WEBTOKEN ALKU

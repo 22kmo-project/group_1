@@ -2,14 +2,16 @@
 #include "ui_saldowindow.h"
 #include "url.h"
 
-saldoWindow::saldoWindow(QByteArray wt,QString cardnum,QWidget *parent) :
+saldoWindow::saldoWindow(QByteArray webToken,QString cardnum,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::saldoWindow)
 {
     ui->setupUi(this);
 
-    wt=webToken;
-    cardnum=card_number;
+    card_number = cardnum;
+
+
+    qDebug()<<"TOIMI NYT VITTU "<< card_number;
     QString site_url=url::getBaseUrl()+"cards/"+card_number;
     QNetworkRequest request((site_url));
     qDebug()<<site_url;
@@ -20,6 +22,8 @@ saldoWindow::saldoWindow(QByteArray wt,QString cardnum,QWidget *parent) :
 
     connect(saldoManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(saldoSlot(QNetworkReply*)));
     reply = saldoManager->get(request);
+
+
 }
 
 saldoWindow::~saldoWindow()
@@ -30,21 +34,19 @@ saldoWindow::~saldoWindow()
 void saldoWindow::saldoSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
-    qDebug()<<response_data; //toimii tuo tietokannasta tiedot
+    qDebug()<< "SALDON RESPONSEDATA" <<response_data; //toimii tuo tietokannasta tiedot
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonArray json_array = json_doc.array();
     QJsonObject json_obj = json_doc.object();
     QString tiedot;
-    QString account;
+    QString account = QString::number(json_obj["id_account"].toInt());
+    QString card_number = QString::number(json_obj["card_number"].toInt());
+    QString debit_credit = json_obj["debit_credit"].toString();
+    QString card_owner = json_obj["card_owner"].toString();
 
-    foreach (const QJsonValue &value, json_array) {
-           QJsonObject json_obj = value.toObject();
-           tiedot+="Asiakas: "+json_obj["card_owner"].toString()+" ,\n Kortin numero: "+QString::number(json_obj["card_number"].toInt())+" ,\n Tilin numero: "+
-                           QString::number(json_obj["id_account"].toInt())+" ,\n Debit/Credit: "+json_obj["debit_credit"].toString();
-            account = QString::number(json_obj["id_account"].toInt());
-    }
 
-    qDebug()<<"cards data in saldowindow: " <<tiedot;
+
+    qDebug()<<"cards data in saldowindow: " <<tiedot<<card_number<<debit_credit<<card_owner;
     qDebug()<<"id_account in saldowindow: " <<account;
     ui->labelAsiakas->setText(tiedot);
 
@@ -91,11 +93,19 @@ void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
     QByteArray response_data=reply->readAll();
     qDebug()<<response_data;
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+    QJsonArray json_array = json_doc.array();
     QJsonObject json_obj = json_doc.object();
-    QString tapahtuma;
-    tapahtuma = json_obj["description"].toString();
-    qDebug()<<tapahtuma;
-    ui->labelTapahtuma->setText("tapahtumat: " + tapahtuma);
+    QString tiedot;
+    QString account;
+
+    foreach (const QJsonValue &value, json_array) {
+           QJsonObject json_obj = value.toObject();
+           tiedot+="id_transactions: "+QString::number(json_obj["id_transactions"].toInt())+",\nKortin numero: "+QString::number(json_obj["card_number"].toInt())+",\nsum: "+
+                           QString::number(json_obj["sum"].toInt())+",\ndate: "+json_obj["date"].toString() +",\n";
+    }
+    qDebug()<<"pöö" <<tiedot;
+
+    ui->labelTapahtuma->setText(tiedot);
 
     reply->deleteLater();
     tapahtumaManager->deleteLater();
