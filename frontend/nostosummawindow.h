@@ -40,6 +40,8 @@ private slots:
 
     void nostoSlot (QNetworkReply *reply);
 
+    void balanceSlot (QNetworkReply *reply);
+
     void on_suljeButton_clicked();
 
     void countMoney(double balance, double amount);
@@ -49,6 +51,7 @@ private:
     QByteArray webToken;
     double SaldoValue=400; //kovakoodattu että voi testata, saa poistaa
     QNetworkAccessManager *nostoManager;
+    QNetworkAccessManager *balanceManager;
     QNetworkReply *reply;
     QByteArray response_data;
 
