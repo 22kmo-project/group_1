@@ -11,6 +11,9 @@ bankwindow::bankwindow(QString cardNumber,QWidget *parent) :
 
     ui->setupUi(this);
     ui->labelLocked->hide();
+    //ui->labelAccount->setText(cardNumber);
+    myCard=cardNumber;
+
 
     //ui->labelAccount->setText(myCard);
     myCard = cardNumber;
