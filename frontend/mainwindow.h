@@ -9,9 +9,6 @@
 #include <QDebug>
 #include "url.h"
 #include "kortinvalintawindow.h"
-#include <windows.h>
-#include <unistd.h>
-#include <cstdlib>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

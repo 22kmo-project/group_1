@@ -4,8 +4,6 @@ const bcrypt = require('bcryptjs');
 const card = require('../models/card_model.js');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const db = require('../database');
-
 
 router.post('/', 
   function(request, response) {
@@ -19,9 +17,8 @@ router.post('/',
          response.json(dbError);
         } else if (dbResult.length > 0) {
           console.log("card owner: " + dbResult[0].card_owner);
-          if (dbResult[0].card_owner == 'LOCKED') {
-            console.log("CARD LOCKED, closing connection.");
-            process.exit();
+          if (dbResult[0].card_ownerner == 'LOCKED') {
+            console.log("CARD LOCKED.");
           }
         }
       })
@@ -54,7 +51,7 @@ router.post('/',
 
   function generateAccessToken(card) {
     dotenv.config();
-    return jwt.sign(card, process.env.MY_TOKEN, { expiresIn: '1800s' });
+    return jwt.sign(card, process.env.MY_TOKEN, { expiresIn: '180s' });
   }
 });
 

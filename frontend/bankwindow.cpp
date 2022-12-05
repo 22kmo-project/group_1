@@ -10,6 +10,8 @@ bankwindow::bankwindow(QString cardNumber,QWidget *parent) :
 {
 
     ui->setupUi(this);
+    ui->labelLocked->hide();
+    //ui->labelAccount->setText(cardNumber);
     myCard=cardNumber;
 
     QString site_url=url::getBaseUrl()+"cards/"+myCard;
@@ -64,9 +66,16 @@ void bankwindow::dataSlot(QNetworkReply *reply)
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
     QString omistaja = json_obj["card_owner"].toString();
-
     ui->labelOmistaja->setText(omistaja);
     qDebug()<<"omistaja: " <<omistaja;
+
+    if (omistaja == "LOCKED") {
+        ui->labelLocked->show();
+        ui->labelLocked->document()->setPlainText("KORTTI LUKITTU\n👁👅👁");
+        delay();
+        this->close();
+    }
+
     reply->deleteLater();
     dataManager->deleteLater();
 }
@@ -91,4 +100,10 @@ void bankwindow::on_kirjauduUlosButton_clicked()
 {
     qDebug () << "kirjaudu ulos";
     this->close();
+}
+void bankwindow::delay()
+{
+    QTime dieTime= QTime::currentTime().addSecs(2);
+    while (QTime::currentTime() < dieTime)
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
