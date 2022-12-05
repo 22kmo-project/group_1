@@ -1,12 +1,14 @@
 #ifndef NOSTOSUMMAWINDOW_H
 #define NOSTOSUMMAWINDOW_H
-
+#include "url.h"
 #include <QWidget>
 #include <QObject>
 #include <QDialog>
 #include <QNetworkAccessManager>
 #include <QtNetwork>
 #include <QJsonDocument>
+#include <QJsonArray>
+#include <QDebug>
 
 
 namespace Ui {
@@ -19,8 +21,8 @@ class nostoSummaWindow : public QDialog
 
 public:
     explicit nostoSummaWindow(QByteArray webToken, QString myCard, QWidget *parent = nullptr);
-    const QString &getWebToken() const;
     ~nostoSummaWindow();
+    void setWebToken(const QByteArray &newWebToken);
 
 
 private slots:
@@ -45,11 +47,7 @@ private slots:
 private:
     Ui::nostoSummaWindow *ui;
     QByteArray webToken;
-    QString myCard="66456535303353"; //kovakoodattu että voi testata, saa poistaa
-    QString idAccount;
-    QString clientName; //kovakoodattu että voi testata, saa poistaa
-    QString balance;
-    double balanceValue=400; //kovakoodattu että voi testata, saa poistaa
+    double SaldoValue=400; //kovakoodattu että voi testata, saa poistaa
     QNetworkAccessManager *nostoManager;
     QNetworkReply *reply;
     QByteArray response_data;

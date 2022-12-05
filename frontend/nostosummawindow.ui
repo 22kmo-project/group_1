@@ -140,7 +140,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>tilinumero tähä</string>
+    <string>tiliLabel</string>
    </property>
   </widget>
   <widget class="QLabel" name="nosto_info">
@@ -172,9 +172,9 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>120</x>
      <y>40</y>
-     <width>61</width>
+     <width>41</width>
      <height>16</height>
     </rect>
    </property>
@@ -192,7 +192,20 @@
     </rect>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>nimi_label</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="testikyhny">
+   <property name="geometry">
+    <rect>
+     <x>8</x>
+     <y>130</y>
+     <width>61</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>testikyhny</string>
    </property>
   </widget>
  </widget>
