@@ -115,8 +115,8 @@
    </property>
    <property name="font">
     <font>
-     <family>Lucida Calligraphy</family>
-     <pointsize>40</pointsize>
+     <family>Impact</family>
+     <pointsize>25</pointsize>
      <bold>false</bold>
      <strikeout>false</strikeout>
     </font>

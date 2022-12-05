@@ -71,11 +71,13 @@ void bankwindow::dataSlot(QNetworkReply *reply)
 
     if (omistaja == "LOCKED") {
         ui->labelLocked->show();
-        ui->labelLocked->document()->setPlainText("KORTTI LUKITTU\n👁👅👁");
-        delay();
+        for (int i = 3; i >= 0;i--) {
+            QString info = "KORTTI LUKITTU\nOhjelma suljetaan "+ QString::number(i) +" kuluttua...";
+            ui->labelLocked->document()->setPlainText(info);
+            delay();
+        }
         this->close();
     }
-
     reply->deleteLater();
     dataManager->deleteLater();
 }
@@ -103,7 +105,7 @@ void bankwindow::on_kirjauduUlosButton_clicked()
 }
 void bankwindow::delay()
 {
-    QTime dieTime= QTime::currentTime().addSecs(2);
+    QTime dieTime= QTime::currentTime().addSecs(1);
     while (QTime::currentTime() < dieTime)
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }

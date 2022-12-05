@@ -54,6 +54,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     qDebug()<<"test"<<test;
     if(response_data.length()==0){
         loginTries = loginTries - 1;
+        qDebug() << "login tries" << loginTries;
         ui->lineEditKirjaudu->clear();
         ui->labelInfo->setText("Väärä pin. Syötä pin uudelleen. Yrityksiä: "  + QString::number(loginTries));
         kirjautuminen--;
