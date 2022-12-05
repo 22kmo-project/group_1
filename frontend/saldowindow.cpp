@@ -38,17 +38,17 @@ void saldoWindow::saldoSlot(QNetworkReply *reply)
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonArray json_array = json_doc.array();
     QJsonObject json_obj = json_doc.object();
-    QString tiedot;
     QString account = QString::number(json_obj["id_account"].toInt());
     QString card_number = QString::number(json_obj["card_number"].toInt());
     QString debit_credit = json_obj["debit_credit"].toString();
     QString card_owner = json_obj["card_owner"].toString();
+    QString lista;
+        lista += "Account: " + account + "\nCard number: "+card_number + "\nDebit/Credit: "+debit_credit + "\nCard owner: "+card_owner;
 
 
+    qDebug()<<"cards data in saldowindow: "<<account<<card_number<<debit_credit<<card_owner;
 
-    qDebug()<<"cards data in saldowindow: " <<tiedot<<card_number<<debit_credit<<card_owner;
-    qDebug()<<"id_account in saldowindow: " <<account;
-    ui->labelAsiakas->setText(tiedot);
+    ui->labelAsiakas->setText(lista);
 
     reply->deleteLater();
     saldoManager->deleteLater();
@@ -95,17 +95,17 @@ void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
        QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
        QJsonArray json_array = json_doc.array();
        QJsonObject json_obj = json_doc.object();
-       QString tiedot;
-       QString account;
 
-       foreach (const QJsonValue &value, json_array) {
-              QJsonObject json_obj = value.toObject();
-              tiedot+="id_transactions: "+QString::number(json_obj["id_transactions"].toInt())+",\nKortin numero: "+QString::number(json_obj["card_number"].toInt())+",\nsum: "+
-                              QString::number(json_obj["sum"].toInt())+",\ndate: "+json_obj["date"].toString() +",\n";
-       }
-       qDebug()<<"pöö" <<tiedot;
+       QString id_transactions = QString::number(json_obj["id_transactions"].toInt());
+       QString card_number = QString::number(json_obj["card_number"].toInt());
+       QString sum = QString::number(json_obj["sum"].toInt());
+       QString date = json_obj["date"].toString();
+       QString lista;
+           lista += "Transaction: " + id_transactions + "\nCard number: "+card_number + "\nSum: "+sum + "\nDAte: "+date;
 
-       ui->labelTapahtuma->setText(tiedot);
+       qDebug()<<"pöö" <<id_transactions<<card_number<<sum<<date;
+
+       ui->labelTapahtuma->setText(lista);
 
        reply->deleteLater();
        tapahtumaManager->deleteLater();

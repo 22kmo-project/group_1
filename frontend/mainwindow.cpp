@@ -25,6 +25,7 @@ void MainWindow::on_loginButton_clicked()
     case 1:
         cardNumber=ui->lineEditKirjaudu->text();
         ui->lineEditKirjaudu->clear();
+        ui->lineEditKirjaudu->setEchoMode(QLineEdit::Password);
         ui->labelKirjaudu->setText("Anna pin-koodi ja paina kirjaudu sisään");
         break;
     case 2:
