@@ -66,14 +66,14 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
 
   }
 
-void nostoSummaWindow::balanceSlot(QNetworkReply *reply)
+void nostoSummaWindow::balanceSlot(QNetworkReply *reply) // Tämä toimii, kertoo paljo on massia
 {
 
     QByteArray response_data=reply->readAll();
     qDebug()<<response_data; //toimii tuo tietokannasta tiedot
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
-    QString balance=QString::number(json_obj["debit_balance"].toDouble());
+    balance=QString::number(json_obj["debit_balance"].toDouble());
     qDebug()<<"balance on:" << balance;
     ui->kyhny_info->setText("Massia jäljellä: "+balance);
 
@@ -89,7 +89,9 @@ void nostoSummaWindow::on_pushButton20e_clicked()
 {
 
     qDebug()<<"20e";
-    countMoney(SaldoValue,20);
+    nosto=balance.toDouble();
+    countMoney(nosto,20);
+    qDebug()<<nosto;
 
 
 }
@@ -98,35 +100,45 @@ void nostoSummaWindow::on_pushButton20e_clicked()
 void nostoSummaWindow::on_pushButton40e_clicked()
 {
     qDebug()<<"40e";
-    countMoney(SaldoValue,40);
+    nosto=balance.toDouble();
+    countMoney(nosto,40);
+    qDebug()<<nosto;;
 }
 
 
 void nostoSummaWindow::on_pushButton60e_clicked()
 {
     qDebug()<<"60e";
-    countMoney(SaldoValue,60);
+    nosto=balance.toDouble();
+    countMoney(nosto,60);
+    qDebug()<<nosto;
 }
 
 
 void nostoSummaWindow::on_pushButton100e_clicked()
 {
     qDebug()<<"100e";
-    countMoney(SaldoValue,100);
+    nosto=balance.toDouble();
+    countMoney(nosto,100);
+    qDebug()<<nosto;
 }
 
 
 void nostoSummaWindow::on_pushButton200e_clicked()
 {
     qDebug()<<"200e";
-    countMoney(SaldoValue,200);
+    nosto=balance.toDouble();
+    countMoney(nosto,200);
+    qDebug()<<nosto;
 }
 
 
 void nostoSummaWindow::on_pushButton500e_clicked()
 {
     qDebug()<<"500e";
-    countMoney(SaldoValue,500);
+    nosto=balance.toDouble();
+    countMoney(nosto,500);
+    qDebug()<<nosto;
 
 }
 
@@ -137,18 +149,20 @@ void nostoSummaWindow::on_suljeButton_clicked()
 
 }
 
-void nostoSummaWindow::countMoney(double balance, double amount)    //tämä funktio tarkistaa onko tilillä katetta
+void nostoSummaWindow::countMoney(double x, double amount)    //tämä funktio tarkistaa onko tilillä katetta
 {
-    if(balance<amount)
+
+    if(x<amount) // x muuttuja on oma saldo ja amount on nostettava summa
     {
         ui->nosto_info->setText("Tilillä ei riittävästi katetta.");
     }
     else
     {
-        balance=balance-amount;
+        x=x-amount;
         ui->nosto_info->setText("Nosto onnistui");
-        QString balanceAsString = QString::number(balance);
-        ui->kyhny_info->setText("Massia jäljellä: " +balanceAsString);
+
+        balance = QString::number(x);
+        ui->kyhny_info->setText("Massia jäljellä: " +balance);
     }
 }
 
