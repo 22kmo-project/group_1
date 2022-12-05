@@ -195,19 +195,6 @@
     <string>nimi_label</string>
    </property>
   </widget>
-  <widget class="QLabel" name="testikyhny">
-   <property name="geometry">
-    <rect>
-     <x>8</x>
-     <y>130</y>
-     <width>61</width>
-     <height>101</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>testikyhny</string>
-   </property>
-  </widget>
  </widget>
  <resources/>
  <connections/>
