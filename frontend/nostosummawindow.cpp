@@ -31,35 +31,56 @@ nostoSummaWindow::nostoSummaWindow(QByteArray webToken, QString myCard, QWidget 
 }
 
 
-
 nostoSummaWindow::~nostoSummaWindow()
 {
     delete ui;
 
 }
 
-void nostoSummaWindow::nostoSlot(QNetworkReply *reply) //Omistaja toimii saldo ei
+void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
 
 {
     QByteArray response_data=reply->readAll();
     qDebug()<<response_data; //toimii tuo tietokannasta tiedot
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-    QJsonArray json_array = json_doc.array();
     QJsonObject json_obj = json_doc.object();
-    //QString omistaja=json_obj["card_owner"].toString();
-    QString Saldo;
-    foreach (const QJsonValue &value, json_array) {
-           QJsonObject json_obj = value.toObject();
-           Saldo+="Asiakas: "+json_obj["card_owner"].toString()+" ,\n Saldo: "+QString::number(json_obj["debit_balance"].toInt());
-    }
-    //Saldo=QString::number(json_obj["debit_balance"].toDouble());
+    QString omistaja=json_obj["card_owner"].toString();
+    QString Saldo=QString::number(json_obj["debit_balance"].toDouble());
+    QString id_account=QString::number(json_obj["id_account"].toInt());
+
 
     qDebug()<<Saldo;
 
-    ui->testikyhny->setText(Saldo);
-    //ui->nimi_label->setText(omistaja);
-    //qDebug()<<"Omistajan nimi on:" << omistaja;  //omistaja toimii
-    qDebug()<<"Saldo on:" << Saldo; //Saldo näkyy aina että 0 eli ei toimi.
+    ui->nimi_label->setText(omistaja);
+    qDebug()<<"Omistajan nimi on:" << omistaja;  //omistaja toimii
+    QString site_url=url::getBaseUrl()+"accounts/"+id_account;
+    QNetworkRequest request((site_url));
+       qDebug()<<site_url;
+    //WEBTOKEN ALKU
+    request.setRawHeader(QByteArray("Authorization"),(webToken));
+    //WEBTOKEN LOPPU
+
+    balanceManager = new QNetworkAccessManager(this);
+    connect(balanceManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(balanceSlot(QNetworkReply*)));
+    reply = balanceManager->get(request);
+
+  }
+
+void nostoSummaWindow::balanceSlot(QNetworkReply *reply)
+{
+
+    QByteArray response_data=reply->readAll();
+    qDebug()<<response_data; //toimii tuo tietokannasta tiedot
+    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+    QJsonObject json_obj = json_doc.object();
+    QString balance=QString::number(json_obj["debit_balance"].toDouble());
+    qDebug()<<"balance on:" << balance;
+    ui->kyhny_info->setText("Massia jäljellä: "+balance);
+
+    reply->deleteLater();
+        balanceManager->deleteLater();
+
+
 }
 
 
