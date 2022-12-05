@@ -46,14 +46,19 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply) //Omistaja toimii saldo e
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonArray json_array = json_doc.array();
     QJsonObject json_obj = json_doc.object();
-    QString omistaja=json_obj["card_owner"].toString();
-    QString Saldo=QString::number(json_obj["debit_balance"].toDouble());
+    //QString omistaja=json_obj["card_owner"].toString();
+    QString Saldo;
+    foreach (const QJsonValue &value, json_array) {
+           QJsonObject json_obj = value.toObject();
+           Saldo+="Asiakas: "+json_obj["card_owner"].toString()+" ,\n Saldo: "+QString::number(json_obj["debit_balance"].toInt());
+    }
+    //Saldo=QString::number(json_obj["debit_balance"].toDouble());
 
     qDebug()<<Saldo;
 
     ui->testikyhny->setText(Saldo);
-    ui->nimi_label->setText(omistaja);
-    qDebug()<<"Omistajan nimi on:" << omistaja;  //omistaja toimii
+    //ui->nimi_label->setText(omistaja);
+    //qDebug()<<"Omistajan nimi on:" << omistaja;  //omistaja toimii
     qDebug()<<"Saldo on:" << Saldo; //Saldo näkyy aina että 0 eli ei toimi.
 }
 
