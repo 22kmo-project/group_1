@@ -31,6 +31,7 @@ private slots:
 
 private:
     Ui::tapahtumaWindow *ui;
+    QString card_number;
     QByteArray webToken;
     QNetworkAccessManager *tapahtumaManager;
     QNetworkAccessManager *asiakasManager;
