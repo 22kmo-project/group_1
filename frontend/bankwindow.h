@@ -9,6 +9,7 @@
 #include <QWidget>
 #include "saldowindow.h"
 #include "tapahtumawindow.h"
+#include <QJsonArray>
 
 namespace Ui {
 class bankwindow;
@@ -25,7 +26,7 @@ public:
     const QString &getWebToken() const;
 
     void setWebToken(const QByteArray &newWebToken);
-
+    QString id_account;
 public slots:
     void openNostoSummaWindow();
 
@@ -47,7 +48,6 @@ private slots:
 private:
     Ui::bankwindow *ui;
     QByteArray webToken;
-    QString idAccount;
     QString myCard;
     nostoSummaWindow *objectnostoSummaWindow;
     tapahtumaWindow *objecttapahtumaWindow;

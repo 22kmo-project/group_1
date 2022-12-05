@@ -60,13 +60,13 @@ void bankwindow::on_tapahtumaButton_clicked()
 void bankwindow::dataSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
-    qDebug()<<response_data;
+    qDebug()<<"response data in dataslot, bankwindow.cpp: " << response_data;
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
     QString omistaja = json_obj["card_owner"].toString();
-    ui->labelOmistaja->setText(omistaja);
-    qDebug()<<omistaja;
 
+    ui->labelOmistaja->setText(omistaja);
+    qDebug()<<"omistaja: " <<omistaja;
     reply->deleteLater();
     dataManager->deleteLater();
 }
