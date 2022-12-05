@@ -19,7 +19,6 @@ MainWindow::~MainWindow()
 
 }
 
-
 void MainWindow::on_loginButton_clicked()
 {
     switch(kirjautuminen) {
@@ -31,18 +30,14 @@ void MainWindow::on_loginButton_clicked()
     case 2:
         cardPin=ui->lineEditKirjaudu->text();
         ui->labelKirjaudu->setText("");
-
         QJsonObject jsonObj;
         jsonObj.insert("card_number",cardNumber);
         jsonObj.insert("pin_code",cardPin);
-
         QString site_url=url::getBaseUrl()+"login";
         QNetworkRequest request((site_url));
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
         loginManager = new QNetworkAccessManager(this);
         connect(loginManager, SIGNAL (finished(QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
-
         reply = loginManager->post(request, QJsonDocument(jsonObj).toJson());
         break;
     }
@@ -51,10 +46,7 @@ void MainWindow::on_loginButton_clicked()
 
 void MainWindow::loginSlot(QNetworkReply *reply)
 {
-
     //TODO: lisää card locked notif kirjautuessa.
-    // sleep,close implementointi, poista bäkistä process exit ja db endit jatkuvalle toiminolle frontissa.
-
 
     response_data=reply->readAll();
     qDebug()<<"response data"<<response_data;
@@ -67,7 +59,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
         kirjautuminen--;
         if (loginTries == 0) {
             ui->labelInfo->clear();
-            ui->labelInfo->setText("Kortti lukittu. Ohjelma suljetaan...");
+            ui->labelInfo->setText("Kortti lukittu.");
         }
     }
     else {
@@ -75,26 +67,15 @@ void MainWindow::loginSlot(QNetworkReply *reply)
             ui->lineEditKirjaudu->clear();
             ui->labelInfo->setText("Virhe tietokanta yhteydessä");
             kirjautuminen--;
-            ui->labelInfo->setText("Virhe tietokantayhteydessä!");
-            ui->labelInfo->setText("Virhe tietokanta yhteydessä");
-            kirjautuminen--;
-            ui->labelInfo->setText("Virhe tietokantayhteydessä!");
         }
         else {
             if(test==0){
                 ui->lineEditKirjaudu->clear();
-
                 ui->labelInfo->setText("Tunnus ja salasana eivät täsmää");
                 kirjautuminen--;
-
-                ui->labelInfo->setText("Tunnus ja salasana eivät täsmää!");
-
-                ui->labelInfo->setText("Tunnus ja salasana eivät täsmää");
-                kirjautuminen--;
-                ui->labelInfo->setText("Tunnus ja salasana eivät täsmää!");
-
             }
              else {
+
                 objectBankWindow=new bankwindow(cardNumber);
                 objectBankWindow->setWebToken("Bearer "+response_data);
                 objectBankWindow->show();
@@ -110,63 +91,43 @@ void MainWindow::on_peruutaButton_clicked()
 {
     this -> close();
 }
-
 void MainWindow::on_pushButton_1_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "1");
 }
-
-
 void MainWindow::on_pushButton_2_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "2");
 }
-
-
 void MainWindow::on_pushButton_3_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "3");
 }
-
-
 void MainWindow::on_pushButton_4_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "4");
 }
-
-
 void MainWindow::on_pushButton_5_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "5");
 }
-
-
 void MainWindow::on_pushButton_6_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "6");
 }
-
-
 void MainWindow::on_pushButton_7_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "7");
 }
-
-
 void MainWindow::on_pushButton_8_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "8");
 }
-
-
 void MainWindow::on_pushButton_9_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "9");
 }
-
-
 void MainWindow::on_pushButton_0_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "0");
 }
-

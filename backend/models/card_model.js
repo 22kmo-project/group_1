@@ -41,7 +41,6 @@ const card = {
     },
     
     checkPin: function(cardNumber,checkCard) {
-      
       return db.query('SELECT pin_code FROM card WHERE card_number = ?',[cardNumber],checkCard); 
     },
 
