@@ -10,6 +10,8 @@
 #include "saldowindow.h"
 #include "tapahtumawindow.h"
 #include <QJsonArray>
+#include <Windows.h>
+#include <unistd.h>
 
 namespace Ui {
 class bankwindow;
@@ -22,29 +24,18 @@ class bankwindow : public QDialog
 public:
     explicit bankwindow(QString cardnum,QWidget *parent = nullptr);
     ~bankwindow();
-
     const QString &getWebToken() const;
-
     void setWebToken(const QByteArray &newWebToken);
     QString id_account;
+    void delay();
 public slots:
     void openNostoSummaWindow();
-
-
 private slots:
-
     void dataSlot (QNetworkReply *reply);
-
-
     void on_saldoButton_clicked();
-
     void on_tapahtumaButton_clicked();
-
     void on_nostoButton_clicked();
-
     void on_kirjauduUlosButton_clicked();
-
-
 private:
     Ui::bankwindow *ui;
     QByteArray webToken;

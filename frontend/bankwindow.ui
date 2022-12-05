@@ -104,6 +104,24 @@
     <string/>
    </property>
   </widget>
+  <widget class="QPlainTextEdit" name="labelLocked">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>401</width>
+     <height>301</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Lucida Calligraphy</family>
+     <pointsize>40</pointsize>
+     <bold>false</bold>
+     <strikeout>false</strikeout>
+    </font>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
