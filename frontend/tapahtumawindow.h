@@ -2,6 +2,7 @@
 #define TAPAHTUMAWINDOW_H
 #include <QtNetwork>
 #include <QWidget>
+#include <QTableWidget>
 #include <QDialog>
 #include <QDebug>
 #include <QNetworkAccessManager>
@@ -29,7 +30,13 @@ private slots:
     void tapahtumaSlot(QNetworkReply *reply);
     void asiakasSlot(QNetworkReply *reply);
 
+    void on_backwardButton_clicked(bool checked);
+
+    void on_forwardButton_clicked(bool checked);
+
 private:
+    QTableWidget* m_pTableWidget;
+    QStringList m_TableHeader;
     Ui::tapahtumaWindow *ui;
     QString card_number;
     QByteArray webToken;
@@ -37,6 +44,7 @@ private:
     QNetworkAccessManager *asiakasManager;
     QByteArray response_data;
     QNetworkReply *reply;
+    QString lista;
 
 };
 

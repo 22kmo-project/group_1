@@ -37,18 +37,12 @@ void saldoWindow::saldoSlot(QNetworkReply *reply)
     QString debit_credit = json_obj["debit_credit"].toString();
     QString card_owner = json_obj["card_owner"].toString();
     QString lista;
-        lista += "Account: " + account + "\nCard number: "+card_number + "\nDebit/Credit: "+debit_credit + "\nCard owner: "+card_owner;
+    lista += "Account: " + account + "\nCard number: "+card_number + "\nDebit/Credit: "+debit_credit + "\nCard owner: "+card_owner;
 
-<<<<<<< HEAD
-    QString lista;
     lista += "Account: " + account + "\nCard number: "+card_number + "\nDebit/Credit: "+debit_credit + "\nCard owner: "+card_owner;
     qDebug()<<"cards data in saldowindow: "<<card_number<<debit_credit<<card_owner;
     qDebug()<<"id_account in saldowindow: "<<account;
-=======
-
     qDebug()<<"cards data in saldowindow: "<<account<<card_number<<debit_credit<<card_owner;
-
->>>>>>> 7151fc01756751be1ede0a2b01b784331394b6be
     ui->labelAsiakas->setText(lista);
 
     reply->deleteLater();
@@ -95,21 +89,6 @@ void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
        QJsonArray json_array = json_doc.array();
        QJsonObject json_obj = json_doc.object();
 
-<<<<<<< HEAD
-    QString card_number = QString::number(json_obj["card_number"].toInt());
-    QString debit_credit = json_obj["debit_credit"].toString();
-    QString card_owner = json_obj["card_owner"].toString();
-
-    foreach (const QJsonValue &value, json_array) {
-        QJsonObject json_obj = value.toObject();
-        tiedot+="id_transactions: "+QString::number(json_obj["id_transactions"].toInt())+",\nKortin numero: "+QString::number(json_obj["card_number"].toInt())+",\nsum: "+
-        QString::number(json_obj["sum"].toInt())+",\ndate: "+json_obj["date"].toString() +",\n";
-    }
-    qDebug()<<"pöö" <<tiedot;
-    ui->labelTapahtuma->setText(tiedot);
-    reply->deleteLater();
-    tapahtumaManager->deleteLater();
-=======
        QString id_transactions = QString::number(json_obj["id_transactions"].toInt());
        QString card_number = QString::number(json_obj["card_number"].toInt());
        QString sum = QString::number(json_obj["sum"].toInt());
@@ -123,7 +102,6 @@ void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
 
        reply->deleteLater();
        tapahtumaManager->deleteLater();
->>>>>>> 7151fc01756751be1ede0a2b01b784331394b6be
 }
 
 void saldoWindow::on_suljeButton_clicked()
