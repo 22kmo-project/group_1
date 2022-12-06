@@ -12,6 +12,7 @@ CONFIG += c++17
 SOURCES += \
     bankwindow.cpp \
     kortinvalintawindow.cpp \
+    kuittiwindow.cpp \
     main.cpp \
     mainwindow.cpp \
     nostosummawindow.cpp \
@@ -23,6 +24,7 @@ SOURCES += \
 HEADERS += \
     bankwindow.h \
     kortinvalintawindow.h \
+    kuittiwindow.h \
     mainwindow.h \
     nostosummawindow.h \
     nostowindow.h \
@@ -33,6 +35,7 @@ HEADERS += \
 FORMS += \
     bankwindow.ui \
     kortinvalintawindow.ui \
+    kuittiwindow.ui \
     mainwindow.ui \
     nostosummawindow.ui \
     nostowindow.ui \

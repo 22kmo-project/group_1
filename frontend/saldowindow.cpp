@@ -2,13 +2,13 @@
 #include "ui_saldowindow.h"
 #include "url.h"
 
-saldoWindow::saldoWindow(QByteArray webToken,QString cardnum,QWidget *parent) :
+saldoWindow::saldoWindow(QByteArray token,QString cardnum,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::saldoWindow)
 {
     ui->setupUi(this);
     card_number = cardnum;
-    qDebug()<<"card_number in saldo.cpp: "<< card_number;
+    webToken=token;
     QString site_url=url::getBaseUrl()+"cards/"+card_number;
     QNetworkRequest request((site_url));
     qDebug()<<site_url;
@@ -94,7 +94,7 @@ void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
        QString sum = QString::number(json_obj["sum"].toInt());
        QString date = json_obj["date"].toString();
        QString lista;
-           lista += "Transaction: " + id_transactions + "\nCard number: "+card_number + "\nSum: "+sum + "\nDAte: "+date;
+           lista += "Transaction: " + id_transactions + "\nCard number: "+card_number + "\nSum: "+sum + "\nDate: "+date;
 
        qDebug()<<"pöö" <<id_transactions<<card_number<<sum<<date;
 

@@ -1,6 +1,7 @@
 #ifndef NOSTOSUMMAWINDOW_H
 #define NOSTOSUMMAWINDOW_H
 #include "url.h"
+#include "kuittiwindow.h"
 #include <QWidget>
 #include <QObject>
 #include <QDialog>
@@ -20,7 +21,7 @@ class nostoSummaWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit nostoSummaWindow(QByteArray webToken, QString myCard, QWidget *parent = nullptr);
+    explicit nostoSummaWindow(QByteArray token, QString myCard, QWidget *parent = nullptr);
     ~nostoSummaWindow();
     void setWebToken(const QByteArray &newWebToken);
 
@@ -46,14 +47,18 @@ private slots:
 
     void countMoney(double balance, double amount);
 
+    void on_kuittiButton_clicked();
+
 private:
     Ui::nostoSummaWindow *ui;
     QByteArray webToken;
-    double SaldoValue=400; //kovakoodattu että voi testata, saa poistaa
+    double nosto;
+    QString balance;
     QNetworkAccessManager *nostoManager;
     QNetworkAccessManager *balanceManager;
     QNetworkReply *reply;
     QByteArray response_data;
+    kuittiwindow *objectkuittiwindow;
 
 };
 

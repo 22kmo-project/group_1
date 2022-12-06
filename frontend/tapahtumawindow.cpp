@@ -5,12 +5,13 @@
 #include <QCoreApplication>
 #include <QHeaderView>
 #include <QMessageBox>
-tapahtumaWindow::tapahtumaWindow(QByteArray wt,QString myCard,QWidget *parent) :
+
+tapahtumaWindow::tapahtumaWindow(QByteArray token,QString myCard,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::tapahtumaWindow)
 {
     ui->setupUi(this);
-    wt=webToken;
+    webToken=token;
     card_number = myCard;
     qDebug()<<card_number;
     ui->tapahtumaTable->setRowCount(10);
@@ -23,7 +24,6 @@ tapahtumaWindow::tapahtumaWindow(QByteArray wt,QString myCard,QWidget *parent) :
     ui->tapahtumaTable->setShowGrid(false);
     ui->tapahtumaTable->setStyleSheet("QTableView {selection-background-color: green;}");
     ui->tapahtumaTable->setGeometry(QApplication::desktop()->screenGeometry());
-
     QString site_url=url::getBaseUrl()+"cards/" + card_number;
     QNetworkRequest request((site_url));
     qDebug()<<site_url;
