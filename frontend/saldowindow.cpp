@@ -100,7 +100,7 @@ void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
        QString sum = QString::number(json_obj["sum"].toInt());
        QString date = json_obj["date"].toString();
        QString lista;
-           lista += "Transaction: " + id_transactions + "\nCard number: "+card_number + "\nSum: "+sum + "\nDAte: "+date;
+           lista += "Transaction: " + id_transactions + "\nCard number: "+card_number + "\nSum: "+sum + "\nDate: "+date;
 
        qDebug()<<"pöö" <<id_transactions<<card_number<<sum<<date;
 
