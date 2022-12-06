@@ -1,14 +1,13 @@
 #include "tapahtumawindow.h"
 #include "ui_tapahtumawindow.h"
 
-tapahtumaWindow::tapahtumaWindow(QByteArray wt,QString myCard,QWidget *parent) :
+tapahtumaWindow::tapahtumaWindow(QByteArray token,QString myCard,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::tapahtumaWindow)
 {
     ui->setupUi(this);
-    wt=webToken;
+    webToken=token;
     card_number = myCard;
-    qDebug()<<"OLEMME TÄÄLLÄ " << card_number;
     QString site_url=url::getBaseUrl()+"cards/" + card_number;
     QNetworkRequest request((site_url));
     qDebug()<<site_url;

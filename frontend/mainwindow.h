@@ -48,6 +48,8 @@ private slots:
 
     void on_pushButton_0_clicked();
 
+    void on_pyyhiButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     bankwindow *objectBankWindow;
@@ -57,6 +59,7 @@ private:
     QByteArray response_data;
     QString cardNumber;
     QString cardPin;
+    QByteArray webToken;
     int loginTries = 3;
     int kirjautuminen=1;
     QString idAccount;

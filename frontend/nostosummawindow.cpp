@@ -5,15 +5,14 @@
 
 
 
-nostoSummaWindow::nostoSummaWindow(QByteArray webToken, QString myCard, QWidget *parent) :
+nostoSummaWindow::nostoSummaWindow(QByteArray token, QString myCard, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::nostoSummaWindow)
 {
 
 
     ui->setupUi(this);
-
-    qDebug()<<webToken;
+    webToken=token;
     QString site_url=url::getBaseUrl()+"cards/"+myCard;
     QNetworkRequest request((site_url));
     qDebug()<<site_url;
