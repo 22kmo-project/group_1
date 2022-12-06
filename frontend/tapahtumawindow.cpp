@@ -14,7 +14,7 @@ tapahtumaWindow::tapahtumaWindow(QByteArray token,QString myCard,QWidget *parent
     webToken=token;
     card_number = myCard;
     qDebug()<<card_number;
-    ui->tapahtumaTable->setRowCount(10);
+    ui->tapahtumaTable->setRowCount(100);
     ui->tapahtumaTable->setColumnCount(6);
 
     ui->tapahtumaTable->verticalHeader()->setVisible(false);
@@ -23,7 +23,7 @@ tapahtumaWindow::tapahtumaWindow(QByteArray token,QString myCard,QWidget *parent
     ui->tapahtumaTable->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->tapahtumaTable->setShowGrid(false);
     ui->tapahtumaTable->setStyleSheet("QTableView {selection-background-color: green;}");
-    ui->tapahtumaTable->setGeometry(QApplication::desktop()->screenGeometry());
+    //ui->tapahtumaTable->setGeometry(QApplication::desktop()->screenGeometry());
     QString site_url=url::getBaseUrl()+"cards/" + card_number;
     QNetworkRequest request((site_url));
     qDebug()<<site_url;
@@ -41,8 +41,6 @@ tapahtumaWindow::~tapahtumaWindow()
 {
     delete ui;
 }
-
-
 void tapahtumaWindow::tapahtumaSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
@@ -83,54 +81,73 @@ void tapahtumaWindow::asiakasSlot(QNetworkReply *reply)
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonArray json_array = json_doc.array();
     QJsonArray array = {};
-    int rows = 0;
 
-    for (int i = 0; i < json_array.size();i++) {
-        array.insert(i,json_array.at(i));
-        QJsonValue items = json_array.at(i);
-        QJsonObject obj = items.toObject();
-        QString id_transactions = QString::number(obj["id_transactions"].toInt());
-        QString card_numbers = QString::number(obj["card_number"].toInt());
-        QString sums = QString::number(obj["sum"].toInt());
-        QString dates = obj["date"].toString();
-        QString descriptions = obj["description"].toString();
+        for (int i = 0; i < json_array.size();i++) {
+            array.insert(i,json_array.at(i));
+            QJsonValue items = json_array.at(i);
+            QJsonObject obj = items.toObject();
+            QString id_transactions = QString::number(obj["id_transactions"].toInt());
+            QString card_numbers = QString::number(obj["card_number"].toInt());
+            QString sums = QString::number(obj["sum"].toInt());
+            QString dates = obj["date"].toString();
+            QString descriptions = obj["description"].toString();
 
-        if (card_numbers != tapahtumaWindow::card_number) {
-            qDebug() << "ERIT: " << "listasta haettu numero: "<<card_numbers<< "käyttäjän numero: " <<card_number;
-        } else {
-            ui->tapahtumaTable->setItem(rows, 0, new QTableWidgetItem(id_transactions));
-            ui->tapahtumaTable->setItem(rows, 1, new QTableWidgetItem(card_numbers));
-            ui->tapahtumaTable->setItem(rows, 2, new QTableWidgetItem(sums));
-            ui->tapahtumaTable->setItem(rows, 3, new QTableWidgetItem(dates));
-            ui->tapahtumaTable->setItem(rows, 4, new QTableWidgetItem(descriptions));
-            ui->tapahtumaTable->resizeColumnsToContents();
-            ui->tapahtumaTable->resizeRowsToContents();
-            if (rows == 10) {
-                ui->tapahtumaTable->setRowCount(10);
+            if (card_numbers != tapahtumaWindow::card_number) {
+                qDebug() << "ERIT: " << "listasta haettu numero: "<<card_numbers<< "käyttäjän numero: " <<card_number;
             } else {
+
+                positives++;
+                qDebug() << positives;
+                ui->tapahtumaTable->setItem(rows, 0, new QTableWidgetItem(id_transactions));
+                ui->tapahtumaTable->setItem(rows, 1, new QTableWidgetItem(card_numbers));
+                ui->tapahtumaTable->setItem(rows, 2, new QTableWidgetItem(sums));
+                ui->tapahtumaTable->setItem(rows, 3, new QTableWidgetItem(dates));
+                ui->tapahtumaTable->setItem(rows, 4, new QTableWidgetItem(descriptions));
+                ui->tapahtumaTable->resizeColumnsToContents();
+                ui->tapahtumaTable->resizeRowsToContents();
                 rows++;
+
+                if (rows >= 10) {
+                    overTen++;
+
+                    ui->tapahtumaTable->hideRow(positives);
+                }
+
+
             }
+
         }
-    }
+        overTen--;
+        ui->tapahtumaTable->setRowCount(rows);
+        qDebug() << "over ten:" << overTen;
+
+
     reply->deleteLater();
     asiakasManager->deleteLater();
 }
-
 void tapahtumaWindow::on_closeButton_clicked()
 {
     qDebug () << "sulje";
     this->close();
+
+
 }
-
-
 void tapahtumaWindow::on_backwardButton_clicked(bool checked)
 {
+        qDebug() << "decreased by: " <<increment;
+        for (int i = increment; i >= increment - 10;i--) {
+            ui->tapahtumaTable->hideRow(i);
+        }
+        increment -= 10;
+        qDebug() << "decreased by: " <<increment;
 
 }
-
-
 void tapahtumaWindow::on_forwardButton_clicked(bool checked)
 {
-
+        qDebug() << "increased by: " <<increment;
+        for (int i = increment; i < increment + 10;i++) {
+            ui->tapahtumaTable->showRow(i);
+        }
+        increment += 10;
+        qDebug() << "increased by: " <<increment;
 }
-
