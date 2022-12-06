@@ -79,7 +79,6 @@ void nostoSummaWindow::balanceSlot(QNetworkReply *reply) // Tämä toimii, kerto
     reply->deleteLater();
         balanceManager->deleteLater();
 
-
 }
 
 
@@ -163,6 +162,7 @@ void nostoSummaWindow::countMoney(double x, double amount)    //tämä funktio t
         balance = QString::number(x);
         ui->kyhny_info->setText("Massia jäljellä: " +balance);
     }
+
 }
 
 

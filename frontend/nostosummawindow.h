@@ -53,6 +53,7 @@ private:
     QString balance;
     QNetworkAccessManager *nostoManager;
     QNetworkAccessManager *balanceManager;
+
     QNetworkReply *reply;
     QByteArray response_data;
 
