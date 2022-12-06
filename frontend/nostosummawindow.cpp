@@ -26,6 +26,7 @@ nostoSummaWindow::nostoSummaWindow(QByteArray token, QString myCard, QWidget *pa
     reply = nostoManager->get(request);
     qDebug()<<"Tilinumero on:" << myCard;
     ui->tiliLabel->setText(myCard);
+    ui->kuittiButton->hide();
 // Tämä toimii oikein hienosti
 }
 
@@ -162,7 +163,17 @@ void nostoSummaWindow::countMoney(double x, double amount)    //tämä funktio t
 
         balance = QString::number(x);
         ui->kyhny_info->setText("Massia jäljellä: " +balance);
+
+        ui->kuittiButton->show();
     }
+
 }
 
+
+
+void nostoSummaWindow::on_kuittiButton_clicked()
+{
+    objectkuittiwindow = new kuittiwindow();
+    objectkuittiwindow->show();
+}
 
