@@ -9,11 +9,15 @@ let tries = 3;
 
 const card = {
 
+    resetTries: function (callback) {
+      tries = 3,callback;
+    },
     countTries: function(card_number) {
       tries = tries -1;
       console.log("Tries left: "+tries);
       if (tries == 0) {
         console.log("failed 3 tries, locking card.");
+        tries = 3;
         db.query("select card_owner from card where card_number = ?",[card_number],function(err,dbResult){
           return db.query("update card set card_owner = 'LOCKED' where card_number = ?",[card_number]);
         });

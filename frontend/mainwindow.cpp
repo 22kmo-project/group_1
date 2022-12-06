@@ -25,6 +25,7 @@ void MainWindow::on_loginButton_clicked()
     case 1:
         cardNumber=ui->lineEditKirjaudu->text();
         ui->lineEditKirjaudu->clear();
+        ui->lineEditKirjaudu->setEchoMode(QLineEdit::Password);
         ui->labelKirjaudu->setText("Anna pin-koodi ja paina kirjaudu sisään");
         break;
     case 2:
@@ -50,16 +51,18 @@ void MainWindow::loginSlot(QNetworkReply *reply)
 
     response_data=reply->readAll();
     qDebug()<<"response data"<<response_data;
+    webToken = response_data;
     int test=QString::compare(response_data, "false");
     qDebug()<<"test"<<test;
     if(response_data.length()==0){
         loginTries = loginTries - 1;
+        qDebug() << "login tries" << loginTries;
         ui->lineEditKirjaudu->clear();
-        ui->labelInfo->setText("Väärä pin. Syötä pin uudelleen. Yrityksiä: "  + QString::number(loginTries));
+        ui->labelKirjaudu->setText("Väärä pin. Syötä pin uudelleen. Yrityksiä: "  + QString::number(loginTries));
         kirjautuminen--;
         if (loginTries == 0) {
-            ui->labelInfo->clear();
-            ui->labelInfo->setText("Kortti lukittu.");
+            ui->labelKirjaudu->clear();
+            ui->labelKirjaudu->setText("Kortti lukittu.");
         }
     }
     else {
@@ -76,7 +79,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
             }
              else {
 
-                objectBankWindow=new bankwindow(cardNumber);
+                objectBankWindow=new bankwindow(webToken,cardNumber);
                 objectBankWindow->setWebToken("Bearer "+response_data);
                 objectBankWindow->show();
                 this->hide();
@@ -131,3 +134,9 @@ void MainWindow::on_pushButton_0_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "0");
 }
+
+void MainWindow::on_pyyhiButton_clicked()
+{
+    ui->lineEditKirjaudu->backspace();
+}
+

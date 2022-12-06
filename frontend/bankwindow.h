@@ -22,7 +22,7 @@ class bankwindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit bankwindow(QString cardnum,QWidget *parent = nullptr);
+    explicit bankwindow(QByteArray webToken, QString cardNumber,QWidget *parent = nullptr);
     ~bankwindow();
     const QString &getWebToken() const;
     void setWebToken(const QByteArray &newWebToken);
@@ -38,7 +38,7 @@ private slots:
     void on_kirjauduUlosButton_clicked();
 private:
     Ui::bankwindow *ui;
-    QByteArray webToken;
+    QByteArray token;
     QString myCard;
     nostoSummaWindow *objectnostoSummaWindow;
     tapahtumaWindow *objecttapahtumaWindow;

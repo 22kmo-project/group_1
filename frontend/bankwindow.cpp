@@ -4,7 +4,7 @@
 #include "nostosummawindow.h"
 
 
-bankwindow::bankwindow(QString cardNumber,QWidget *parent) :
+bankwindow::bankwindow(QByteArray webToken,QString cardNumber,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::bankwindow)
 {
@@ -13,7 +13,9 @@ bankwindow::bankwindow(QString cardNumber,QWidget *parent) :
     ui->labelLocked->hide();
     //ui->labelAccount->setText(cardNumber);
     myCard=cardNumber;
-    qDebug()<<"constru crdnumber"<<cardNumber;
+    token = webToken;
+    qDebug()<<"constru webtoken"<<token;
+    qDebug()<<"constru crdnumber"<<myCard;
     QString site_url=url::getBaseUrl()+"cards/"+myCard;
     QNetworkRequest request((site_url));
     //WEBTOKEN ALKU
@@ -38,14 +40,14 @@ bankwindow::~bankwindow()
 
 void bankwindow::setWebToken(const QByteArray &newWebToken)
 {
-    webToken = newWebToken;
+    token = newWebToken;
 }
 
 
 void bankwindow::on_saldoButton_clicked()
 {
     qDebug () << "saldo";
-    objectsaldoWindow = new saldoWindow(webToken,myCard);
+    objectsaldoWindow = new saldoWindow(token,myCard);
     objectsaldoWindow->show();
     this->close();
 }
@@ -54,7 +56,7 @@ void bankwindow::on_saldoButton_clicked()
 void bankwindow::on_tapahtumaButton_clicked()
 {
     qDebug () << "tapahtuma";
-    objecttapahtumaWindow = new tapahtumaWindow(webToken,myCard);
+    objecttapahtumaWindow = new tapahtumaWindow(token,myCard);
     objecttapahtumaWindow->show();
     this->close();
 }
@@ -71,11 +73,13 @@ void bankwindow::dataSlot(QNetworkReply *reply)
 
     if (omistaja == "LOCKED") {
         ui->labelLocked->show();
-        ui->labelLocked->document()->setPlainText("KORTTI LUKITTU\n👁👅👁");
-        delay();
+        for (int i = 3; i >= 0;i--) {
+            QString info = "KORTTI LUKITTU\nOhjelma suljetaan "+ QString::number(i) +" kuluttua...";
+            ui->labelLocked->document()->setPlainText(info);
+            delay();
+        }
         this->close();
     }
-
     reply->deleteLater();
     dataManager->deleteLater();
 }
@@ -90,7 +94,7 @@ void bankwindow::openNostoSummaWindow() //nosto nappii
 void bankwindow::on_nostoButton_clicked() // nosto nappii
 {
     qDebug () << "nosto";
-    objectnostoSummaWindow =new nostoSummaWindow(webToken, myCard);
+    objectnostoSummaWindow =new nostoSummaWindow(token, myCard);
     objectnostoSummaWindow->show();
     this->close();
 }
@@ -103,7 +107,8 @@ void bankwindow::on_kirjauduUlosButton_clicked()
 }
 void bankwindow::delay()
 {
-    QTime dieTime= QTime::currentTime().addSecs(2);
+    QTime dieTime= QTime::currentTime().addSecs(1);
     while (QTime::currentTime() < dieTime)
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
+

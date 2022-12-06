@@ -20,7 +20,7 @@ class nostoSummaWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit nostoSummaWindow(QByteArray webToken, QString myCard, QWidget *parent = nullptr);
+    explicit nostoSummaWindow(QByteArray token, QString myCard, QWidget *parent = nullptr);
     ~nostoSummaWindow();
     void setWebToken(const QByteArray &newWebToken);
 

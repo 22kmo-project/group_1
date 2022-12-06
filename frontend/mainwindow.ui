@@ -209,6 +209,19 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QPushButton" name="pyyhiButton">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>90</y>
+      <width>83</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pyyhi</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -216,7 +229,7 @@
      <x>0</x>
      <y>0</y>
      <width>738</width>
-     <height>22</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>

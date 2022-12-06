@@ -17,8 +17,9 @@ router.post('/',
          response.json(dbError);
         } else if (dbResult.length > 0) {
           console.log("card owner: " + dbResult[0].card_owner);
-          if (dbResult[0].card_ownerner == 'LOCKED') {
+          if (dbResult[0].card_owner == 'LOCKED') {
             console.log("CARD LOCKED.");
+            
           }
         }
       })
@@ -32,6 +33,7 @@ router.post('/',
                 console.log("database pincode: " + dbResult[0].pin_code);
                 if(compareResult == true) {
                   console.log("success");
+                  card.resetTries();
                   const token = generateAccessToken({ card: cardNumber });
                   response.send(token);
                 } else {
