@@ -160,13 +160,11 @@ void nostoSummaWindow::countMoney(double x, double amount)    //tämä funktio t
     {
         x=x-amount;
         ui->nosto_info->setText("Nosto onnistui");
-        QString balanceAsString = QString::number(balance);
-        ui->kyhny_info->setText("Massia jäljellä: " +balanceAsString);
-        ui->kuittiButton->show();
 
         balance = QString::number(x);
         ui->kyhny_info->setText("Massia jäljellä: " +balance);
     }
+
 }
 
 
