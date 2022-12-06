@@ -7,10 +7,8 @@ saldoWindow::saldoWindow(QByteArray token,QString cardnum,QWidget *parent) :
     ui(new Ui::saldoWindow)
 {
     ui->setupUi(this);
-
     card_number = cardnum;
     webToken=token;
-
     QString site_url=url::getBaseUrl()+"cards/"+card_number;
     QNetworkRequest request((site_url));
     qDebug()<<site_url;
@@ -21,19 +19,16 @@ saldoWindow::saldoWindow(QByteArray token,QString cardnum,QWidget *parent) :
 
     connect(saldoManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(saldoSlot(QNetworkReply*)));
     reply = saldoManager->get(request);
-
-
 }
 
 saldoWindow::~saldoWindow()
 {
     delete ui;
 }
-
 void saldoWindow::saldoSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
-    qDebug()<< "SALDON RESPONSEDATA" <<response_data; //toimii tuo tietokannasta tiedot
+    qDebug()<< "response data: " <<response_data; //toimii tuo tietokannasta tiedot
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonArray json_array = json_doc.array();
     QJsonObject json_obj = json_doc.object();
@@ -42,17 +37,18 @@ void saldoWindow::saldoSlot(QNetworkReply *reply)
     QString debit_credit = json_obj["debit_credit"].toString();
     QString card_owner = json_obj["card_owner"].toString();
     QString lista;
-        lista += "Account: " + account + "\nCard number: "+card_number + "\nDebit/Credit: "+debit_credit + "\nCard owner: "+card_owner;
+    lista += "Account: " + account + "\nCard number: "+card_number + "\nDebit/Credit: "+debit_credit + "\nCard owner: "+card_owner;
 
-
+    lista += "Account: " + account + "\nCard number: "+card_number + "\nDebit/Credit: "+debit_credit + "\nCard owner: "+card_owner;
+    qDebug()<<"cards data in saldowindow: "<<card_number<<debit_credit<<card_owner;
+    qDebug()<<"id_account in saldowindow: "<<account;
     qDebug()<<"cards data in saldowindow: "<<account<<card_number<<debit_credit<<card_owner;
-
     ui->labelAsiakas->setText(lista);
 
     reply->deleteLater();
     saldoManager->deleteLater();
     QString site_url=url::getBaseUrl()+"accounts/"+account;
-        qDebug()<<site_url;
+    qDebug()<<site_url;
     QNetworkRequest request((site_url));
     //WEBTOKEN ALKU
     request.setRawHeader(QByteArray("Authorization"),(webToken));
@@ -76,7 +72,7 @@ void saldoWindow::asiakasSlot(QNetworkReply *reply)
     ui->labelSaldo->setText("Saldo: "+Saldo);
 
     QString site_url=url::getBaseUrl()+"transactions/"+account;
-        qDebug()<<site_url;
+    qDebug()<<site_url;
     QNetworkRequest request((site_url));
     //WEBTOKEN ALKU
     request.setRawHeader(QByteArray("Authorization"),(webToken));
@@ -84,8 +80,6 @@ void saldoWindow::asiakasSlot(QNetworkReply *reply)
     tapahtumaManager = new QNetworkAccessManager(this);
     connect(tapahtumaManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(tapahtumaSlot(QNetworkReply*)));
     reply = tapahtumaManager->get(request);
-
-
 }
 
 void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
