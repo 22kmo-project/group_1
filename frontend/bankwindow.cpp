@@ -112,3 +112,12 @@ void bankwindow::delay()
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
 
+
+void bankwindow::on_talletusButton_clicked()
+{
+    qDebug () << "talleta";
+    objecttalletusWindow =new talletusWindow(token, myCard);
+    objecttalletusWindow->show();
+    this->close();
+}
+
