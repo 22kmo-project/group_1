@@ -6,14 +6,13 @@
 #include <QHeaderView>
 #include <QMessageBox>
 
-kuittiwindow::kuittiwindow(QByteArray token,QString myCard,QWidget *parent) :
+kuittiwindow::kuittiwindow(QByteArray token,QString cardnum,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::kuittiwindow)
 {
     ui->setupUi(this);
     webToken = token;
-    card_number = myCard;
-    qDebug()<<card_number;
+    card_number = cardnum;
     ui->kuittiTable->setRowCount(10);
     ui->kuittiTable->setColumnCount(6);
 
@@ -26,7 +25,6 @@ kuittiwindow::kuittiwindow(QByteArray token,QString myCard,QWidget *parent) :
     ui->kuittiTable->setGeometry(QApplication::desktop()->screenGeometry());
     QString site_url=url::getBaseUrl()+"cards/" + card_number;
     QNetworkRequest request((site_url));
-    qDebug()<<site_url;
     //WEBTOKEN ALKU
     request.setRawHeader(QByteArray("Authorization"),(webToken));
     //WEBTOKEN LOPPU
@@ -45,7 +43,6 @@ kuittiwindow::~kuittiwindow()
 void kuittiwindow::kuittiSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
-    qDebug()<<response_data; //toimii tuo tietokannasta tiedot
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonArray json_array = json_doc.array();
     QJsonObject json_obj = json_doc.object();
@@ -61,7 +58,6 @@ void kuittiwindow::kuittiSlot(QNetworkReply *reply)
     reply->deleteLater();
     kuittiManager->deleteLater();
     QString site_url=url::getBaseUrl()+"transactions/";
-    qDebug()<<site_url;
     QNetworkRequest request((site_url));
     //WEBTOKEN ALKU
     request.setRawHeader(QByteArray("Authorization"),(webToken));
@@ -81,6 +77,9 @@ void kuittiwindow::asiakasSlot(QNetworkReply *reply)
     QJsonArray json_array = json_doc.array();
     QJsonArray array = {};
     int rows = 0;
+
+    //TÄÄ ON TODO: pitää hakea vain viimeisin transaction! ui:n pitää olla vähän
+    //isompi ja laittaa sulkemisnappi
 
     for (int i = 0; i < json_array.size();i++) {
         array.insert(i,json_array.at(i));

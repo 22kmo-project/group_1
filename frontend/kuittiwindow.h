@@ -19,7 +19,7 @@ class kuittiwindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit kuittiwindow(QByteArray token,QString myCard,QWidget *parent = nullptr);
+    explicit kuittiwindow(QByteArray token,QString cardnum,QWidget *parent = nullptr);
     ~kuittiwindow();
     void setWebToken(const QByteArray &newWebToken);
 
