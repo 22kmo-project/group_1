@@ -1,14 +1,14 @@
 #ifndef KUITTIWINDOW_H
 #define KUITTIWINDOW_H
-#include "url.h"
-#include <QWidget>
-#include <QObject>
-#include <QDialog>
-#include <QNetworkAccessManager>
 #include <QtNetwork>
-#include <QJsonDocument>
-#include <QJsonArray>
+#include <QWidget>
+#include <QTableWidget>
+#include <QDialog>
 #include <QDebug>
+#include <QNetworkAccessManager>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include "url.h"
 
 namespace Ui{
 class kuittiwindow;
@@ -19,11 +19,25 @@ class kuittiwindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit kuittiwindow();
+    explicit kuittiwindow(QByteArray token,QString myCard,QWidget *parent = nullptr);
+    ~kuittiwindow();
+    void setWebToken(const QByteArray &newWebToken);
+
+private slots:
+    void kuittiSlot(QNetworkReply *reply);
+    void asiakasSlot(QNetworkReply *reply);
 
 private:
+    QTableWidget* m_pTableWidget;
+    QStringList m_TableHeader;
     Ui::kuittiwindow *ui;
-    kuittiwindow *objectkuittiwindow;
+    QString card_number;
+    QByteArray webToken;
+    QNetworkAccessManager *kuittiManager;
+    QNetworkAccessManager *asiakasManager;
+    QByteArray response_data;
+    QNetworkReply *reply;
+    QString lista;
 };
 
 #endif // KUITTIWINDOW_H

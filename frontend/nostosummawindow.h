@@ -54,6 +54,7 @@ private:
     QByteArray webToken;
     double nosto;
     QString balance;
+    QString myCard;
     QNetworkAccessManager *nostoManager;
     QNetworkAccessManager *balanceManager;
     QNetworkReply *reply;
