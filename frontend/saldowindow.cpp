@@ -2,16 +2,15 @@
 #include "ui_saldowindow.h"
 #include "url.h"
 
-saldoWindow::saldoWindow(QByteArray webToken,QString cardnum,QWidget *parent) :
+saldoWindow::saldoWindow(QByteArray token,QString cardnum,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::saldoWindow)
 {
     ui->setupUi(this);
 
     card_number = cardnum;
+    webToken=token;
 
-
-    qDebug()<<"TOIMI NYT VITTU "<< card_number;
     QString site_url=url::getBaseUrl()+"cards/"+card_number;
     QNetworkRequest request((site_url));
     qDebug()<<site_url;
