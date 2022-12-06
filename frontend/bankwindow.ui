@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>399</width>
+    <height>306</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -107,10 +107,10 @@
   <widget class="QPlainTextEdit" name="labelLocked">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>401</width>
-     <height>301</height>
+     <x>-10</x>
+     <y>-10</y>
+     <width>411</width>
+     <height>321</height>
     </rect>
    </property>
    <property name="font">
@@ -122,6 +122,28 @@
     </font>
    </property>
   </widget>
+  <widget class="QPushButton" name="talletusButton">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>250</y>
+     <width>83</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Talletus</string>
+   </property>
+  </widget>
+  <zorder>labelLocked</zorder>
+  <zorder>labelAccount</zorder>
+  <zorder>saldoButton</zorder>
+  <zorder>tapahtumaButton</zorder>
+  <zorder>nostoButton</zorder>
+  <zorder>kirjauduUlosButton</zorder>
+  <zorder>labelCredit</zorder>
+  <zorder>labelOmistaja</zorder>
+  <zorder>talletusButton</zorder>
  </widget>
  <resources/>
  <connections/>
