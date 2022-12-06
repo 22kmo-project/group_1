@@ -52,7 +52,8 @@ private slots:
 private:
     Ui::nostoSummaWindow *ui;
     QByteArray webToken;
-    double SaldoValue=400; //kovakoodattu että voi testata, saa poistaa
+    double nosto;
+    QString balance;
     QNetworkAccessManager *nostoManager;
     QNetworkAccessManager *balanceManager;
     QNetworkReply *reply;
