@@ -18,6 +18,7 @@ SOURCES += \
     nostosummawindow.cpp \
     nostowindow.cpp \
     saldowindow.cpp \
+    talletuswindow.cpp \
     tapahtumawindow.cpp \
     url.cpp
 
@@ -29,6 +30,7 @@ HEADERS += \
     nostosummawindow.h \
     nostowindow.h \
     saldowindow.h \
+    talletuswindow.h \
     tapahtumawindow.h \
     url.h
 
@@ -40,6 +42,7 @@ FORMS += \
     nostosummawindow.ui \
     nostowindow.ui \
     saldowindow.ui \
+    talletuswindow.ui \
     tapahtumawindow.ui
 
 # Default rules for deployment.

@@ -12,6 +12,7 @@
 #include <QJsonArray>
 #include <Windows.h>
 #include <unistd.h>
+#include "talletuswindow.h"
 
 namespace Ui {
 class bankwindow;
@@ -36,10 +37,13 @@ private slots:
     void on_tapahtumaButton_clicked();
     void on_nostoButton_clicked();
     void on_kirjauduUlosButton_clicked();
+    void on_talletusButton_clicked();
+
 private:
     Ui::bankwindow *ui;
     QByteArray token;
     QString myCard;
+    talletusWindow *objecttalletusWindow;
     nostoSummaWindow *objectnostoSummaWindow;
     tapahtumaWindow *objecttapahtumaWindow;
     saldoWindow *objectsaldoWindow;
