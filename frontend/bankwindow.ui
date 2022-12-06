@@ -122,6 +122,14 @@
     </font>
    </property>
   </widget>
+  <zorder>labelLocked</zorder>
+  <zorder>labelAccount</zorder>
+  <zorder>saldoButton</zorder>
+  <zorder>tapahtumaButton</zorder>
+  <zorder>nostoButton</zorder>
+  <zorder>kirjauduUlosButton</zorder>
+  <zorder>labelCredit</zorder>
+  <zorder>labelOmistaja</zorder>
  </widget>
  <resources/>
  <connections/>

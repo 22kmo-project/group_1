@@ -47,8 +47,6 @@ void MainWindow::on_loginButton_clicked()
 
 void MainWindow::loginSlot(QNetworkReply *reply)
 {
-    //TODO: lisää card locked notif kirjautuessa.
-
     response_data=reply->readAll();
     qDebug()<<"response data"<<response_data;
     webToken = response_data;
@@ -78,7 +76,6 @@ void MainWindow::loginSlot(QNetworkReply *reply)
                 kirjautuminen--;
             }
              else {
-
                 objectBankWindow=new bankwindow(webToken,cardNumber);
                 objectBankWindow->setWebToken("Bearer "+response_data);
                 objectBankWindow->show();
