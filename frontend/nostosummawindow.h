@@ -14,54 +14,32 @@
 #include <QTimer>
 
 
-
-
 namespace Ui {
 class nostoSummaWindow;
 }
-
 class nostoSummaWindow : public QDialog
 {
     Q_OBJECT
-
 public:
     explicit nostoSummaWindow(QByteArray token, QString myCard, QWidget *parent = nullptr);
     ~nostoSummaWindow();
     void setWebToken(const QByteArray &newWebToken);
-
-
 private slots:
     void on_pushButton20e_clicked();
-
     void on_pushButton40e_clicked();
-
     void on_pushButton60e_clicked();
-
     void on_pushButton100e_clicked();
-
     void on_pushButton200e_clicked();
-
     void on_pushButton500e_clicked();
-
     void nostoSlot (QNetworkReply *reply);
-
     void balanceSlot (QNetworkReply *reply);
-
     void updateSlot (QNetworkReply *reply);
-
     void on_suljeButton_clicked();
-
     void delay();
-
     void countMoney(double balance, double amount);
-
     void on_kuittiButton_clicked();
 
-
-
     void on_muuButton_clicked();
-
-
 
     void on_confirmButton_clicked();
 
@@ -75,11 +53,8 @@ private:
     QNetworkAccessManager *balanceManager;
     QNetworkAccessManager *updateManager;
     QString id_account;
-
     QNetworkReply *reply;
     QByteArray response_data;
     kuittiwindow *objectkuittiwindow;
-
 };
-
 #endif // NOSTOSUMMAWINDOW_H

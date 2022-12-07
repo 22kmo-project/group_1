@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Pääkäyttöliittymä</string>
   </property>
   <widget class="QLabel" name="labelAccount">
    <property name="geometry">
@@ -107,16 +107,16 @@
   <widget class="QPlainTextEdit" name="labelLocked">
    <property name="geometry">
     <rect>
-     <x>-10</x>
-     <y>-10</y>
-     <width>411</width>
-     <height>321</height>
+     <x>0</x>
+     <y>0</y>
+     <width>401</width>
+     <height>311</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <family>Impact</family>
-     <pointsize>25</pointsize>
+     <pointsize>20</pointsize>
      <bold>false</bold>
      <strikeout>false</strikeout>
     </font>
@@ -136,15 +136,7 @@
    </property>
   </widget>
   <zorder>labelLocked</zorder>
-  <zorder>labelAccount</zorder>
-  <zorder>saldoButton</zorder>
-  <zorder>tapahtumaButton</zorder>
-  <zorder>nostoButton</zorder>
-  <zorder>kirjauduUlosButton</zorder>
-  <zorder>labelCredit</zorder>
-  <zorder>labelOmistaja</zorder>
   <zorder>talletusButton</zorder>
-  <zorder>labelLocked</zorder>
   <zorder>labelAccount</zorder>
   <zorder>saldoButton</zorder>
   <zorder>tapahtumaButton</zorder>

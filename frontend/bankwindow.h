@@ -17,11 +17,9 @@
 namespace Ui {
 class bankwindow;
 }
-
 class bankwindow : public QDialog
 {
     Q_OBJECT
-
 public:
     explicit bankwindow(QByteArray webToken, QString cardNumber,QWidget *parent = nullptr);
     ~bankwindow();
@@ -39,7 +37,6 @@ private slots:
     void on_nostoButton_clicked();
     void on_kirjauduUlosButton_clicked();
     void on_talletusButton_clicked();
-
 private:
     Ui::bankwindow *ui;
     QByteArray token;
@@ -52,5 +49,4 @@ private:
     QNetworkReply *reply;
     QByteArray response_data;
 };
-
 #endif // BANKWINDOW_H

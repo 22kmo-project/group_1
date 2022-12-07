@@ -17,17 +17,15 @@ class kuittiwindow;
 class kuittiwindow : public QDialog
 {
     Q_OBJECT
-
 public:
     explicit kuittiwindow(QByteArray token,QString cardnum,QWidget *parent = nullptr);
     ~kuittiwindow();
     void setWebToken(const QByteArray &newWebToken);
     void delay();
-
 private slots:
     void kuittiSlot(QNetworkReply *reply);
     void asiakasSlot(QNetworkReply *reply);
-
+    void on_pushButton_clicked();
 private:
     QTableWidget* m_pTableWidget;
     QStringList m_TableHeader;
@@ -40,5 +38,4 @@ private:
     QNetworkReply *reply;
     QString lista;
 };
-
 #endif // KUITTIWINDOW_H
