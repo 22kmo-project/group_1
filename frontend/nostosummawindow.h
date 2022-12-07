@@ -43,6 +43,8 @@ private slots:
 
     void balanceSlot (QNetworkReply *reply);
 
+    void updateSlot (QNetworkReply *reply);
+
     void on_suljeButton_clicked();
 
     void countMoney(double balance, double amount);
@@ -57,6 +59,8 @@ private:
     QString cardnum;
     QNetworkAccessManager *nostoManager;
     QNetworkAccessManager *balanceManager;
+    QNetworkAccessManager *updateManager;
+    QString id_account;
 
     QNetworkReply *reply;
     QByteArray response_data;

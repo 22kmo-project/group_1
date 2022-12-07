@@ -47,7 +47,7 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
     QJsonObject json_obj = json_doc.object();
     QString omistaja=json_obj["card_owner"].toString();
     QString Saldo=QString::number(json_obj["debit_balance"].toDouble());
-    QString id_account=QString::number(json_obj["id_account"].toInt());
+    id_account=QString::number(json_obj["id_account"].toInt());
 
 
     qDebug()<<Saldo;
@@ -78,9 +78,16 @@ void nostoSummaWindow::balanceSlot(QNetworkReply *reply) // Tämä toimii, kerto
     qDebug()<<"balance on:" << balance;
     ui->kyhny_info->setText("Massia jäljellä: "+balance);
 
-    reply->deleteLater();
-        balanceManager->deleteLater();
+    //reply->deleteLater();
+       // balanceManager->deleteLater();
 
+}
+
+void nostoSummaWindow::updateSlot(QNetworkReply *reply)
+{
+    response_data=reply->readAll();
+    reply->deleteLater();
+    updateManager->deleteLater();
 }
 
 
@@ -160,6 +167,24 @@ void nostoSummaWindow::countMoney(double x, double amount)    //tämä funktio t
     {
         x=x-amount;
         ui->nosto_info->setText("Nosto onnistui");
+        //tästä alkaa juttelu tietokantaan
+        QJsonObject jsonObj;
+        jsonObj.insert("debit_balance",x);
+
+        QString site_url=url::getBaseUrl()+"/accounts/"+id_account;
+        QNetworkRequest request((site_url));
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+        //WEBTOKEN ALKU
+        request.setRawHeader(QByteArray("Authorization"),(webToken));
+        //WEBTOKEN LOPPU
+
+        updateManager = new QNetworkAccessManager(this);
+        connect(updateManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(updateSlot(QNetworkReply*)));
+
+        reply = updateManager->put(request, QJsonDocument(jsonObj).toJson());
+        //tähän loppuu juttelu tietokantaan, viimeistelee juttelun updateSlotissa.
+
 
         balance = QString::number(x);
         ui->kyhny_info->setText("Massia jäljellä: " +balance);
