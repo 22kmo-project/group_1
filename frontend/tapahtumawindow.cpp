@@ -95,31 +95,28 @@ void tapahtumaWindow::asiakasSlot(QNetworkReply *reply)
             if (card_numbers != tapahtumaWindow::card_number) {
                 qDebug() << "ERIT: " << "listasta haettu numero: "<<card_numbers<< "käyttäjän numero: " <<card_number;
             } else {
-
-                positives++;
-                qDebug() << positives;
-                ui->tapahtumaTable->setItem(rows, 0, new QTableWidgetItem(id_transactions));
-                ui->tapahtumaTable->setItem(rows, 1, new QTableWidgetItem(card_numbers));
-                ui->tapahtumaTable->setItem(rows, 2, new QTableWidgetItem(sums));
-                ui->tapahtumaTable->setItem(rows, 3, new QTableWidgetItem(dates));
-                ui->tapahtumaTable->setItem(rows, 4, new QTableWidgetItem(descriptions));
+                rowsOverTen++;
+                qDebug() << rowsOverTen;
+                ui->tapahtumaTable->setItem(totalRows, 0, new QTableWidgetItem(id_transactions));
+                ui->tapahtumaTable->setItem(totalRows, 1, new QTableWidgetItem(card_numbers));
+                ui->tapahtumaTable->setItem(totalRows, 2, new QTableWidgetItem(sums));
+                ui->tapahtumaTable->setItem(totalRows, 3, new QTableWidgetItem(dates));
+                ui->tapahtumaTable->setItem(totalRows, 4, new QTableWidgetItem(descriptions));
                 ui->tapahtumaTable->resizeColumnsToContents();
                 ui->tapahtumaTable->resizeRowsToContents();
-                rows++;
+                totalRows++;
 
-                if (rows >= 10) {
-                    overTen++;
-
-                    ui->tapahtumaTable->hideRow(positives);
+                if (totalRows >= 10) {
+                    maxAmmo++;
+                    ui->tapahtumaTable->hideRow(rowsOverTen);
                 }
-
-
             }
-
         }
-        overTen--;
-        ui->tapahtumaTable->setRowCount(rows);
-        qDebug() << "over ten:" << overTen;
+        maxAmmo--;
+        savedAmmo = maxAmmo;
+        totalAmmoBackup = maxAmmo;
+        ui->tapahtumaTable->setRowCount(totalRows);
+        qDebug() << "over ten:" << maxAmmo;
 
 
     reply->deleteLater();
@@ -129,25 +126,52 @@ void tapahtumaWindow::on_closeButton_clicked()
 {
     qDebug () << "sulje";
     this->close();
-
-
 }
-void tapahtumaWindow::on_backwardButton_clicked(bool checked)
+void tapahtumaWindow::on_backwardButton_clicked()
 {
-        qDebug() << "decreased by: " <<increment;
-        for (int i = increment; i >= increment - 10;i--) {
-            ui->tapahtumaTable->hideRow(i);
+    qDebug() << "lastRowNumber entering back button: " <<lastVisibleRowNumber;
+    qDebug() << "overTen entering back button: " <<maxAmmo;
+    if (lastVisibleRowNumber == 10) {
+        maxAmmo = totalAmmoBackup;
+    } else {
+        if (maxAmmo < 10) {
+            for(int i = lastVisibleRowNumber;i >= lastVisibleRowNumber - maxAmmo;i--) {
+                ui->tapahtumaTable->hideRow(i);
+            }
+            lastVisibleRowNumber -= maxAmmo;
+            maxAmmo = lastVisibleRowNumber;
+        } else if (maxAmmo >= 10){
+            for(int i = lastVisibleRowNumber;i >= lastVisibleRowNumber - 10;i--) {
+                ui->tapahtumaTable->hideRow(i);
+            }
+            lastVisibleRowNumber -= 10;
+            maxAmmo = lastVisibleRowNumber;
         }
-        increment -= 10;
-        qDebug() << "decreased by: " <<increment;
-
+    }
+    qDebug() << "lastRowNumber leaving back button: " <<lastVisibleRowNumber;
+    qDebug() << "overTen leaving back button: " <<maxAmmo;
 }
-void tapahtumaWindow::on_forwardButton_clicked(bool checked)
+void tapahtumaWindow::on_forwardButton_clicked()
 {
-        qDebug() << "increased by: " <<increment;
-        for (int i = increment; i < increment + 10;i++) {
-            ui->tapahtumaTable->showRow(i);
+    if (lastVisibleRowNumber == 10 + maxAmmo) {
+        lastVisibleRowNumber = 10 + maxAmmo;
+    } else {
+        if (maxAmmo >= 10) {
+            for (int i = lastVisibleRowNumber; i < lastVisibleRowNumber + 10;i++) {
+                ui->tapahtumaTable->showRow(i);
+            }
+            lastVisibleRowNumber = lastVisibleRowNumber + 10;
+            maxAmmo = maxAmmo - 10;
+            qDebug() << "lastRowNumber when overTen >= 10: " <<lastVisibleRowNumber;
+        } else if (maxAmmo < 10) {
+            for (int i = lastVisibleRowNumber; i < lastVisibleRowNumber + maxAmmo;i++) {
+                ui->tapahtumaTable->showRow(i);
+            }
+            if (lastVisibleRowNumber != 10 + totalAmmoBackup) {
+                lastVisibleRowNumber = lastVisibleRowNumber + maxAmmo;
+                qDebug() << "lastRowNumber when overTen < 10: " <<lastVisibleRowNumber;
+            }
         }
-        increment += 10;
-        qDebug() << "increased by: " <<increment;
+    }
 }
+
