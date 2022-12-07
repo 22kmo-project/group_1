@@ -186,5 +186,8 @@ void tapahtumaWindow::on_forwardButton_clicked()
             }
         }
     }
+
   }
+}
+
 
