@@ -13,6 +13,7 @@ nostoSummaWindow::nostoSummaWindow(QByteArray token, QString myCard, QWidget *pa
 
     ui->setupUi(this);
     webToken=token;
+    cardnum=myCard;
     QString site_url=url::getBaseUrl()+"cards/"+myCard;
     QNetworkRequest request((site_url));
     qDebug()<<site_url;
@@ -173,7 +174,7 @@ void nostoSummaWindow::countMoney(double x, double amount)    //tämä funktio t
 
 void nostoSummaWindow::on_kuittiButton_clicked()
 {
-    objectkuittiwindow = new kuittiwindow();
+    objectkuittiwindow = new kuittiwindow(webToken, cardnum);
     objectkuittiwindow->show();
 }
 
