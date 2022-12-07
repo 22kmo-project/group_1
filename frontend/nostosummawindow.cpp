@@ -28,6 +28,10 @@ nostoSummaWindow::nostoSummaWindow(QByteArray token, QString myCard, QWidget *pa
     qDebug()<<"Tilinumero on:" << myCard;
     ui->tiliLabel->setText(myCard);
     ui->kuittiButton->hide();
+    ui->lineEdit->hide();
+    ui->muu_info->hide();
+    ui->confirmButton->hide();
+    ui->jakolabel->hide();
 }
 // Tämä toimii oikein hienosti
 
@@ -183,11 +187,13 @@ void nostoSummaWindow::countMoney(double x, double amount)    //tämä funktio t
 
     if(x<amount) // x muuttuja on oma saldo ja amount on nostettava summa
     {
+
         ui->nosto_info->setText("Tilillä ei riittävästi katetta.");
     }
     else
     {
         x=x-amount;
+
         ui->nosto_info->setText("Nosto onnistui");
         //tästä alkaa juttelu tietokantaan
         QJsonObject jsonObj;
@@ -220,8 +226,52 @@ void nostoSummaWindow::countMoney(double x, double amount)    //tämä funktio t
 
 void nostoSummaWindow::on_kuittiButton_clicked()
 {
-    delay();
+
     objectkuittiwindow = new kuittiwindow(webToken, cardnum);
     objectkuittiwindow->show();
+}
+
+
+
+
+void nostoSummaWindow::on_muuButton_clicked()
+{
+    ui->lineEdit->show();
+    ui->muu_info->show();
+    ui->confirmButton->show();
+    delay();
+
+
+}
+
+
+
+
+
+void nostoSummaWindow::on_confirmButton_clicked() //Hei nosta joku järkevä summa on muu_info labelissa
+{
+    ui->nosto_info->setText("");
+    ui->jakolabel->hide();
+    qDebug()<<"Muu summa ok clicked";
+    QString nostoluku;
+    nostoluku=ui->lineEdit->text();
+    ui->lineEdit->clear();
+    ui->muu_info->clear();
+    int y = nostoluku.toDouble();
+    nosto=balance.toDouble();
+    if (y%10==0)    // Antaa nostaa muu summa vain 10 välein, 10..20..30..40...
+    {
+        countMoney(nosto,y);
+    }
+    else
+    {
+        ui->jakolabel->show();
+        qDebug()<<"Nosto luku on virheellinen";
+    }
+
+    delay();
+
+
+
 }
 
