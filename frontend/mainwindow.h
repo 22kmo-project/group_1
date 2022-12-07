@@ -57,9 +57,9 @@ private:
     QNetworkAccessManager *loginManager;
     QNetworkReply *reply;
     QByteArray response_data;
-    QString cardNumber;
+    QString cardNum;
     QString cardPin;
-    QByteArray webToken;
+    QByteArray token;
     int loginTries = 3;
     int kirjautuminen=1;
     QString idAccount;
