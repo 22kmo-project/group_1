@@ -16,7 +16,6 @@ class saldoWindow;
 class saldoWindow : public QDialog
 {
     Q_OBJECT
-
 public:
     explicit saldoWindow(QByteArray token,QString cardNumber,QWidget *parent = nullptr);
     ~saldoWindow();
@@ -26,9 +25,7 @@ private slots:
     void saldoSlot (QNetworkReply *reply);
     void asiakasSlot (QNetworkReply *reply);
     void tapahtumaSlot (QNetworkReply *reply);
-
     void on_suljeButton_clicked();
-
 private:
     Ui::saldoWindow *ui;
     QByteArray webToken;
@@ -39,5 +36,4 @@ private:
     QNetworkAccessManager *tapahtumaManager;
     QNetworkReply *reply;
 };
-
 #endif // SALDOWINDOW_H

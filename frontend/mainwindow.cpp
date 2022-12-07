@@ -8,11 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     qDebug() << "konstruktori";
     ui->labelKirjaudu->setText("Anna kortin numero ja paina kirjaudu sisään");
-
 }
-
-
-
 
 MainWindow::~MainWindow()
 {
@@ -20,7 +16,6 @@ MainWindow::~MainWindow()
     delete ui;
     delete objectKortinValinta;
     objectKortinValinta=nullptr;
-
 }
 
 void MainWindow::delay()
@@ -100,7 +95,6 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     }
     reply->deleteLater();
     loginManager->deleteLater();
-
 }
 void MainWindow::on_peruutaButton_clicked()
 {
@@ -162,4 +156,3 @@ void MainWindow::on_pyyhiButton_clicked()
     ui->lineEditKirjaudu->backspace();
     delay();
 }
-
