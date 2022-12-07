@@ -27,6 +27,8 @@ private slots:
     void kuittiSlot(QNetworkReply *reply);
     void asiakasSlot(QNetworkReply *reply);
 
+    void on_pushButton_clicked();
+
 private:
     QTableWidget* m_pTableWidget;
     QStringList m_TableHeader;

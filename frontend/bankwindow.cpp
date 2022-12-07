@@ -72,6 +72,13 @@ void bankwindow::dataSlot(QNetworkReply *reply)
     qDebug()<<"omistaja: " <<omistaja;
 
     if (omistaja == "LOCKED") {
+        ui->labelOmistaja->hide();
+        ui->labelAccount->hide();
+        ui->labelCredit->hide();
+        ui->kirjauduUlosButton->hide();
+        ui->nostoButton->hide();
+        ui->saldoButton->hide();
+        ui->tapahtumaButton->hide();
         ui->labelLocked->show();
         for (int i = 3; i >= 0;i--) {
             QString info = "KORTTI LUKITTU\nOhjelma suljetaan "+ QString::number(i) +" kuluttua...";

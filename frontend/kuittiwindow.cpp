@@ -13,16 +13,16 @@ kuittiwindow::kuittiwindow(QByteArray token,QString cardnum,QWidget *parent) :
     ui->setupUi(this);
     webToken = token;
     card_number = cardnum;
-    ui->kuittiTable->setRowCount(10);
-    ui->kuittiTable->setColumnCount(6);
 
+    ui->kuittiTable->setRowCount(100);
+    ui->kuittiTable->setColumnCount(6);
     ui->kuittiTable->verticalHeader()->setVisible(false);
     ui->kuittiTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->kuittiTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->kuittiTable->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->kuittiTable->setShowGrid(false);
     ui->kuittiTable->setStyleSheet("QTableView {selection-background-color: green;}");
-    ui->kuittiTable->setGeometry(QApplication::desktop()->screenGeometry());
+
     QString site_url=url::getBaseUrl()+"cards/" + card_number;
     QNetworkRequest request((site_url));
     //WEBTOKEN ALKU
@@ -77,6 +77,7 @@ void kuittiwindow::asiakasSlot(QNetworkReply *reply)
     QJsonArray json_array = json_doc.array();
     QJsonArray array = {};
     int rows = 0;
+    int visibleRows = 0;
 
     //TÄÄ ON TODO: pitää hakea vain viimeisin transaction! ui:n pitää olla vähän
     //isompi ja laittaa sulkemisnappi
@@ -101,13 +102,17 @@ void kuittiwindow::asiakasSlot(QNetworkReply *reply)
             ui->kuittiTable->setItem(rows, 4, new QTableWidgetItem(descriptions));
             ui->kuittiTable->resizeColumnsToContents();
             ui->kuittiTable->resizeRowsToContents();
-            if (rows == 10) {
-                ui->kuittiTable->setRowCount(10);
-            } else {
-                rows++;
-            }
+            visibleRows++;
+            rows++;
         }
     }
+    ui->kuittiTable->setRowCount(visibleRows);
     reply->deleteLater();
     asiakasManager->deleteLater();
 }
+
+void kuittiwindow::on_pushButton_clicked()
+{
+    this->close();
+}
+

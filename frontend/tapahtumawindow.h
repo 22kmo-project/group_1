@@ -10,6 +10,7 @@
 #include <QJsonDocument>
 #include "url.h"
 
+
 namespace Ui {
 class tapahtumaWindow;
 }
@@ -42,12 +43,13 @@ private:
     QByteArray response_data;
     QNetworkReply *reply;
     QString lista;
-    int totalRows = 0;
-    int rowsOverTen = 0;
-    int lastVisibleRowNumber = 10;
-    int maxAmmo = 0;
-    int totalAmmoBackup;
-    int savedAmmo = 0;
+    int totalRows=0;
+    int rowsOverTen=0;
+    int lastVisibleRowNumber=0;
+    int OverTenCounter=0;
+    int resetCounter=0;
+    int minimumRows=0;
+    int lastIncrement;
 };
 
 #endif // TAPAHTUMAWINDOW_H

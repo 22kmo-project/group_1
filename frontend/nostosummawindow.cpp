@@ -176,5 +176,6 @@ void nostoSummaWindow::on_kuittiButton_clicked()
 {
     objectkuittiwindow = new kuittiwindow(webToken, cardnum);
     objectkuittiwindow->show();
+    this->close();
 }
 
