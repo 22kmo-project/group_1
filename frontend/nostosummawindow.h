@@ -1,6 +1,7 @@
 #ifndef NOSTOSUMMAWINDOW_H
 #define NOSTOSUMMAWINDOW_H
 #include "url.h"
+#include "kuittiwindow.h"
 #include <QWidget>
 #include <QObject>
 #include <QDialog>
@@ -46,16 +47,20 @@ private slots:
 
     void countMoney(double balance, double amount);
 
+    void on_kuittiButton_clicked();
+
 private:
     Ui::nostoSummaWindow *ui;
     QByteArray webToken;
     double nosto;
     QString balance;
+    QString cardnum;
     QNetworkAccessManager *nostoManager;
     QNetworkAccessManager *balanceManager;
 
     QNetworkReply *reply;
     QByteArray response_data;
+    kuittiwindow *objectkuittiwindow;
 
 };
 

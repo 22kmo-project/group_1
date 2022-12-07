@@ -14,8 +14,8 @@ MainWindow::~MainWindow()
 {
     qDebug() << "destruktori";
     delete ui;
-    delete objectBankWindow;
-    objectBankWindow=nullptr;
+    delete objectKortinValinta;
+    objectKortinValinta=nullptr;
 
 }
 
@@ -23,7 +23,7 @@ void MainWindow::on_loginButton_clicked()
 {
     switch(kirjautuminen) {
     case 1:
-        cardNumber=ui->lineEditKirjaudu->text();
+        cardNum=ui->lineEditKirjaudu->text();
         ui->lineEditKirjaudu->clear();
         ui->lineEditKirjaudu->setEchoMode(QLineEdit::Password);
         ui->labelKirjaudu->setText("Anna pin-koodi ja paina kirjaudu sisään");
@@ -32,7 +32,7 @@ void MainWindow::on_loginButton_clicked()
         cardPin=ui->lineEditKirjaudu->text();
         ui->labelKirjaudu->setText("");
         QJsonObject jsonObj;
-        jsonObj.insert("card_number",cardNumber);
+        jsonObj.insert("card_number",cardNum);
         jsonObj.insert("pin_code",cardPin);
         QString site_url=url::getBaseUrl()+"login";
         QNetworkRequest request((site_url));
@@ -47,11 +47,9 @@ void MainWindow::on_loginButton_clicked()
 
 void MainWindow::loginSlot(QNetworkReply *reply)
 {
-    //TODO: lisää card locked notif kirjautuessa.
-
     response_data=reply->readAll();
     qDebug()<<"response data"<<response_data;
-    webToken = response_data;
+    token = response_data;
     int test=QString::compare(response_data, "false");
     qDebug()<<"test"<<test;
     if(response_data.length()==0){
@@ -78,10 +76,9 @@ void MainWindow::loginSlot(QNetworkReply *reply)
                 kirjautuminen--;
             }
              else {
-
-                objectBankWindow=new bankwindow(webToken,cardNumber);
-                objectBankWindow->setWebToken("Bearer "+response_data);
-                objectBankWindow->show();
+                objectKortinValinta=new kortinValintaWindow(token,cardNum);
+                objectKortinValinta->setWebToken("Bearer "+response_data);
+                objectKortinValinta->show();
                 this->hide();
              }
         }

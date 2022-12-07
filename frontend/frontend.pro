@@ -12,31 +12,37 @@ CONFIG += c++17
 SOURCES += \
     bankwindow.cpp \
     kortinvalintawindow.cpp \
+    kuittiwindow.cpp \
     main.cpp \
     mainwindow.cpp \
     nostosummawindow.cpp \
     nostowindow.cpp \
     saldowindow.cpp \
+    talletuswindow.cpp \
     tapahtumawindow.cpp \
     url.cpp
 
 HEADERS += \
     bankwindow.h \
     kortinvalintawindow.h \
+    kuittiwindow.h \
     mainwindow.h \
     nostosummawindow.h \
     nostowindow.h \
     saldowindow.h \
+    talletuswindow.h \
     tapahtumawindow.h \
     url.h
 
 FORMS += \
     bankwindow.ui \
     kortinvalintawindow.ui \
+    kuittiwindow.ui \
     mainwindow.ui \
     nostosummawindow.ui \
     nostowindow.ui \
     saldowindow.ui \
+    talletuswindow.ui \
     tapahtumawindow.ui
 
 # Default rules for deployment.
