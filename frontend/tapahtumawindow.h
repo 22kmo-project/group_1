@@ -24,14 +24,10 @@ public:
     void setWebToken(const QByteArray &newWebToken);
 
 private slots:
-    void on_forwardButton_clicked();
-    void on_backwardButton_clicked();
     void on_closeButton_clicked();
     void tapahtumaSlot(QNetworkReply *reply);
     void asiakasSlot(QNetworkReply *reply);
-
     void on_backwardButton_clicked(bool checked);
-
     void on_forwardButton_clicked(bool checked);
 
 private:
@@ -45,7 +41,10 @@ private:
     QByteArray response_data;
     QNetworkReply *reply;
     QString lista;
-
+    int rows = 0;
+    int positives = 0;
+    int increment = 10;
+    int overTen = 0;
 };
 
 #endif // TAPAHTUMAWINDOW_H
