@@ -64,6 +64,7 @@ void kortinValintaWindow::dataSlot(QNetworkReply *reply)
 
 void kortinValintaWindow::on_creditButton_clicked()
 {
+
     qDebug()<<"valittu credit";
     objectBankWindow=new bankwindow(webToken,cardNumber);
     objectBankWindow->setWebToken("Bearer "+response_data);
