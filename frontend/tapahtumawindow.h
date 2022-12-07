@@ -27,8 +27,9 @@ private slots:
     void on_closeButton_clicked();
     void tapahtumaSlot(QNetworkReply *reply);
     void asiakasSlot(QNetworkReply *reply);
-    void on_backwardButton_clicked(bool checked);
-    void on_forwardButton_clicked(bool checked);
+    void on_backwardButton_clicked();
+
+    void on_forwardButton_clicked();
 
 private:
     QTableWidget* m_pTableWidget;
@@ -41,10 +42,12 @@ private:
     QByteArray response_data;
     QNetworkReply *reply;
     QString lista;
-    int rows = 0;
-    int positives = 0;
-    int increment = 10;
-    int overTen = 0;
+    int totalRows = 0;
+    int rowsOverTen = 0;
+    int lastVisibleRowNumber = 10;
+    int maxAmmo = 0;
+    int totalAmmoBackup;
+    int savedAmmo = 0;
 };
 
 #endif // TAPAHTUMAWINDOW_H
