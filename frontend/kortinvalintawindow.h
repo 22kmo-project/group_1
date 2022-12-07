@@ -13,7 +13,7 @@ class kortinValintaWindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit kortinValintaWindow(QString cardnum, QWidget *parent = nullptr);
+    explicit kortinValintaWindow(QByteArray token,QString cardNum,QWidget *parent= nullptr);
     ~kortinValintaWindow();
 
     const QString &getWebToken () const;
@@ -22,15 +22,18 @@ public:
 
 private slots:
     void on_creditButton_clicked();
-
     void on_debitButton_clicked();
+
+    void dataSlot (QNetworkReply *reply);
 
 private:
     Ui::kortinValintaWindow *ui;
     bankwindow *objectBankWindow;
     QByteArray webToken;
-    QString myCard;
-
+    QString cardNumber;
+    QNetworkReply *reply;
+    QByteArray response_data;
+    QNetworkAccessManager *dataManager;
 };
 
 #endif // KORTINVALINTAWINDOW_H
