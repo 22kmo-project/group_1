@@ -6,7 +6,6 @@ kortinValintaWindow::kortinValintaWindow(QByteArray token,QString cardNum,QWidge
     ui(new Ui::kortinValintaWindow)
 {
     ui->setupUi(this);
-
     cardNumber=cardNum;
     webToken=token;
     qDebug()<<"kortinvalintawindow webtoken"<<webToken;
@@ -17,7 +16,6 @@ kortinValintaWindow::kortinValintaWindow(QByteArray token,QString cardNum,QWidge
     request.setRawHeader(QByteArray("Authorization"),(webToken));
     //WEBTOKEN LOPPU
     dataManager = new QNetworkAccessManager(this);
-
     connect(dataManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(dataSlot(QNetworkReply*)));
     reply = dataManager->get(request);
 }
@@ -42,7 +40,6 @@ void kortinValintaWindow::delay()
          QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
      qDebug()<<"afkTimer 30sec";
      this->close(); //Tähän pitää keksiä järkevä funktio että menee aloitusnäkymään
-
 }
 
 void kortinValintaWindow::dataSlot(QNetworkReply *reply)
@@ -65,7 +62,6 @@ void kortinValintaWindow::dataSlot(QNetworkReply *reply)
     delay();
 }
 
-
 void kortinValintaWindow::on_creditButton_clicked()
 {
     qDebug()<<"valittu credit";
@@ -75,7 +71,6 @@ void kortinValintaWindow::on_creditButton_clicked()
     this->close();
 }
 
-
 void kortinValintaWindow::on_debitButton_clicked()
 {
     qDebug()<<"valittu debit";
@@ -84,6 +79,3 @@ void kortinValintaWindow::on_debitButton_clicked()
     objectBankWindow->show();
     this->close();
 }
-
-
-

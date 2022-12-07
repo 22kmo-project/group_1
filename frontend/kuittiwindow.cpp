@@ -32,7 +32,6 @@ kuittiwindow::kuittiwindow(QByteArray token,QString cardnum,QWidget *parent) :
 
     connect(kuittiManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(kuittiSlot(QNetworkReply*)));
     reply = kuittiManager->get(request);
-
 }
 
 kuittiwindow::~kuittiwindow()
@@ -48,7 +47,6 @@ void kuittiwindow::delay()
          QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
      qDebug()<<"afkTimer 30sec";
      this->close(); //Tähän pitää keksiä järkevä funktio että menee aloitusnäkymään
-
 }
 
 void kuittiwindow::kuittiSlot(QNetworkReply *reply)
@@ -57,15 +55,12 @@ void kuittiwindow::kuittiSlot(QNetworkReply *reply)
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonArray json_array = json_doc.array();
     QJsonObject json_obj = json_doc.object();
-
     QString account = QString::number(json_obj["id_account"].toInt());
     QString card_number = QString::number(json_obj["card_number"].toInt());
     QString debit_credit = json_obj["debit_credit"].toString();
     QString card_owner = json_obj["card_owner"].toString();
 
     lista += "Account ID: " + account + "\nCard number: "+card_number + "\nDebit/Credit: "+debit_credit +"\nCard owner: "+card_owner;
-    //ui->labelAsiakas->setText(lista);
-
     reply->deleteLater();
     kuittiManager->deleteLater();
     QString site_url=url::getBaseUrl()+"transactions/";
@@ -89,9 +84,6 @@ void kuittiwindow::asiakasSlot(QNetworkReply *reply)
     QJsonArray array = {};
     int rows = 0;
     int visibleRows = 0;
-
-    //TÄÄ ON TODO: pitää hakea vain viimeisin transaction! ui:n pitää olla vähän
-    //isompi ja laittaa sulkemisnappi
 
     for (int i = 0; i < json_array.size();i++) {
         array.insert(i,json_array.at(i));
@@ -127,4 +119,3 @@ void kuittiwindow::on_pushButton_clicked()
 {
     this->close();
 }
-

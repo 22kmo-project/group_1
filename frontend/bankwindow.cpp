@@ -3,12 +3,10 @@
 #include "url.h"
 #include "nostosummawindow.h"
 
-
 bankwindow::bankwindow(QByteArray webToken,QString cardNumber,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::bankwindow)
 {
-
     ui->setupUi(this);
     ui->labelLocked->hide();
     //ui->labelAccount->setText(cardNumber);
@@ -26,7 +24,6 @@ bankwindow::bankwindow(QByteArray webToken,QString cardNumber,QWidget *parent) :
     connect(dataManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(dataSlot(QNetworkReply*)));
     reply = dataManager->get(request);
 }
-
 bankwindow::~bankwindow()
 {
     delete ui;
@@ -43,7 +40,6 @@ void bankwindow::setWebToken(const QByteArray &newWebToken)
     token = newWebToken;
 }
 
-
 void bankwindow::on_saldoButton_clicked()
 {
     qDebug () << "saldo";
@@ -51,7 +47,6 @@ void bankwindow::on_saldoButton_clicked()
     objectsaldoWindow->show();
     this->close();
 }
-
 
 void bankwindow::on_tapahtumaButton_clicked()
 {
@@ -107,7 +102,6 @@ void bankwindow::on_nostoButton_clicked() // nosto nappii
     this->close();
 }
 
-
 void bankwindow::on_kirjauduUlosButton_clicked()
 {
     qDebug () << "kirjaudu ulos";
@@ -131,7 +125,6 @@ void bankwindow::delay30s()
 
 }
 
-
 void bankwindow::on_talletusButton_clicked()
 {
     qDebug () << "talleta";
@@ -139,4 +132,3 @@ void bankwindow::on_talletusButton_clicked()
     objecttalletusWindow->show();
     this->close();
 }
-
