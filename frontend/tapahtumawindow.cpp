@@ -42,6 +42,17 @@ tapahtumaWindow::~tapahtumaWindow()
 {
     delete ui;
 }
+
+void tapahtumaWindow::delay()
+{
+    int afkTimer=30; //afkTimer=30 tarkoittaa 30 sekuntia. Muokkaa lyhyemmäksi kun testailet.
+    QTime dieTime= QTime::currentTime().addSecs(afkTimer);
+     while (QTime::currentTime() < dieTime)
+         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+     qDebug()<<"afkTimer 30sec";
+     this->close(); //Tähän pitää keksiä järkevä funktio että menee aloitusnäkymään
+
+}
 void tapahtumaWindow::tapahtumaSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
@@ -71,6 +82,7 @@ void tapahtumaWindow::tapahtumaSlot(QNetworkReply *reply)
     asiakasManager = new QNetworkAccessManager(this);
     connect(asiakasManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(asiakasSlot(QNetworkReply*)));
     reply = asiakasManager->get(request);
+
 }
 
 void tapahtumaWindow::asiakasSlot(QNetworkReply *reply)
@@ -135,6 +147,7 @@ void tapahtumaWindow::asiakasSlot(QNetworkReply *reply)
 
     reply->deleteLater();
     asiakasManager->deleteLater();
+    delay();
 }
 void tapahtumaWindow::on_closeButton_clicked()
 {
@@ -203,4 +216,5 @@ void tapahtumaWindow::on_forwardButton_clicked()
     qDebug() << "overTen leaving next button: " <<OverTenCounter;
     qDebug() << "last increment leaving next button: " <<lastIncrement;
 }
+
 

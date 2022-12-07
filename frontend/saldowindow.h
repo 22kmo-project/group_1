@@ -21,6 +21,7 @@ public:
     explicit saldoWindow(QByteArray token,QString cardNumber,QWidget *parent = nullptr);
     ~saldoWindow();
     void setWebToken(const QByteArray &newWebToken);
+    void delay();
 private slots:
     void saldoSlot (QNetworkReply *reply);
     void asiakasSlot (QNetworkReply *reply);

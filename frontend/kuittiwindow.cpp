@@ -40,6 +40,17 @@ kuittiwindow::~kuittiwindow()
     delete ui;
 }
 
+void kuittiwindow::delay()
+{
+    int afkTimer=30; //afkTimer=30 tarkoittaa 30 sekuntia. Muokkaa lyhyemmäksi kun testailet.
+    QTime dieTime= QTime::currentTime().addSecs(afkTimer);
+     while (QTime::currentTime() < dieTime)
+         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+     qDebug()<<"afkTimer 30sec";
+     this->close(); //Tähän pitää keksiä järkevä funktio että menee aloitusnäkymään
+
+}
+
 void kuittiwindow::kuittiSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
@@ -109,6 +120,7 @@ void kuittiwindow::asiakasSlot(QNetworkReply *reply)
     ui->kuittiTable->setRowCount(visibleRows);
     reply->deleteLater();
     asiakasManager->deleteLater();
+    delay();
 }
 
 void kuittiwindow::on_pushButton_clicked()

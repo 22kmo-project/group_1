@@ -23,6 +23,7 @@ public:
     explicit tapahtumaWindow(QByteArray token,QString myCard,QWidget *parent = nullptr);
     ~tapahtumaWindow();
     void setWebToken(const QByteArray &newWebToken);
+    void delay();
 
 private slots:
     void on_closeButton_clicked();

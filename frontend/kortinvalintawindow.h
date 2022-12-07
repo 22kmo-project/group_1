@@ -19,6 +19,7 @@ public:
     const QString &getWebToken () const;
 
     void setWebToken(const QByteArray &newWebToken);
+    void delay();
 
 private slots:
     void on_creditButton_clicked();

@@ -22,6 +22,7 @@ public:
     explicit kuittiwindow(QByteArray token,QString cardnum,QWidget *parent = nullptr);
     ~kuittiwindow();
     void setWebToken(const QByteArray &newWebToken);
+    void delay();
 
 private slots:
     void kuittiSlot(QNetworkReply *reply);
