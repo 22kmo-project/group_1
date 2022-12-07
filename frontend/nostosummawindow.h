@@ -10,6 +10,9 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QDebug>
+#include <QMovie>
+#include <QTimer>
+
 
 
 namespace Ui {
@@ -46,6 +49,8 @@ private slots:
     void updateSlot (QNetworkReply *reply);
 
     void on_suljeButton_clicked();
+
+    void delay();
 
     void countMoney(double balance, double amount);
 

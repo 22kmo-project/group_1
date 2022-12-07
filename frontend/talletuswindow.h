@@ -21,7 +21,7 @@ class talletusWindow : public QWidget
 public:
     explicit talletusWindow(QByteArray token,QString cardNumber,QWidget *parent = nullptr);
     ~talletusWindow();
-
+    void delay();
 private slots:
     void on_talletaButton_clicked();
     void on_peruutaButton_clicked();

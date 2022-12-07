@@ -82,6 +82,7 @@ void bankwindow::dataSlot(QNetworkReply *reply)
     }
     reply->deleteLater();
     dataManager->deleteLater();
+    delay30s();
 }
 
 void bankwindow::openNostoSummaWindow() //nosto nappii
@@ -110,6 +111,17 @@ void bankwindow::delay()
     QTime dieTime= QTime::currentTime().addSecs(1);
     while (QTime::currentTime() < dieTime)
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+}
+
+void bankwindow::delay30s()
+{
+    int afkTimer=30; //afkTimer=30 tarkoittaa 30 sekuntia. Muokkaa lyhyemmäksi kun testailet.
+    QTime dieTime= QTime::currentTime().addSecs(afkTimer);
+     while (QTime::currentTime() < dieTime)
+         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+     qDebug()<<"afkTimer 30sec";
+     this->close(); //Tähän pitää keksiä järkevä funktio että menee aloitusnäkymään
+
 }
 
 

@@ -25,6 +25,17 @@ saldoWindow::~saldoWindow()
 {
     delete ui;
 }
+
+void saldoWindow::delay()
+{
+    int afkTimer=30; //afkTimer=30 tarkoittaa 30 sekuntia. Muokkaa lyhyemmäksi kun testailet.
+    QTime dieTime= QTime::currentTime().addSecs(afkTimer);
+     while (QTime::currentTime() < dieTime)
+         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+     qDebug()<<"afkTimer 30sec";
+     this->close(); //Tähän pitää keksiä järkevä funktio että menee aloitusnäkymään
+
+}
 void saldoWindow::saldoSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
@@ -80,6 +91,7 @@ void saldoWindow::asiakasSlot(QNetworkReply *reply)
     tapahtumaManager = new QNetworkAccessManager(this);
     connect(tapahtumaManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(tapahtumaSlot(QNetworkReply*)));
     reply = tapahtumaManager->get(request);
+
 }
 
 void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
@@ -102,6 +114,7 @@ void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
 
        reply->deleteLater();
        tapahtumaManager->deleteLater();
+       delay();
 }
 
 void saldoWindow::on_suljeButton_clicked()

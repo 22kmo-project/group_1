@@ -27,6 +27,17 @@ talletusWindow::~talletusWindow()
     delete ui;
 }
 
+void talletusWindow::delay()
+{
+    int afkTimer=30; //afkTimer=30 tarkoittaa 30 sekuntia. Muokkaa lyhyemmäksi kun testailet.
+    QTime dieTime= QTime::currentTime().addSecs(afkTimer);
+     while (QTime::currentTime() < dieTime)
+         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+     qDebug()<<"afkTimer 30sec";
+     this->close(); //Tähän pitää keksiä järkevä funktio että menee aloitusnäkymään
+
+}
+
 void talletusWindow::asiakasSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
@@ -58,6 +69,8 @@ void talletusWindow::saldoSlot(QNetworkReply *reply)
     x = saldo.toDouble();
 
     ui->talletusLabel->setText("Syötä talletettava määrä");
+    delay();
+
 }
 
 void talletusWindow::on_talletaButton_clicked()
@@ -86,6 +99,7 @@ void talletusWindow::on_talletaButton_clicked()
     connect(talletusManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(talletusSlot(QNetworkReply*)));
 
     reply = talletusManager->put(request, QJsonDocument(jsonObj).toJson());
+    delay();
 
 }
 
