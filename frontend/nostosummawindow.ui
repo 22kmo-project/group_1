@@ -211,6 +211,19 @@
     <string>Kuitti</string>
    </property>
   </widget>
+  <widget class="QLabel" name="video">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>90</y>
+     <width>71</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>video</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

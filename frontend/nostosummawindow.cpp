@@ -28,8 +28,10 @@ nostoSummaWindow::nostoSummaWindow(QByteArray token, QString myCard, QWidget *pa
     qDebug()<<"Tilinumero on:" << myCard;
     ui->tiliLabel->setText(myCard);
     ui->kuittiButton->hide();
-// Tämä toimii oikein hienosti
 }
+// Tämä toimii oikein hienosti
+
+
 
 
 nostoSummaWindow::~nostoSummaWindow()
@@ -64,6 +66,7 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
     balanceManager = new QNetworkAccessManager(this);
     connect(balanceManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(balanceSlot(QNetworkReply*)));
     reply = balanceManager->get(request);
+    delay();
 
   }
 
@@ -98,6 +101,7 @@ void nostoSummaWindow::on_pushButton20e_clicked()
     qDebug()<<"20e";
     nosto=balance.toDouble();
     countMoney(nosto,20);
+    delay();
     qDebug()<<nosto;
 
 
@@ -109,6 +113,7 @@ void nostoSummaWindow::on_pushButton40e_clicked()
     qDebug()<<"40e";
     nosto=balance.toDouble();
     countMoney(nosto,40);
+    delay();
     qDebug()<<nosto;;
 }
 
@@ -118,6 +123,7 @@ void nostoSummaWindow::on_pushButton60e_clicked()
     qDebug()<<"60e";
     nosto=balance.toDouble();
     countMoney(nosto,60);
+    delay();
     qDebug()<<nosto;
 }
 
@@ -127,6 +133,7 @@ void nostoSummaWindow::on_pushButton100e_clicked()
     qDebug()<<"100e";
     nosto=balance.toDouble();
     countMoney(nosto,100);
+    delay();
     qDebug()<<nosto;
 }
 
@@ -136,6 +143,7 @@ void nostoSummaWindow::on_pushButton200e_clicked()
     qDebug()<<"200e";
     nosto=balance.toDouble();
     countMoney(nosto,200);
+    delay();
     qDebug()<<nosto;
 }
 
@@ -145,6 +153,7 @@ void nostoSummaWindow::on_pushButton500e_clicked()
     qDebug()<<"500e";
     nosto=balance.toDouble();
     countMoney(nosto,500);
+    delay();
     qDebug()<<nosto;
 
 }
@@ -152,7 +161,20 @@ void nostoSummaWindow::on_pushButton500e_clicked()
 void nostoSummaWindow::on_suljeButton_clicked()
 {
     qDebug () << "sulje";
-    this->close();
+    this->close(); //Tähän pitää keksiä järkevä funktio että menee aloitusnäkymään
+
+
+
+}
+
+void nostoSummaWindow::delay()
+{
+    int afkTimer=30; //afkTimer=30 tarkoittaa 30 sekuntia. Muokkaa lyhyemmäksi kun testailet.
+    QTime dieTime= QTime::currentTime().addSecs(afkTimer);
+     while (QTime::currentTime() < dieTime)
+         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+     qDebug()<<"afkTimer 30sec";
+     this->close(); //Tähän pitää keksiä järkevä funktio että menee aloitusnäkymään
 
 }
 
@@ -198,6 +220,7 @@ void nostoSummaWindow::countMoney(double x, double amount)    //tämä funktio t
 
 void nostoSummaWindow::on_kuittiButton_clicked()
 {
+    delay();
     objectkuittiwindow = new kuittiwindow(webToken, cardnum);
     objectkuittiwindow->show();
 }
