@@ -6,7 +6,7 @@ talletusWindow::talletusWindow(QByteArray token,QString cardNumber,QWidget *pare
     ui(new Ui::talletusWindow)
 {
     ui->setupUi(this);
-
+    ui->labelTalletus->hide();
     card_number = cardNumber;
     webToken=token;
 
@@ -36,6 +36,13 @@ void talletusWindow::delay()
      qDebug()<<"afkTimer 30sec";
      this->close(); //Tähän pitää keksiä järkevä funktio että menee aloitusnäkymään
 
+}
+
+void talletusWindow::talletusDelay()
+{
+    QTime dieTime= QTime::currentTime().addSecs(1);
+    while (QTime::currentTime() < dieTime)
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
 
 void talletusWindow::asiakasSlot(QNetworkReply *reply)
@@ -75,7 +82,7 @@ void talletusWindow::saldoSlot(QNetworkReply *reply)
 
 void talletusWindow::on_talletaButton_clicked()
 {
-
+    ui->talletusLabel->clear();
     sum=ui->lineEditMaara->text();
     ui->lineEditMaara->clear();
     qDebug()<<"summa"<<sum;
@@ -99,7 +106,14 @@ void talletusWindow::on_talletaButton_clicked()
     connect(talletusManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(talletusSlot(QNetworkReply*)));
 
     reply = talletusManager->put(request, QJsonDocument(jsonObj).toJson());
-    delay();
+    ui->labelTalletus->show();
+    for (int i = 5; i >= 1;i--) {
+        QString info ="Talletettu summa:" + sum + "\n" + "Uusi saldo: "+ uusiSaldo + "\n Suljetaan " +
+        QString::number(i);
+        ui->labelTalletus->document()->setPlainText(info);
+        talletusDelay();
+    }
+    this->close();
 
 }
 
@@ -115,3 +129,73 @@ void talletusWindow::on_peruutaButton_clicked()
 {
     this->close();
 }
+
+void talletusWindow::on_pushButton_1_clicked()
+{
+    ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "1");
+    delay();
+}
+
+
+void talletusWindow::on_pushButton_2_clicked()
+{
+    ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "2");
+    delay();
+}
+
+
+void talletusWindow::on_pushButton_3_clicked()
+{
+    ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "3");
+    delay();
+}
+
+
+void talletusWindow::on_pushButton_4_clicked()
+{
+    ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "4");
+    delay();
+}
+
+
+void talletusWindow::on_pushButton_5_clicked()
+{
+    ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "5");
+    delay();
+}
+
+
+void talletusWindow::on_pushButton_6_clicked()
+{
+    ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "6");
+    delay();
+}
+
+
+void talletusWindow::on_pushButton_7_clicked()
+{
+    ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "7");
+    delay();
+}
+
+
+void talletusWindow::on_pushButton_8_clicked()
+{
+    ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "8");
+    delay();
+}
+
+
+void talletusWindow::on_pushButton_9_clicked()
+{
+    ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "9");
+    delay();
+}
+
+
+void talletusWindow::on_pushButton_0_clicked()
+{
+    ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "0");
+    delay();
+}
+
