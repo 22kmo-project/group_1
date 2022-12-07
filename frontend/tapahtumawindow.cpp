@@ -163,7 +163,6 @@ void tapahtumaWindow::on_backwardButton_clicked()
     }
     qDebug() << "lastRowNumber leaving back button: " <<lastVisibleRowNumber;
     qDebug() << "overTen leaving back button: " <<maxAmmo;
-    delay();
 }
 void tapahtumaWindow::on_forwardButton_clicked()
 {
@@ -187,6 +186,5 @@ void tapahtumaWindow::on_forwardButton_clicked()
             }
         }
     }
-    delay();
-}
+  }
 
