@@ -198,15 +198,7 @@ void tapahtumaWindow::on_forwardButton_clicked()
         }
         lastVisibleRowNumber = lastVisibleRowNumber + OverTenCounter;
     }
-
-
-  }
-
-
-
-
     qDebug() << "lastRowNumber leaving next button: " <<lastVisibleRowNumber;
     qDebug() << "overTen leaving next button: " <<OverTenCounter;
     qDebug() << "last increment leaving next button: " <<lastIncrement;
 }
-
