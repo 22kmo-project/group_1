@@ -6,14 +6,14 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    MainWindow::setWindowState(Qt::WindowMaximized);
+    //MainWindow::setWindowState(Qt::WindowMaximized);
     qDebug() << "konstruktori";
     ui->labelKirjaudu->setText("Anna kortin numero ja paina kirjaudu sisään");
 }
 
 MainWindow::~MainWindow()
 {
-    qDebug() << "destruktori";
+    qDebug() << "mainwindow destruktori";
     delete ui;
     delete objectKortinValinta;
     objectKortinValinta=nullptr;
@@ -88,6 +88,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
 }
 void MainWindow::on_peruutaButton_clicked()
 {
+
     this->close();
 }
 

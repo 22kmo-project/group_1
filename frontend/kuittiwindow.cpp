@@ -43,6 +43,7 @@ kuittiwindow::kuittiwindow(QByteArray token,QString cardnum,QWidget *parent) :
 
 kuittiwindow::~kuittiwindow()
 {
+    qDebug() << "kuitti destruktori";
     delete ui;
 }
 

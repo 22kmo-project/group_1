@@ -9,7 +9,7 @@ bankwindow::bankwindow(QByteArray webToken,QString cardNumber,bool credit,QWidge
     ui(new Ui::bankwindow)
 {
     ui->setupUi(this);
-    bankwindow::setWindowState(Qt::WindowMaximized);
+    //bankwindow::setWindowState(Qt::WindowMaximized);
     ui->labelLocked->hide();
     ui->timer->setPalette(Qt::red);
     ui->timer->setAutoFillBackground(true);
@@ -44,6 +44,7 @@ bankwindow::bankwindow(QByteArray webToken,QString cardNumber,bool credit,QWidge
 }
 bankwindow::~bankwindow()
 {
+    qDebug() << "bankwindow destruktori";
     delete ui;
     delete objectnostoSummaWindow;
     objectnostoSummaWindow=nullptr;
@@ -51,6 +52,7 @@ bankwindow::~bankwindow()
     objectsaldoWindow=nullptr;
     delete objecttapahtumaWindow;
     objecttapahtumaWindow=nullptr;
+
 }
 
 void bankwindow::setWebToken(const QByteArray &newWebToken)
@@ -90,6 +92,8 @@ void bankwindow::dataSlot(QNetworkReply *reply)
         ui->labelOmistaja->hide();
         ui->labelAccount->hide();
         ui->labelCredit->hide();
+        ui->timer->hide();
+        ui->talletusButton->hide();
         ui->kirjauduUlosButton->hide();
         ui->nostoButton->hide();
         ui->saldoButton->hide();
@@ -124,7 +128,9 @@ void bankwindow::on_nostoButton_clicked()
 
 void bankwindow::on_kirjauduUlosButton_clicked()
 {
-    this->close();
+     MainWindow *main = new MainWindow;
+    main->show();
+    QApplication::quit();
 }
 void bankwindow::delay()
 {

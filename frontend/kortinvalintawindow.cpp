@@ -23,6 +23,7 @@ kortinValintaWindow::kortinValintaWindow(QByteArray token,QString cardNum,QWidge
 
 kortinValintaWindow::~kortinValintaWindow()
 {
+    qDebug() << "kortinvalinta destruktori";
     delete ui;
     delete objectBankWindow;
     objectBankWindow=nullptr;

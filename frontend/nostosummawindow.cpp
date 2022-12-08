@@ -58,6 +58,7 @@ nostoSummaWindow::nostoSummaWindow(QByteArray token, QString myCard, bool cardTy
 }
 nostoSummaWindow::~nostoSummaWindow()
 {
+    qDebug() << "destruktori";
     delete ui;
 }
 void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
