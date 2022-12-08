@@ -7,7 +7,7 @@
 #include <QMessageBox>
 #include "bankwindow.h"
 
-kuittiwindow::kuittiwindow(QByteArray token,QString cardnum,QWidget *parent) :
+kuittiwindow::kuittiwindow(QByteArray token,QString cardnum,bool cardType,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::kuittiwindow)
 {
@@ -15,6 +15,14 @@ kuittiwindow::kuittiwindow(QByteArray token,QString cardnum,QWidget *parent) :
     kuittiwindow::setWindowState(Qt::WindowMaximized);
     webToken = token;
     card_number = cardnum;
+    if(cardType==true)//debit käytössä = false , credit käytössä = true
+    {
+        credit=true;
+    }
+    else
+    {
+        credit=false;
+    }
     ui->timer->setPalette(Qt::red);
     ui->timer->setAutoFillBackground(true);
     QPalette Pal = ui->timer->palette();
@@ -130,8 +138,8 @@ void kuittiwindow::asiakasSlot(QNetworkReply *reply)
 
 void kuittiwindow::on_pushButton_clicked()
 {
-    //saldoWindow *saldo = new saldoWindow(webToken, card_number);
-    //saldo->show();
+    bankwindow *main = new bankwindow(webToken,card_number,credit);
+    main->show();
     close();
 }
 void kuittiwindow::close_window() {

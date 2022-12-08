@@ -18,7 +18,7 @@ class kuittiwindow : public QDialog
 {
     Q_OBJECT
 public:
-    explicit kuittiwindow(QByteArray token,QString cardnum,QWidget *parent = nullptr);
+    explicit kuittiwindow(QByteArray token,QString cardnum,bool cardType,QWidget *parent = nullptr);
     ~kuittiwindow();
     void setWebToken(const QByteArray &newWebToken);
     void delay();
@@ -39,7 +39,7 @@ private:
     QByteArray response_data;
     QNetworkReply *reply;
     QString lista;
+    bool credit;
     int aika;
-    int credit;
 };
 #endif // KUITTIWINDOW_H
