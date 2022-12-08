@@ -282,7 +282,7 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
 }
 void nostoSummaWindow::on_kuittiButton_clicked()
 {
-    objectkuittiwindow = new kuittiwindow(webToken, cardnum);
+    objectkuittiwindow = new kuittiwindow(webToken, cardnum,credit);
     objectkuittiwindow->show();
     this->close();
 }

@@ -88,6 +88,7 @@ void talletusWindow::saldoSlot(QNetworkReply *reply)
 
     saldo=QString::number(json_obj["debit_balance"].toDouble());
     credit_limit=QString::number(json_obj["credit_limit"].toDouble());
+    used_credit=QString::number(json_obj["used_credit"].toDouble());
     qDebug()<<"saldo"<<saldo;
     x = saldo.toDouble();
     ui->talletusLabel->setText("Syötä talletettava määrä");
@@ -115,6 +116,7 @@ void talletusWindow::on_talletaButton_clicked()
     QJsonObject jsonObj;
     jsonObj.insert("debit_balance",talletus);
     jsonObj.insert("credit_limit",credit_limit);
+    jsonObj.insert("used_credit",used_credit);
     QString uusiSaldo = QString::number(talletus);
     ui->saldoLabel->setText("Saldo: " + uusiSaldo);
     ui->summaLabel->setText("Talletettu summa: " + sum);

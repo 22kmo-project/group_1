@@ -54,6 +54,7 @@ private:
     QString sum;
     QString saldo;
     QString credit_limit;
+    QString used_credit;
     double talletus;
     double x;
     int aika;
