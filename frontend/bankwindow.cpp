@@ -63,9 +63,11 @@ void bankwindow::dataSlot(QNetworkReply *reply)
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
     QString omistaja = json_obj["card_owner"].toString();
+    QString cardType = json_obj["debit_credit"].toString();
+
     ui->labelOmistaja->setText(omistaja);
     qDebug()<<"omistaja: " <<omistaja;
-
+    qDebug()<<"kortti: " <<cardType;
     if (omistaja == "LOCKED") {
         ui->labelOmistaja->hide();
         ui->labelAccount->hide();

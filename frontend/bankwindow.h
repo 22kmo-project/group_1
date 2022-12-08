@@ -21,7 +21,7 @@ class bankwindow : public QDialog
 {
     Q_OBJECT
 public:
-    explicit bankwindow(QByteArray webToken, QString cardNumber,QWidget *parent = nullptr);
+    explicit bankwindow(QByteArray webToken,QString cardNumber,QWidget *parent = nullptr);
     ~bankwindow();
     const QString &getWebToken() const;
     void setWebToken(const QByteArray &newWebToken);

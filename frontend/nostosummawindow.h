@@ -13,6 +13,7 @@
 #include <QMovie>
 #include <QTimer>
 
+
 namespace Ui {
 class nostoSummaWindow;
 }
@@ -37,6 +38,11 @@ private slots:
     void delay();
     void countMoney(double balance, double amount);
     void on_kuittiButton_clicked();
+
+    void on_muuButton_clicked();
+
+    void on_confirmButton_clicked();
+
 private:
     Ui::nostoSummaWindow *ui;
     QByteArray webToken;
