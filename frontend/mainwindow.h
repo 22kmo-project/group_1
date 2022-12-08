@@ -47,6 +47,7 @@ private:
     QByteArray token;
     int loginTries = 3;
     int kirjautuminen=1;
+    int var=1;
     QString idAccount;
 };
 #endif // MAINWINDOW_H
