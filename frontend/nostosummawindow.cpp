@@ -43,6 +43,8 @@ nostoSummaWindow::~nostoSummaWindow()
 
 void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
 {
+
+    if(credit==false){
     QByteArray response_data=reply->readAll();
     qDebug()<<response_data;
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
@@ -63,18 +65,56 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
     balanceManager = new QNetworkAccessManager(this);
     connect(balanceManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(balanceSlot(QNetworkReply*)));
     reply = balanceManager->get(request);
+    }
+
+    else{
+        QByteArray response_data=reply->readAll();
+        qDebug()<<response_data;
+        QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+        QJsonObject json_obj = json_doc.object();
+        QString omistaja=json_obj["card_owner"].toString();
+        QString Saldo=QString::number(json_obj["credit_limit"].toDouble());
+
+        id_account=QString::number(json_obj["id_account"].toInt());
+        qDebug()<<Saldo;
+        ui->nimi_label->setText(omistaja);
+        qDebug()<<"Omistajan nimi on:" << omistaja;
+        QString site_url=url::getBaseUrl()+"accounts/"+id_account;
+        QNetworkRequest request((site_url));
+        qDebug()<<site_url;
+        //WEBTOKEN ALKU
+        request.setRawHeader(QByteArray("Authorization"),(webToken));
+        //WEBTOKEN LOPPU
+        balanceManager = new QNetworkAccessManager(this);
+        connect(balanceManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(balanceSlot(QNetworkReply*)));
+        reply = balanceManager->get(request);
+    }
     delay();
   }
 
 void nostoSummaWindow::balanceSlot(QNetworkReply *reply)
 {
+    if(credit==false){
     QByteArray response_data=reply->readAll();
     qDebug()<<response_data;
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
     balance=QString::number(json_obj["debit_balance"].toDouble());
+    creditLimit = QString::number(json_obj["credit_limit"].toDouble());
+    QString debitBalance =QString::number(json_obj["debit_balance"].toDouble());
     qDebug()<<"balance on:" << balance;
     ui->kyhny_info->setText("Tilillä katetta: "+balance);
+    }
+    else{
+        QByteArray response_data=reply->readAll();
+        qDebug()<<response_data;
+        QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+        QJsonObject json_obj = json_doc.object();
+        balance=QString::number(json_obj["credit_limit"].toDouble());
+        debitBalance = QString::number(json_obj["debit_balance"].toDouble());
+        qDebug()<<"balance on:" << balance;
+        ui->kyhny_info->setText("Käytettävissä: "+balance);
+    }
 }
 
 void nostoSummaWindow::updateSlot(QNetworkReply *reply)
@@ -161,7 +201,8 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
 
         ui->nosto_info->setText("Tilillä ei riittävästi katetta.");
     }
-    else
+
+     if(credit==false)
     {
 
 
@@ -171,6 +212,7 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
         ui->nosto_info->setText("Nosto onnistui");
         QJsonObject jsonObj;
         jsonObj.insert("debit_balance",omaSaldo);
+        jsonObj.insert("credit_limit",creditLimit);
         QString site_url=url::getBaseUrl()+"/accounts/"+id_account;
         QNetworkRequest request((site_url));
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -184,6 +226,31 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
         ui->kyhny_info->setText("Massia jäljellä: " +balance);
         ui->kuittiButton->show();
     }
+    else if (credit==true)
+    {
+
+
+
+        omaSaldo=omaSaldo-nostoSumma;
+
+        ui->nosto_info->setText("Nosto onnistui");
+        QJsonObject jsonObj;
+        jsonObj.insert("credit_limit",omaSaldo);
+        jsonObj.insert("debit_balance",debitBalance);
+        QString site_url=url::getBaseUrl()+"/accounts/"+id_account;
+        QNetworkRequest request((site_url));
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+        //WEBTOKEN ALKU
+        request.setRawHeader(QByteArray("Authorization"),(webToken));
+        //WEBTOKEN LOPPU
+        updateManager = new QNetworkAccessManager(this);
+        connect(updateManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(updateSlot(QNetworkReply*)));
+        reply = updateManager->put(request, QJsonDocument(jsonObj).toJson());
+        balance = QString::number(omaSaldo);
+        ui->kyhny_info->setText("Luottoa jäljellä" +balance);
+        ui->kuittiButton->show();
+    }
+
 }
 
 void nostoSummaWindow::on_kuittiButton_clicked()
