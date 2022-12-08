@@ -70,7 +70,7 @@ void bankwindow::on_saldoButton_clicked()
 void bankwindow::on_tapahtumaButton_clicked()
 {
     qDebug () << "tapahtuma";
-    objecttapahtumaWindow = new tapahtumaWindow(token,myCard);
+    objecttapahtumaWindow = new tapahtumaWindow(token,myCard,cardType);
     objecttapahtumaWindow->show();
     this->close();
 }
@@ -144,7 +144,7 @@ void bankwindow::delay()
 void bankwindow::on_talletusButton_clicked()
 {
     qDebug () << "talleta";
-    objecttalletusWindow =new talletusWindow(token, myCard);
+    objecttalletusWindow =new talletusWindow(token, myCard, cardType);
     objecttalletusWindow->show();
     this->close();
 }

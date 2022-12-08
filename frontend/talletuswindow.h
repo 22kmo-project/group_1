@@ -19,7 +19,7 @@ class talletusWindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit talletusWindow(QByteArray token,QString cardNumber,QWidget *parent = nullptr);
+    explicit talletusWindow(QByteArray token,QString cardNumber,bool cardType,QWidget *parent = nullptr);
     ~talletusWindow();
     void delay();
     void talletusDelay();
@@ -39,6 +39,8 @@ private slots:
     void on_pushButton_8_clicked();
     void on_pushButton_9_clicked();
     void on_pushButton_0_clicked();
+    void on_pyyhiButton_clicked();
+
 private:
     Ui::talletusWindow *ui;
     QByteArray webToken;
@@ -51,6 +53,7 @@ private:
     QByteArray response_data;
     QString sum;
     QString saldo;
+    QString credit_limit;
     double talletus;
     double x;
     int aika;
