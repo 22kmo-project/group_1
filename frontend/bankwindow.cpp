@@ -1,4 +1,5 @@
 #include "bankwindow.h"
+#include "mainwindow.h"
 #include "ui_bankwindow.h"
 #include "url.h"
 #include "nostosummawindow.h"
@@ -9,6 +10,15 @@ bankwindow::bankwindow(QByteArray webToken,QString cardNumber,bool credit,QWidge
 {
     ui->setupUi(this);
     ui->labelLocked->hide();
+
+    ui->timer->setPalette(Qt::red);
+
+    ui->timer->setAutoFillBackground(true);
+    QPalette Pal = ui->timer->palette();
+    Pal.setColor(QPalette::Normal, QPalette::WindowText, Qt::black);
+    Pal.setColor(QPalette::Normal, QPalette::Window, Qt::red);
+    ui->timer->setPalette(Pal);
+
     qDebug()<<"kortti on"<<credit;
     if(credit==true)
     {
@@ -20,7 +30,6 @@ bankwindow::bankwindow(QByteArray webToken,QString cardNumber,bool credit,QWidge
         cardType=false;
     }
     qDebug()<<"cardtype"<<cardType;
-    //ui->labelAccount->setText(cardNumber);
     myCard=cardNumber;
     token = webToken;
     qDebug()<<"constru webtoken"<<token;
@@ -31,7 +40,6 @@ bankwindow::bankwindow(QByteArray webToken,QString cardNumber,bool credit,QWidge
     request.setRawHeader(QByteArray("Authorization"),(webToken));
     //WEBTOKEN LOPPU
     dataManager = new QNetworkAccessManager(this);
-
     connect(dataManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(dataSlot(QNetworkReply*)));
     reply = dataManager->get(request);
 }
@@ -97,7 +105,14 @@ void bankwindow::dataSlot(QNetworkReply *reply)
     }
     reply->deleteLater();
     dataManager->deleteLater();
-    delay30s();
+    for (int i = 30; i >= 0; i--) {
+        delay30s();
+        ui->timer->display(i);
+    }
+    MainWindow *main = new MainWindow;
+    main->show();
+    close();
+
 }
 
 void bankwindow::openNostoSummaWindow() //nosto nappii
@@ -117,8 +132,9 @@ void bankwindow::on_nostoButton_clicked() // nosto nappii
 
 void bankwindow::on_kirjauduUlosButton_clicked()
 {
-    qDebug () << "kirjaudu ulos";
-    this->close();
+    MainWindow *main = new MainWindow;
+    main->show();
+    close();
 }
 void bankwindow::delay()
 {
@@ -129,13 +145,11 @@ void bankwindow::delay()
 
 void bankwindow::delay30s()
 {
-    int afkTimer=30; //afkTimer=30 tarkoittaa 30 sekuntia. Muokkaa lyhyemmäksi kun testailet.
+    int afkTimer=1;
     QTime dieTime= QTime::currentTime().addSecs(afkTimer);
-     while (QTime::currentTime() < dieTime)
+     while (QTime::currentTime() < dieTime) {
          QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-     qDebug()<<"afkTimer 30sec";
-     this->close(); //Tähän pitää keksiä järkevä funktio että menee aloitusnäkymään
-
+     }
 }
 
 void bankwindow::on_talletusButton_clicked()
@@ -145,3 +159,5 @@ void bankwindow::on_talletusButton_clicked()
     objecttalletusWindow->show();
     this->close();
 }
+
+

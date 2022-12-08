@@ -1,6 +1,7 @@
 #include "saldowindow.h"
 #include "ui_saldowindow.h"
 #include "url.h"
+#include "bankwindow.h"
 
 saldoWindow::saldoWindow(QByteArray token,QString cardnum,QWidget *parent) :
     QDialog(parent),
@@ -18,6 +19,7 @@ saldoWindow::saldoWindow(QByteArray token,QString cardnum,QWidget *parent) :
     saldoManager = new QNetworkAccessManager(this);
     connect(saldoManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(saldoSlot(QNetworkReply*)));
     reply = saldoManager->get(request);
+
 }
 
 saldoWindow::~saldoWindow()
@@ -27,12 +29,11 @@ saldoWindow::~saldoWindow()
 
 void saldoWindow::delay()
 {
-    int afkTimer=30;
+    int afkTimer=1;
     QTime dieTime= QTime::currentTime().addSecs(afkTimer);
-     while (QTime::currentTime() < dieTime)
+     while (QTime::currentTime() < dieTime) {
          QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-     qDebug()<<"afkTimer 30sec";
-     this->close();
+     }
 }
 void saldoWindow::saldoSlot(QNetworkReply *reply)
 {
@@ -64,6 +65,14 @@ void saldoWindow::saldoSlot(QNetworkReply *reply)
     asiakasManager = new QNetworkAccessManager(this);
     connect(asiakasManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(asiakasSlot(QNetworkReply*)));
     reply = asiakasManager->get(request);
+
+    for (int i = 10; i >= 0; i--) {
+        delay();
+        ui->timer->display(i);
+    }
+    bankwindow *main = new bankwindow(webToken,card_number,credit);
+    main->show();
+    close();
 }
 
 void saldoWindow::asiakasSlot(QNetworkReply *reply)
@@ -106,10 +115,12 @@ void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
        ui->labelTapahtuma->setText(lista);
        reply->deleteLater();
        tapahtumaManager->deleteLater();
-       delay();
+
 }
 
 void saldoWindow::on_suljeButton_clicked()
 {
-    this->close();
+    bankwindow *bank = new bankwindow(webToken, card_number,credit);
+    bank->show();
+    close();
 }

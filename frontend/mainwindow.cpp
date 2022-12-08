@@ -18,16 +18,6 @@ MainWindow::~MainWindow()
     objectKortinValinta=nullptr;
 }
 
-void MainWindow::delay()
-{
-    int afkTimer=30; //afkTimer=30 tarkoittaa 30 sekuntia. Muokkaa lyhyemmäksi kun testailet.
-        QTime dieTime= QTime::currentTime().addSecs(afkTimer);
-         while (QTime::currentTime() < dieTime)
-             QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-         qDebug()<<"afkTimer 30sec";
-         this->close(); //Tähän pitää keksiä järkevä funktio että menee aloitusnäkymään
-}
-
 void MainWindow::on_loginButton_clicked()
 {
     switch(kirjautuminen) {
@@ -52,7 +42,7 @@ void MainWindow::on_loginButton_clicked()
         break;
     }
     kirjautuminen++;
-    delay();
+
 }
 
 void MainWindow::loginSlot(QNetworkReply *reply)
@@ -100,59 +90,52 @@ void MainWindow::on_peruutaButton_clicked()
 {
     this -> close();
 }
+void MainWindow::showWindow() {
+    show();
+}
+
 void MainWindow::on_pushButton_1_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "1");
-    delay();
 }
 void MainWindow::on_pushButton_2_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "2");
-    delay();
 }
 void MainWindow::on_pushButton_3_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "3");
-    delay();
 }
 void MainWindow::on_pushButton_4_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "4");
-    delay();
 }
 void MainWindow::on_pushButton_5_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "5");
-    delay();
 }
 void MainWindow::on_pushButton_6_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "6");
-    delay();
 }
 void MainWindow::on_pushButton_7_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "7");
-    delay();
 }
 void MainWindow::on_pushButton_8_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "8");
-    delay();
 }
 void MainWindow::on_pushButton_9_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "9");
-    delay();
 }
 void MainWindow::on_pushButton_0_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "0");
-    delay();
 }
 
 void MainWindow::on_pyyhiButton_clicked()
 {
     ui->lineEditKirjaudu->backspace();
-    delay();
 }

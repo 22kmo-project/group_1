@@ -35,5 +35,6 @@ private:
     QNetworkAccessManager *asiakasManager;
     QNetworkAccessManager *tapahtumaManager;
     QNetworkReply *reply;
+    bool credit;
 };
 #endif // SALDOWINDOW_H

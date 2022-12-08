@@ -20,7 +20,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void delay();
+public slots:
+    void showWindow();
 private slots:
     void loginSlot (QNetworkReply *reply);
     void on_loginButton_clicked();
