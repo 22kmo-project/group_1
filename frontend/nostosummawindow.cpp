@@ -79,8 +79,8 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
         QJsonObject json_obj = json_doc.object();
         QString omistaja=json_obj["card_owner"].toString();
         QString Saldo=QString::number(json_obj["credit_limit"].toDouble());
-
         id_account=QString::number(json_obj["id_account"].toInt());
+
         qDebug()<<Saldo;
         ui->nimi_label->setText(omistaja);
         qDebug()<<"Omistajan nimi on:" << omistaja;
@@ -104,6 +104,7 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
   }
 void nostoSummaWindow::balanceSlot(QNetworkReply *reply)
 {
+
     if(credit==false){
     QByteArray response_data=reply->readAll();
     qDebug()<<response_data;
@@ -111,7 +112,7 @@ void nostoSummaWindow::balanceSlot(QNetworkReply *reply)
     QJsonObject json_obj = json_doc.object();
     balance=QString::number(json_obj["debit_balance"].toDouble());
     creditLimit = QString::number(json_obj["credit_limit"].toDouble());
-    QString debitBalance =QString::number(json_obj["debit_balance"].toDouble());
+    usedCredit = QString::number(json_obj["used_credit"].toDouble());
     qDebug()<<"balance on:" << balance;
     ui->kyhny_info->setText("Tilillä katetta: "+balance);
     }
@@ -120,10 +121,11 @@ void nostoSummaWindow::balanceSlot(QNetworkReply *reply)
         qDebug()<<response_data;
         QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
         QJsonObject json_obj = json_doc.object();
-        balance=QString::number(json_obj["credit_limit"].toDouble());
+        balance=QString::number(json_obj["used_credit"].toDouble());
         debitBalance = QString::number(json_obj["debit_balance"].toDouble());
+        creditLimit = QString::number(json_obj["credit_limit"].toDouble());
         qDebug()<<"balance on:" << balance;
-        ui->kyhny_info->setText("Käytettävissä: "+balance);
+        ui->kyhny_info->setText("Luottoraja on: "+creditLimit + "\nKäytetty: " + balance);
     }
 }
 
@@ -224,6 +226,7 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
         QJsonObject jsonObj;
         jsonObj.insert("debit_balance",omaSaldo);
         jsonObj.insert("credit_limit",creditLimit);
+        jsonObj.insert("used_credit",usedCredit);
         QString site_url=url::getBaseUrl()+"/accounts/"+id_account;
         QNetworkRequest request((site_url));
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -239,12 +242,12 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
     }
   else if (credit==true)
     {
-        omaSaldo=omaSaldo-nostoSumma;
-
+        omaSaldo=omaSaldo+nostoSumma;
         ui->nosto_info->setText("Nosto onnistui");
         QJsonObject jsonObj;
-        jsonObj.insert("credit_limit",omaSaldo);
+        jsonObj.insert("credit_limit",creditLimit);
         jsonObj.insert("debit_balance",debitBalance);
+        jsonObj.insert("used_credit",omaSaldo);
         QString site_url=url::getBaseUrl()+"/accounts/"+id_account;
         QNetworkRequest request((site_url));
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -255,7 +258,8 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
         connect(updateManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(updateSlot(QNetworkReply*)));
         reply = updateManager->put(request, QJsonDocument(jsonObj).toJson());
         balance = QString::number(omaSaldo);
-        ui->kyhny_info->setText("Luottoa jäljellä" +balance);
+        QString nostettu = QString::number(nostoSumma);
+        ui->kyhny_info->setText("Nostettu: "+nostettu);
         ui->kuittiButton->show();
     }
 }

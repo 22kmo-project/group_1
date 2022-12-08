@@ -10,6 +10,7 @@ talletusWindow::talletusWindow(QByteArray token,QString cardNumber,bool cardType
     ui->labelTalletus->hide();
     card_number = cardNumber;
     webToken=token;
+    qDebug()<<"tokeni"<<webToken;
     if(cardType==true)//debit käytössä = false , credit käytössä = true
     {
         credit=true;

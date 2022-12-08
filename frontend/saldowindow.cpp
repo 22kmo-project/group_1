@@ -48,7 +48,6 @@ void saldoWindow::saldoSlot(QNetworkReply *reply)
     QByteArray response_data=reply->readAll();
     qDebug()<< "response data: " <<response_data;
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-    QJsonArray json_array = json_doc.array();
     QJsonObject json_obj = json_doc.object();
     QString account = QString::number(json_obj["id_account"].toInt());
     QString card_number = QString::number(json_obj["card_number"].toInt());
