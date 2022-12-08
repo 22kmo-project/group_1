@@ -23,6 +23,11 @@ tapahtumaWindow::tapahtumaWindow(QByteArray token,QString myCard,bool cardType,Q
     {
         credit=false;
     }
+    ui->timer->setPalette(Qt::red);
+    ui->timer->setAutoFillBackground(true);
+    QPalette Pal = ui->timer->palette();
+    Pal.setColor(QPalette::Normal, QPalette::Window, Qt::black);
+    ui->timer->setPalette(Pal);
     ui->tapahtumaTable->setRowCount(100);
     ui->tapahtumaTable->setColumnCount(6);
     ui->tapahtumaTable->verticalHeader()->setVisible(false);

@@ -10,6 +10,11 @@ nostoSummaWindow::nostoSummaWindow(QByteArray token, QString myCard, bool cardTy
     ui->setupUi(this);
     webToken=token;
     cardnum=myCard;
+    ui->timer->setPalette(Qt::red);
+    ui->timer->setAutoFillBackground(true);
+    QPalette Pal = ui->timer->palette();
+    Pal.setColor(QPalette::Normal, QPalette::Window, Qt::black);
+    ui->timer->setPalette(Pal);
     if(cardType==true)//debit käytössä = false , credit käytössä = true
     {
         credit=true;
