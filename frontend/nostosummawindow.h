@@ -21,7 +21,7 @@ class nostoSummaWindow : public QDialog
 {
     Q_OBJECT
 public:
-    explicit nostoSummaWindow(QByteArray token, QString myCard, QWidget *parent = nullptr);
+    explicit nostoSummaWindow(QByteArray token, QString myCard,bool cardType, QWidget *parent = nullptr);
     ~nostoSummaWindow();
     void setWebToken(const QByteArray &newWebToken);
 private slots:
@@ -56,5 +56,6 @@ private:
     QNetworkReply *reply;
     QByteArray response_data;
     kuittiwindow *objectkuittiwindow;
+    bool credit;
 };
 #endif // NOSTOSUMMAWINDOW_H

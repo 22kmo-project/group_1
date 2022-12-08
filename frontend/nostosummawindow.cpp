@@ -2,13 +2,22 @@
 #include "ui_nostosummawindow.h"
 #include "url.h"
 
-nostoSummaWindow::nostoSummaWindow(QByteArray token, QString myCard, QWidget *parent) :
+nostoSummaWindow::nostoSummaWindow(QByteArray token, QString myCard, bool cardType, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::nostoSummaWindow)
 {
     ui->setupUi(this);
     webToken=token;
     cardnum=myCard;
+    if(cardType==true)//debit käytössä = false , credit käytössä = true
+    {
+        credit=true;
+    }
+    else
+    {
+        credit=false;
+    }
+    qDebug()<<"kortti nostossa on"<<credit;
     QString site_url=url::getBaseUrl()+"cards/"+myCard;
     QNetworkRequest request((site_url));
     qDebug()<<site_url;

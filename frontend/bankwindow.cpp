@@ -3,12 +3,23 @@
 #include "url.h"
 #include "nostosummawindow.h"
 
-bankwindow::bankwindow(QByteArray webToken,QString cardNumber,QWidget *parent) :
+bankwindow::bankwindow(QByteArray webToken,QString cardNumber,bool credit,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::bankwindow)
 {
     ui->setupUi(this);
     ui->labelLocked->hide();
+    qDebug()<<"kortti on"<<credit;
+    if(credit==true)
+    {
+        cardType=true;
+        ui->talletusButton->hide();
+    }
+    else
+    {
+        cardType=false;
+    }
+    qDebug()<<"cardtype"<<cardType;
     //ui->labelAccount->setText(cardNumber);
     myCard=cardNumber;
     token = webToken;
@@ -99,7 +110,7 @@ void bankwindow::openNostoSummaWindow() //nosto nappii
 void bankwindow::on_nostoButton_clicked() // nosto nappii
 {
     qDebug () << "nosto";
-    objectnostoSummaWindow =new nostoSummaWindow(token, myCard);
+    objectnostoSummaWindow =new nostoSummaWindow(token, myCard,cardType);
     objectnostoSummaWindow->show();
     this->close();
 }
