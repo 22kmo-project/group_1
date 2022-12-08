@@ -7,9 +7,16 @@ talletusWindow::talletusWindow(QByteArray token,QString cardNumber,bool cardType
     ui(new Ui::talletusWindow)
 {
     ui->setupUi(this);
+    talletusWindow::setWindowState(Qt::WindowMaximized);
     ui->labelTalletus->hide();
     card_number = cardNumber;
     webToken=token;
+    ui->timer->setPalette(Qt::red);
+    ui->timer->setAutoFillBackground(true);
+    QPalette Pal = ui->timer->palette();
+    Pal.setColor(QPalette::Normal, QPalette::WindowText, Qt::red);
+    Pal.setColor(QPalette::Normal, QPalette::Window, Qt::black);
+    ui->timer->setPalette(Pal);
     if(cardType==true)//debit käytössä = false , credit käytössä = true
     {
         credit=true;
