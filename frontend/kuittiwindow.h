@@ -40,5 +40,6 @@ private:
     QNetworkReply *reply;
     QString lista;
     int aika;
+    int credit;
 };
 #endif // KUITTIWINDOW_H

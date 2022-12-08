@@ -14,7 +14,6 @@ kuittiwindow::kuittiwindow(QByteArray token,QString cardnum,QWidget *parent) :
     ui->setupUi(this);
     webToken = token;
     card_number = cardnum;
-
     ui->kuittiTable->setRowCount(100);
     ui->kuittiTable->setColumnCount(6);
     ui->kuittiTable->verticalHeader()->setVisible(false);
@@ -113,12 +112,12 @@ void kuittiwindow::asiakasSlot(QNetworkReply *reply)
     reply->deleteLater();
     asiakasManager->deleteLater();
     delay();
-    for (aika = 30; aika >= 0; aika--) {
+    for (aika = 10; aika >= 0; aika--) {
         delay();
         ui->timer->display(aika);
 
     }
-    bankwindow *main = new bankwindow(webToken,card_number);
+    bankwindow *main = new bankwindow(webToken,card_number,credit);
     main->show();
     close();
 

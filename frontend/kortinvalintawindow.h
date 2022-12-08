@@ -16,6 +16,7 @@ public:
     const QString &getWebToken () const;
     void setWebToken(const QByteArray &newWebToken);
 
+
 private slots:
     void on_creditButton_clicked();
     void on_debitButton_clicked();
@@ -29,5 +30,6 @@ private:
     QNetworkReply *reply;
     QByteArray response_data;
     QNetworkAccessManager *dataManager;
+    bool credit;
 };
 #endif // KORTINVALINTAWINDOW_H

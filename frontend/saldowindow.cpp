@@ -66,11 +66,11 @@ void saldoWindow::saldoSlot(QNetworkReply *reply)
     connect(asiakasManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(asiakasSlot(QNetworkReply*)));
     reply = asiakasManager->get(request);
 
-    for (int i = 30; i >= 0; i--) {
+    for (int i = 10; i >= 0; i--) {
         delay();
         ui->timer->display(i);
     }
-    bankwindow *main = new bankwindow(webToken,card_number);
+    bankwindow *main = new bankwindow(webToken,card_number,credit);
     main->show();
     close();
 }
@@ -115,16 +115,12 @@ void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
        ui->labelTapahtuma->setText(lista);
        reply->deleteLater();
        tapahtumaManager->deleteLater();
-       delay();
+
 }
 
 void saldoWindow::on_suljeButton_clicked()
 {
-    bankwindow *bank = new bankwindow(webToken, card_number);
+    bankwindow *bank = new bankwindow(webToken, card_number,credit);
     bank->show();
     close();
 }
-void saldoWindow::close_window() {
-    close();
-}
-

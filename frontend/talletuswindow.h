@@ -54,6 +54,7 @@ private:
     double talletus;
     double x;
     int aika;
+    bool credit;
 };
 
 #endif // TALLETUSWINDOW_H

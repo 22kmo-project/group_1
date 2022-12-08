@@ -42,7 +42,8 @@ void kortinValintaWindow::dataSlot(QNetworkReply *reply)
     qDebug()<<"debit/credit: " <<kortti;
 
     if (kortti == "debit") {
-        objectBankWindow=new bankwindow(webToken,cardNumber);
+        credit=false;
+        objectBankWindow=new bankwindow(webToken,cardNumber,credit);
         objectBankWindow->setWebToken("Bearer "+response_data);
         objectBankWindow->show();
         this->close();
@@ -55,7 +56,8 @@ void kortinValintaWindow::on_creditButton_clicked()
 {
 
     qDebug()<<"valittu credit";
-    objectBankWindow=new bankwindow(webToken,cardNumber);
+    credit=true;
+    objectBankWindow=new bankwindow(webToken,cardNumber,credit);
     objectBankWindow->setWebToken("Bearer "+response_data);
     objectBankWindow->show();
     this->close();
@@ -64,7 +66,8 @@ void kortinValintaWindow::on_creditButton_clicked()
 void kortinValintaWindow::on_debitButton_clicked()
 {
     qDebug()<<"valittu debit";
-    objectBankWindow=new bankwindow(webToken,cardNumber);
+    credit=false;
+    objectBankWindow=new bankwindow(webToken,cardNumber,credit);
     objectBankWindow->setWebToken("Bearer "+response_data);
     objectBankWindow->show();
     this->close();

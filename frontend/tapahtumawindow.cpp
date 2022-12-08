@@ -71,12 +71,12 @@ void tapahtumaWindow::tapahtumaSlot(QNetworkReply *reply)
     connect(asiakasManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(asiakasSlot(QNetworkReply*)));
     reply = asiakasManager->get(request);
 
-    for (i = 30; i >= 0; i--) {
+    for (i = 10; i >= 0; i--) {
         delay();
         ui->timer->display(i);
 
     }
-    bankwindow *main = new bankwindow(webToken,card_number);
+    bankwindow *main = new bankwindow(webToken,card_number,credit);
     main->show();
     close();
 }
@@ -144,7 +144,7 @@ void tapahtumaWindow::asiakasSlot(QNetworkReply *reply)
 
 void tapahtumaWindow::on_backwardButton_clicked()
 {
-    i = 30;
+    i = 10;
     qDebug() << "lastRowNumber entering back button: " <<lastVisibleRowNumber;
     qDebug() << "overTen entering back button: " <<OverTenCounter;
     qDebug() << "last increment entering back button: " <<lastIncrement;
@@ -180,7 +180,7 @@ void tapahtumaWindow::on_backwardButton_clicked()
 
 void tapahtumaWindow::on_forwardButton_clicked()
 {
-    i = 30;
+    i = 10;
     qDebug() << "lastRowNumber entering next button: " <<lastVisibleRowNumber;
     qDebug() << "overTen entering next button: " <<OverTenCounter;
     qDebug() << "last increment entering next button: " <<lastIncrement;
@@ -208,9 +208,7 @@ void tapahtumaWindow::on_forwardButton_clicked()
 
 void tapahtumaWindow::on_closeButton_clicked()
 {
-    bankwindow *bank = new bankwindow(webToken, card_number);
+    bankwindow *bank = new bankwindow(webToken, card_number,credit);
     bank->show();
     close();
 }
-
-

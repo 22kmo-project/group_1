@@ -49,5 +49,6 @@ private:
     int lastIncrement;
     bool check = false;
     int i;
+    bool credit;
 };
 #endif // TAPAHTUMAWINDOW_H

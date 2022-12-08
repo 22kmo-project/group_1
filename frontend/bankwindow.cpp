@@ -4,19 +4,32 @@
 #include "url.h"
 #include "nostosummawindow.h"
 
-bankwindow::bankwindow(QByteArray webToken,QString cardNumber,QWidget *parent) :
+bankwindow::bankwindow(QByteArray webToken,QString cardNumber,bool credit,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::bankwindow)
 {
     ui->setupUi(this);
     ui->labelLocked->hide();
-    ui->timer->setAutoFillBackground(true);// see the different if you comment that line out.
 
+    ui->timer->setPalette(Qt::red);
+
+    ui->timer->setAutoFillBackground(true);
     QPalette Pal = ui->timer->palette();
     Pal.setColor(QPalette::Normal, QPalette::WindowText, Qt::black);
     Pal.setColor(QPalette::Normal, QPalette::Window, Qt::red);
     ui->timer->setPalette(Pal);
-    //ui->labelAccount->setText(cardNumber);
+
+    qDebug()<<"kortti on"<<credit;
+    if(credit==true)
+    {
+        cardType=true;
+        ui->talletusButton->hide();
+    }
+    else
+    {
+        cardType=false;
+    }
+    qDebug()<<"cardtype"<<cardType;
     myCard=cardNumber;
     token = webToken;
     qDebug()<<"constru webtoken"<<token;
@@ -92,7 +105,7 @@ void bankwindow::dataSlot(QNetworkReply *reply)
     }
     reply->deleteLater();
     dataManager->deleteLater();
-    for (int i = 10; i >= 0; i--) {
+    for (int i = 30; i >= 0; i--) {
         delay30s();
         ui->timer->display(i);
     }
@@ -112,7 +125,7 @@ void bankwindow::openNostoSummaWindow() //nosto nappii
 void bankwindow::on_nostoButton_clicked() // nosto nappii
 {
     qDebug () << "nosto";
-    objectnostoSummaWindow =new nostoSummaWindow(token, myCard);
+    objectnostoSummaWindow =new nostoSummaWindow(token, myCard,cardType);
     objectnostoSummaWindow->show();
     this->close();
 }
