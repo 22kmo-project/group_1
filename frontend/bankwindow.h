@@ -27,7 +27,6 @@ public:
     void setWebToken(const QByteArray &newWebToken);
     QString id_account;
     void delay();
-    void delay30s();
 public slots:
     void openNostoSummaWindow();
 private slots:

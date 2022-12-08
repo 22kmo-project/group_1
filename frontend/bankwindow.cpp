@@ -106,12 +106,12 @@ void bankwindow::dataSlot(QNetworkReply *reply)
     reply->deleteLater();
     dataManager->deleteLater();
     for (int i = 30; i >= 0; i--) {
-        delay30s();
+        delay();
         ui->timer->display(i);
     }
     MainWindow *main = new MainWindow;
     main->show();
-    close();
+    this->close();
 
 }
 
@@ -132,24 +132,13 @@ void bankwindow::on_nostoButton_clicked() // nosto nappii
 
 void bankwindow::on_kirjauduUlosButton_clicked()
 {
-    MainWindow *main = new MainWindow;
-    main->show();
-    close();
+    this->close();
 }
 void bankwindow::delay()
 {
     QTime dieTime= QTime::currentTime().addSecs(1);
     while (QTime::currentTime() < dieTime)
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-}
-
-void bankwindow::delay30s()
-{
-    int afkTimer=1;
-    QTime dieTime= QTime::currentTime().addSecs(afkTimer);
-     while (QTime::currentTime() < dieTime) {
-         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-     }
 }
 
 void bankwindow::on_talletusButton_clicked()
