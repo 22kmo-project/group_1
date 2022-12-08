@@ -2,7 +2,7 @@
 #include "ui_talletuswindow.h"
 #include "bankwindow.h"
 
-talletusWindow::talletusWindow(QByteArray token,QString cardNumber,QWidget *parent) :
+talletusWindow::talletusWindow(QByteArray token,QString cardNumber,bool cardType,QWidget *parent) :
     QWidget(parent),
     ui(new Ui::talletusWindow)
 {
@@ -10,7 +10,14 @@ talletusWindow::talletusWindow(QByteArray token,QString cardNumber,QWidget *pare
     ui->labelTalletus->hide();
     card_number = cardNumber;
     webToken=token;
-
+    if(cardType==true)//debit käytössä = false , credit käytössä = true
+    {
+        credit=true;
+    }
+    else
+    {
+        credit=false;
+    }
     QString site_url=url::getBaseUrl()+"cards/"+card_number;
     QNetworkRequest request((site_url));
     qDebug()<<site_url;
@@ -71,6 +78,7 @@ void talletusWindow::saldoSlot(QNetworkReply *reply)
     QJsonObject json_obj = json_doc.object();
 
     saldo=QString::number(json_obj["debit_balance"].toDouble());
+    credit_limit=QString::number(json_obj["credit_limit"].toDouble());
     qDebug()<<"saldo"<<saldo;
     x = saldo.toDouble();
     ui->talletusLabel->setText("Syötä talletettava määrä");
@@ -86,6 +94,7 @@ void talletusWindow::saldoSlot(QNetworkReply *reply)
 
 void talletusWindow::on_talletaButton_clicked()
 {
+    if(credit==false){
     aika = 10;
     ui->talletusLabel->clear();
     sum=ui->lineEditMaara->text();
@@ -96,6 +105,7 @@ void talletusWindow::on_talletaButton_clicked()
     qDebug()<<"talletus"<<talletus;
     QJsonObject jsonObj;
     jsonObj.insert("debit_balance",talletus);
+    jsonObj.insert("credit_limit",credit_limit);
     QString uusiSaldo = QString::number(talletus);
     ui->saldoLabel->setText("Saldo: " + uusiSaldo);
     ui->summaLabel->setText("Talletettu summa: " + sum);
@@ -116,10 +126,15 @@ void talletusWindow::on_talletaButton_clicked()
         QString::number(i);
         ui->labelTalletus->document()->setPlainText(info);
         talletusDelay();
+    }}
+    else{
+        close();
     }
+
     bankwindow *main = new bankwindow(webToken,card_number,credit);
     main->show();
     close();
+
 }
 
 void talletusWindow::talletusSlot(QNetworkReply *reply)
@@ -212,5 +227,11 @@ void talletusWindow::on_pushButton_0_clicked()
     aika = 10;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "0");
     delay();
+}
+
+
+void talletusWindow::on_pyyhiButton_clicked()
+{
+    ui->lineEditMaara->backspace();
 }
 

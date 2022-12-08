@@ -19,7 +19,7 @@ class tapahtumaWindow : public QDialog
     Q_OBJECT
 public:
 
-    explicit tapahtumaWindow(QByteArray token,QString myCard,QWidget *parent = nullptr);
+    explicit tapahtumaWindow(QByteArray token,QString myCard, bool cardType, QWidget *parent = nullptr);
     ~tapahtumaWindow();
     void setWebToken(const QByteArray &newWebToken);
     void delay();

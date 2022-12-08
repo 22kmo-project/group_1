@@ -7,7 +7,7 @@
 #include <QMessageBox>
 #include "bankwindow.h"
 
-tapahtumaWindow::tapahtumaWindow(QByteArray token,QString myCard,QWidget *parent) :
+tapahtumaWindow::tapahtumaWindow(QByteArray token,QString myCard,bool cardType,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::tapahtumaWindow)
 {
@@ -15,6 +15,14 @@ tapahtumaWindow::tapahtumaWindow(QByteArray token,QString myCard,QWidget *parent
     webToken=token;
     card_number = myCard;
     qDebug()<<card_number;
+    if(cardType==true)//debit käytössä = false , credit käytössä = true
+    {
+        credit=true;
+    }
+    else
+    {
+        credit=false;
+    }
     ui->tapahtumaTable->setRowCount(100);
     ui->tapahtumaTable->setColumnCount(6);
     ui->tapahtumaTable->verticalHeader()->setVisible(false);
