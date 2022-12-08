@@ -29,6 +29,7 @@ public:
     void delay();
     void delay30s(); //tämä on sama delay mikä kaikkialla muuallakin
 public slots:
+    void showWindow();
     void openNostoSummaWindow();
 private slots:
     void dataSlot (QNetworkReply *reply);

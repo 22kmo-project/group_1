@@ -1,21 +1,25 @@
 #include "tapahtumawindow.h"
-#include "bankwindow.h"
 #include "ui_tapahtumawindow.h"
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QCoreApplication>
 #include <QHeaderView>
 #include <QMessageBox>
+#include "bankwindow.h"
 
 tapahtumaWindow::tapahtumaWindow(QByteArray token,QString myCard,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::tapahtumaWindow)
+
+
 {
+
     ui->setupUi(this);
+
+
     webToken=token;
     card_number = myCard;
     qDebug()<<card_number;
-
     ui->tapahtumaTable->setRowCount(100);
     ui->tapahtumaTable->setColumnCount(6);
     ui->tapahtumaTable->verticalHeader()->setVisible(false);
@@ -127,7 +131,7 @@ void tapahtumaWindow::asiakasSlot(QNetworkReply *reply)
     }
     resetCounter = OverTenCounter;
     ui->tapahtumaTable->setRowCount(totalRows);
-    qDebug() << "max ammo and totalrows:" << OverTenCounter << totalRows;
+    qDebug() << "OverTenCounter and totalrows:" << OverTenCounter << totalRows;
     reply->deleteLater();
     asiakasManager->deleteLater();
     delay();
@@ -135,11 +139,11 @@ void tapahtumaWindow::asiakasSlot(QNetworkReply *reply)
 
 void tapahtumaWindow::on_closeButton_clicked()
 {
-    qDebug () << "Työn alla nää nappulat";
-    QWidget parent;
-    Ui::bankwindow ui;
-    ui.setupUi(&parent);
-    parent.showFullScreen();
+
+    QWidget *parent;
+    bankwindow *bank = new bankwindow(webToken, card_number, parent = nullptr);
+    connect(ui->closeButton,&QPushButton::clicked,bank,&bankwindow::showWindow);
+    connect(ui->closeButton,&QPushButton::clicked,this,&tapahtumaWindow::close_window);
 }
 
 void tapahtumaWindow::on_backwardButton_clicked()
@@ -202,3 +206,8 @@ void tapahtumaWindow::on_forwardButton_clicked()
     qDebug() << "overTen leaving next button: " <<OverTenCounter;
     qDebug() << "last increment leaving next button: " <<lastIncrement;
 }
+
+void tapahtumaWindow::close_window() {
+    close();
+}
+

@@ -9,6 +9,7 @@ bankwindow::bankwindow(QByteArray webToken,QString cardNumber,QWidget *parent) :
 {
     ui->setupUi(this);
     ui->labelLocked->hide();
+
     //ui->labelAccount->setText(cardNumber);
     myCard=cardNumber;
     token = webToken;
@@ -20,7 +21,6 @@ bankwindow::bankwindow(QByteArray webToken,QString cardNumber,QWidget *parent) :
     request.setRawHeader(QByteArray("Authorization"),(webToken));
     //WEBTOKEN LOPPU
     dataManager = new QNetworkAccessManager(this);
-
     connect(dataManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(dataSlot(QNetworkReply*)));
     reply = dataManager->get(request);
 }
@@ -53,7 +53,7 @@ void bankwindow::on_tapahtumaButton_clicked()
     qDebug () << "tapahtuma";
     objecttapahtumaWindow = new tapahtumaWindow(token,myCard);
     objecttapahtumaWindow->show();
-    this->close();
+    this->hide();
 }
 
 void bankwindow::dataSlot(QNetworkReply *reply)
@@ -132,3 +132,9 @@ void bankwindow::on_talletusButton_clicked()
     objecttalletusWindow->show();
     this->close();
 }
+
+void bankwindow::showWindow() {
+    show();
+}
+
+

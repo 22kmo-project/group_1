@@ -18,10 +18,13 @@ class tapahtumaWindow : public QDialog
 {
     Q_OBJECT
 public:
+
     explicit tapahtumaWindow(QByteArray token,QString myCard,QWidget *parent = nullptr);
     ~tapahtumaWindow();
     void setWebToken(const QByteArray &newWebToken);
     void delay();
+public slots:
+    void close_window();
 private slots:
     void on_closeButton_clicked();
     void tapahtumaSlot(QNetworkReply *reply);
