@@ -24,8 +24,8 @@ const account = {
 
     
     update: function(id, account, callback) {
-        return db.query('update account set credit_limit = ?,debit_balance = ? where id_account = ?',
-        [account.credit_limit,account.debit_balance, id], callback);
+        return db.query('update account set credit_limit = ?,debit_balance = ?,used_credit = ? where id_account = ?',
+        [account.credit_limit,account.debit_balance, account.used_credit,id], callback);
     }
 
   };
