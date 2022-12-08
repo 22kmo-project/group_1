@@ -6,6 +6,7 @@ kortinValintaWindow::kortinValintaWindow(QByteArray token,QString cardNum,QWidge
     ui(new Ui::kortinValintaWindow)
 {
     ui->setupUi(this);
+    kortinValintaWindow::setWindowState(Qt::WindowMaximized);
     cardNumber=cardNum;
     webToken=token;
     qDebug()<<"kortinvalintawindow webtoken"<<webToken;

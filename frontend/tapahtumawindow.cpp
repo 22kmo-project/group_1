@@ -12,6 +12,7 @@ tapahtumaWindow::tapahtumaWindow(QByteArray token,QString myCard,bool cardType,Q
     ui(new Ui::tapahtumaWindow)
 {
     ui->setupUi(this);
+    tapahtumaWindow::setWindowState(Qt::WindowMaximized);
     webToken=token;
     card_number = myCard;
     qDebug()<<card_number;
@@ -26,7 +27,9 @@ tapahtumaWindow::tapahtumaWindow(QByteArray token,QString myCard,bool cardType,Q
     ui->timer->setPalette(Qt::red);
     ui->timer->setAutoFillBackground(true);
     QPalette Pal = ui->timer->palette();
+    Pal.setColor(QPalette::Normal, QPalette::WindowText, Qt::red);
     Pal.setColor(QPalette::Normal, QPalette::Window, Qt::black);
+    ui->timer->setPalette(Pal);
     ui->timer->setPalette(Pal);
     ui->tapahtumaTable->setRowCount(100);
     ui->tapahtumaTable->setColumnCount(6);
@@ -84,10 +87,9 @@ void tapahtumaWindow::tapahtumaSlot(QNetworkReply *reply)
     connect(asiakasManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(asiakasSlot(QNetworkReply*)));
     reply = asiakasManager->get(request);
 
-    for (i = 10; i >= 0; i--) {
+    for (aika = 10; aika >= 0; aika--) {
         delay();
-        ui->timer->display(i);
-
+        ui->timer->display(aika);
     }
     bankwindow *main = new bankwindow(webToken,card_number,credit);
     main->show();
@@ -128,15 +130,15 @@ void tapahtumaWindow::asiakasSlot(QNetworkReply *reply)
             ui->tapahtumaTable->resizeRowsToContents();
             totalRows++;
             if (totalRows >= 10) {
-                OverTenCounter++;
+                numbersAboveTen++;
                 ui->tapahtumaTable->hideRow(rowsOverTen);
             }
         }
     }
-    if (OverTenCounter == 0) {
-        OverTenCounter = 0;
+    if (numbersAboveTen == 0) {
+        numbersAboveTen = 0;
     } else {
-        OverTenCounter--;
+        numbersAboveTen--;
     }
     if (totalRows < 10) {
         minimumRows = totalRows;
@@ -145,79 +147,61 @@ void tapahtumaWindow::asiakasSlot(QNetworkReply *reply)
         minimumRows = 10;
         lastVisibleRowNumber = minimumRows;
     }
-    resetCounter = OverTenCounter;
+    resetCounter = numbersAboveTen;
     ui->tapahtumaTable->setRowCount(totalRows);
-    qDebug() << "OverTenCounter and totalrows:" << OverTenCounter << totalRows;
+    qDebug() << "OverTenCounter and totalrows:" << numbersAboveTen << totalRows;
     reply->deleteLater();
     asiakasManager->deleteLater();
     delay();
 }
 
-
-
 void tapahtumaWindow::on_backwardButton_clicked()
 {
-    i = 10;
-    qDebug() << "lastRowNumber entering back button: " <<lastVisibleRowNumber;
-    qDebug() << "overTen entering back button: " <<OverTenCounter;
-    qDebug() << "last increment entering back button: " <<lastIncrement;
+    aika = 10;
     if (totalRows < 10) {
         qDebug() << "Total rows < 10.";
     } else if (lastVisibleRowNumber >= 20 && lastVisibleRowNumber != totalRows) {
-        qDebug() << "1";
-        OverTenCounter = resetCounter;
+        numbersAboveTen = resetCounter;
         for(int i = lastVisibleRowNumber;i >= lastVisibleRowNumber - 10;i--) {
             ui->tapahtumaTable->hideRow(i);
         }
         lastVisibleRowNumber = lastVisibleRowNumber - 10;
     } else if (lastVisibleRowNumber == totalRows && lastIncrement == 10) {
-        qDebug() << "2";
         for(int i = lastVisibleRowNumber;i >= lastVisibleRowNumber - 10;i--) {
             ui->tapahtumaTable->hideRow(i);
         }
         lastVisibleRowNumber = lastVisibleRowNumber - 10;
     } else if (lastVisibleRowNumber == totalRows && lastIncrement < 10) {
-        qDebug() << "3";
         for(int i = lastVisibleRowNumber;i >= lastVisibleRowNumber - lastIncrement;i--) {
             ui->tapahtumaTable->hideRow(i);
         }
         lastVisibleRowNumber = lastVisibleRowNumber - lastIncrement;
     }
     if (lastVisibleRowNumber == minimumRows) {
-        OverTenCounter = resetCounter;
+        numbersAboveTen = resetCounter;
     }
-    qDebug() << "lastRowNumber leaving back button: " <<lastVisibleRowNumber;
-    qDebug() << "overTen leaving back button: " <<OverTenCounter;
-    qDebug() << "last increment leaving back button: " <<lastIncrement;
 }
 
 void tapahtumaWindow::on_forwardButton_clicked()
 {
-    i = 10;
-    qDebug() << "lastRowNumber entering next button: " <<lastVisibleRowNumber;
-    qDebug() << "overTen entering next button: " <<OverTenCounter;
-    qDebug() << "last increment entering next button: " <<lastIncrement;
+    aika = 10;
     if (lastVisibleRowNumber == totalRows) {
         qDebug() << "All rows visible.";
-    } else if (OverTenCounter >= 10) {
+    } else if (numbersAboveTen >= 10) {
         lastIncrement = 10;
         for (int i = lastVisibleRowNumber; i < lastVisibleRowNumber + 10;i++) {
             ui->tapahtumaTable->showRow(i);
         }
         lastVisibleRowNumber = lastVisibleRowNumber + 10;
-        OverTenCounter = OverTenCounter - 10;
-    } else if (OverTenCounter < 10) {
-        lastIncrement = OverTenCounter;
-        for (int i = lastVisibleRowNumber; i < lastVisibleRowNumber + OverTenCounter;i++) {
+        numbersAboveTen = numbersAboveTen - 10;
+    } else if (numbersAboveTen < 10) {
+        lastIncrement = numbersAboveTen;
+        for (int i = lastVisibleRowNumber; i < lastVisibleRowNumber + numbersAboveTen;i++) {
             ui->tapahtumaTable->showRow(i);
         }
-        lastVisibleRowNumber = lastVisibleRowNumber + OverTenCounter;
+        lastVisibleRowNumber = lastVisibleRowNumber + numbersAboveTen;
     }
-    qDebug() << "lastRowNumber leaving next button: " <<lastVisibleRowNumber;
-    qDebug() << "overTen leaving next button: " <<OverTenCounter;
-    qDebug() << "last increment leaving next button: " <<lastIncrement;
 }
-
 
 void tapahtumaWindow::on_closeButton_clicked()
 {

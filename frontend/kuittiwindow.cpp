@@ -12,11 +12,13 @@ kuittiwindow::kuittiwindow(QByteArray token,QString cardnum,QWidget *parent) :
     ui(new Ui::kuittiwindow)
 {
     ui->setupUi(this);
+    kuittiwindow::setWindowState(Qt::WindowMaximized);
     webToken = token;
     card_number = cardnum;
     ui->timer->setPalette(Qt::red);
     ui->timer->setAutoFillBackground(true);
     QPalette Pal = ui->timer->palette();
+    Pal.setColor(QPalette::Normal, QPalette::WindowText, Qt::red);
     Pal.setColor(QPalette::Normal, QPalette::Window, Qt::black);
     ui->timer->setPalette(Pal);
     ui->kuittiTable->setRowCount(100);

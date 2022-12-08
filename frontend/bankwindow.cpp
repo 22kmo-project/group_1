@@ -9,11 +9,12 @@ bankwindow::bankwindow(QByteArray webToken,QString cardNumber,bool credit,QWidge
     ui(new Ui::bankwindow)
 {
     ui->setupUi(this);
+    bankwindow::setWindowState(Qt::WindowMaximized);
     ui->labelLocked->hide();
-
     ui->timer->setPalette(Qt::red);
     ui->timer->setAutoFillBackground(true);
     QPalette Pal = ui->timer->palette();
+    Pal.setColor(QPalette::Normal, QPalette::WindowText, Qt::red);
     Pal.setColor(QPalette::Normal, QPalette::Window, Qt::black);
     ui->timer->setPalette(Pal);
 

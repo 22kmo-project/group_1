@@ -8,8 +8,15 @@ saldoWindow::saldoWindow(QByteArray token,QString cardnum,bool cardType, QWidget
     ui(new Ui::saldoWindow)
 {
     ui->setupUi(this);
+    saldoWindow::setWindowState(Qt::WindowMaximized);
     card_number = cardnum;
     webToken=token;
+    ui->timer->setPalette(Qt::red);
+    ui->timer->setAutoFillBackground(true);
+    QPalette Pal = ui->timer->palette();
+    Pal.setColor(QPalette::Normal, QPalette::WindowText, Qt::red);
+    Pal.setColor(QPalette::Normal, QPalette::Window, Qt::black);
+    ui->timer->setPalette(Pal);
     if(cardType==true)//debit käytössä = false , credit käytössä = true
     {
         credit=true;
