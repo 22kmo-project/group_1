@@ -42,6 +42,17 @@ private slots:
     void on_kuittiButton_clicked();
     void on_muuButton_clicked();
     void on_confirmButton_clicked();
+    void on_nollaButton_clicked();
+    void on_yksiButton_clicked();
+    void on_kaksiButton_clicked();
+    void on_kolmeButton_clicked();
+    void on_neljaButton_clicked();
+    void on_viisiButton_clicked();
+    void on_kuusiButton_clicked();
+    void on_seitsemanButton_clicked();
+    void on_kahdeksanButton_clicked();
+    void on_yhdeksanButton_clicked();
+    void on_kumiButton_clicked();
 private:
     Ui::nostoSummaWindow *ui;
     QByteArray webToken;

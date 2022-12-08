@@ -9,14 +9,13 @@ bankwindow::bankwindow(QByteArray webToken,QString cardNumber,bool credit,QWidge
     ui(new Ui::bankwindow)
 {
     ui->setupUi(this);
+    bankwindow::setWindowState(Qt::WindowMaximized);
     ui->labelLocked->hide();
-
     ui->timer->setPalette(Qt::red);
-
     ui->timer->setAutoFillBackground(true);
     QPalette Pal = ui->timer->palette();
-    Pal.setColor(QPalette::Normal, QPalette::WindowText, Qt::black);
-    Pal.setColor(QPalette::Normal, QPalette::Window, Qt::red);
+    Pal.setColor(QPalette::Normal, QPalette::WindowText, Qt::red);
+    Pal.setColor(QPalette::Normal, QPalette::Window, Qt::black);
     ui->timer->setPalette(Pal);
 
     qDebug()<<"kortti on"<<credit;
@@ -115,14 +114,7 @@ void bankwindow::dataSlot(QNetworkReply *reply)
 
 }
 
-void bankwindow::openNostoSummaWindow() //nosto nappii
-{
-
-    //iNostoSummaWindow = new nostoSummaWindow();
-    //iNostoSummaWindow->show();
-}
-
-void bankwindow::on_nostoButton_clicked() // nosto nappii
+void bankwindow::on_nostoButton_clicked()
 {
     qDebug () << "nosto";
     objectnostoSummaWindow =new nostoSummaWindow(token, myCard,cardType);

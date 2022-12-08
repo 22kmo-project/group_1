@@ -12,8 +12,15 @@ kuittiwindow::kuittiwindow(QByteArray token,QString cardnum,QWidget *parent) :
     ui(new Ui::kuittiwindow)
 {
     ui->setupUi(this);
+    kuittiwindow::setWindowState(Qt::WindowMaximized);
     webToken = token;
     card_number = cardnum;
+    ui->timer->setPalette(Qt::red);
+    ui->timer->setAutoFillBackground(true);
+    QPalette Pal = ui->timer->palette();
+    Pal.setColor(QPalette::Normal, QPalette::WindowText, Qt::red);
+    Pal.setColor(QPalette::Normal, QPalette::Window, Qt::black);
+    ui->timer->setPalette(Pal);
     ui->kuittiTable->setRowCount(100);
     ui->kuittiTable->setColumnCount(6);
     ui->kuittiTable->verticalHeader()->setVisible(false);
@@ -45,7 +52,6 @@ void kuittiwindow::delay()
     QTime dieTime= QTime::currentTime().addSecs(afkTimer);
      while (QTime::currentTime() < dieTime)
          QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-
 }
 
 void kuittiwindow::kuittiSlot(QNetworkReply *reply)
@@ -115,12 +121,10 @@ void kuittiwindow::asiakasSlot(QNetworkReply *reply)
     for (aika = 10; aika >= 0; aika--) {
         delay();
         ui->timer->display(aika);
-
     }
     bankwindow *main = new bankwindow(webToken,card_number,credit);
     main->show();
     close();
-
 }
 
 void kuittiwindow::on_pushButton_clicked()

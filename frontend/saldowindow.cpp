@@ -8,8 +8,15 @@ saldoWindow::saldoWindow(QByteArray token,QString cardnum,bool cardType, QWidget
     ui(new Ui::saldoWindow)
 {
     ui->setupUi(this);
+    saldoWindow::setWindowState(Qt::WindowMaximized);
     card_number = cardnum;
     webToken=token;
+    ui->timer->setPalette(Qt::red);
+    ui->timer->setAutoFillBackground(true);
+    QPalette Pal = ui->timer->palette();
+    Pal.setColor(QPalette::Normal, QPalette::WindowText, Qt::red);
+    Pal.setColor(QPalette::Normal, QPalette::Window, Qt::black);
+    ui->timer->setPalette(Pal);
     if(cardType==true)//debit käytössä = false , credit käytössä = true
     {
         credit=true;
@@ -127,21 +134,20 @@ void saldoWindow::asiakasSlot(QNetworkReply *reply)
 
 void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
     QByteArray response_data=reply->readAll();
-       qDebug()<<response_data;
-       QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-       QJsonArray json_array = json_doc.array();
-       QJsonObject json_obj = json_doc.object();
-       QString id_transactions = QString::number(json_obj["id_transactions"].toInt());
-       QString card_number = QString::number(json_obj["card_number"].toInt());
-       QString sum = QString::number(json_obj["sum"].toInt());
-       QString date = json_obj["date"].toString();
-       QString lista;
+    qDebug()<<response_data;
+    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+    QJsonObject json_obj = json_doc.object();
+    QString id_transactions = QString::number(json_obj["id_transactions"].toInt());
+    QString card_number = QString::number(json_obj["card_number"].toInt());
+    QString sum = QString::number(json_obj["sum"].toInt());
+    QString date = json_obj["date"].toString();
+    QString lista;
 
-       lista += "Transaction: " + id_transactions + "\nCard number: "+card_number + "\nSum: "+sum + "\nDate: "+date;
-       qDebug()<<"pöö" <<id_transactions<<card_number<<sum<<date;
-       ui->labelTapahtuma->setText(lista);
-       reply->deleteLater();
-       tapahtumaManager->deleteLater();
+    lista += "Transaction: " + id_transactions + "\nCard number: "+card_number + "\nSum: "+sum + "\nDate: "+date;
+    qDebug()<<"pöö" <<id_transactions<<card_number<<sum<<date;
+    ui->labelTapahtuma->setText(lista);
+    reply->deleteLater();
+    tapahtumaManager->deleteLater();
 
 }
 

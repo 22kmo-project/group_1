@@ -18,7 +18,6 @@ class tapahtumaWindow : public QDialog
 {
     Q_OBJECT
 public:
-
     explicit tapahtumaWindow(QByteArray token,QString myCard, bool cardType, QWidget *parent = nullptr);
     ~tapahtumaWindow();
     void setWebToken(const QByteArray &newWebToken);
@@ -43,12 +42,11 @@ private:
     int totalRows=0;
     int rowsOverTen=0;
     int lastVisibleRowNumber=0;
-    int OverTenCounter=0;
+    int numbersAboveTen=0;
     int resetCounter=0;
     int minimumRows=0;
     int lastIncrement;
-    bool check = false;
-    int i;
+    int aika;
     bool credit;
 };
 #endif // TAPAHTUMAWINDOW_H
