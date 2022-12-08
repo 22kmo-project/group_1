@@ -3,13 +3,21 @@
 #include "url.h"
 #include "bankwindow.h"
 
-saldoWindow::saldoWindow(QByteArray token,QString cardnum,QWidget *parent) :
+saldoWindow::saldoWindow(QByteArray token,QString cardnum,bool cardType, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::saldoWindow)
 {
     ui->setupUi(this);
     card_number = cardnum;
     webToken=token;
+    if(cardType==true)//debit käytössä = false , credit käytössä = true
+    {
+        credit=true;
+    }
+    else
+    {
+        credit=false;
+    }
     QString site_url=url::getBaseUrl()+"cards/"+card_number;
     QNetworkRequest request((site_url));
     qDebug()<<site_url;
@@ -77,13 +85,13 @@ void saldoWindow::saldoSlot(QNetworkReply *reply)
 
 void saldoWindow::asiakasSlot(QNetworkReply *reply)
 {
+    if(credit==false){
     QByteArray response_data=reply->readAll();
     qDebug()<<response_data;
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
     QString Saldo=QString::number(json_obj["debit_balance"].toDouble());
     QString account;
-
     account = QString::number(json_obj["id_account"].toInt());
     qDebug()<<Saldo;
     ui->labelSaldo->setText("Saldo: "+Saldo);
@@ -95,7 +103,27 @@ void saldoWindow::asiakasSlot(QNetworkReply *reply)
     //WEBTOKEN LOPPU
     tapahtumaManager = new QNetworkAccessManager(this);
     connect(tapahtumaManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(tapahtumaSlot(QNetworkReply*)));
-    reply = tapahtumaManager->get(request);
+    reply = tapahtumaManager->get(request);}
+    else{
+        QByteArray response_data=reply->readAll();
+        qDebug()<<response_data;
+        QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+        QJsonObject json_obj = json_doc.object();
+        QString creditLimit=QString::number(json_obj["credit_limit"].toDouble());
+        QString usedCredit=QString::number(json_obj["used_credit"].toDouble());
+        QString account;
+        account = QString::number(json_obj["id_account"].toInt());
+        ui->labelSaldo->setText("Luottoraja: "+creditLimit+"\n"+"Käytetty luotto: "+usedCredit);
+        QString site_url=url::getBaseUrl()+"transactions/"+account;
+        qDebug()<<site_url;
+        QNetworkRequest request((site_url));
+        //WEBTOKEN ALKU
+        request.setRawHeader(QByteArray("Authorization"),(webToken));
+        //WEBTOKEN LOPPU
+        tapahtumaManager = new QNetworkAccessManager(this);
+        connect(tapahtumaManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(tapahtumaSlot(QNetworkReply*)));
+        reply = tapahtumaManager->get(request);
+    }
 }
 
 void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
