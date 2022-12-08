@@ -1,6 +1,7 @@
 #include "nostosummawindow.h"
 #include "ui_nostosummawindow.h"
 #include "url.h"
+#include "bankwindow.h"
 
 nostoSummaWindow::nostoSummaWindow(QByteArray token, QString myCard, QWidget *parent) :
     QDialog(parent),
@@ -54,7 +55,15 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
     balanceManager = new QNetworkAccessManager(this);
     connect(balanceManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(balanceSlot(QNetworkReply*)));
     reply = balanceManager->get(request);
-    delay();
+    for (aika = 30; aika >= 0; aika--) {
+        delay();
+        ui->timer->display(aika);
+
+    }
+    bankwindow *main = new bankwindow(webToken,cardnum);
+    main->show();
+    close();
+
   }
 
 void nostoSummaWindow::balanceSlot(QNetworkReply *reply)
@@ -66,6 +75,7 @@ void nostoSummaWindow::balanceSlot(QNetworkReply *reply)
     balance=QString::number(json_obj["debit_balance"].toDouble());
     qDebug()<<"balance on:" << balance;
     ui->kyhny_info->setText("Tilillä katetta: "+balance);
+
 }
 
 void nostoSummaWindow::updateSlot(QNetworkReply *reply)
@@ -131,18 +141,18 @@ void nostoSummaWindow::on_pushButton500e_clicked()
 
 void nostoSummaWindow::on_suljeButton_clicked()
 {
-    qDebug () << "sulje";
-    this->close();
+    bankwindow *bank = new bankwindow(webToken, cardnum);
+    bank->show();
+    close();
 }
 
 void nostoSummaWindow::delay()
 {
-    int afkTimer=30; //afkTimer=30 tarkoittaa 30 sekuntia. Muokkaa lyhyemmäksi kun testailet.
+    int afkTimer=1;
     QTime dieTime= QTime::currentTime().addSecs(afkTimer);
      while (QTime::currentTime() < dieTime)
          QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-     qDebug()<<"afkTimer 30sec";
-     this->close();
+
 }
 
 void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
@@ -154,11 +164,7 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
     }
     else
     {
-
-
-
         omaSaldo=omaSaldo-nostoSumma;
-
         ui->nosto_info->setText("Nosto onnistui");
         QJsonObject jsonObj;
         jsonObj.insert("debit_balance",omaSaldo);
@@ -223,10 +229,9 @@ void nostoSummaWindow::on_confirmButton_clicked() //Hei nosta joku järkevä sum
         ui->jakolabel->show();
         qDebug()<<"Nosto luku on virheellinen";
     }
-
     delay();
-
-
-
+}
+void nostoSummaWindow::close_window() {
+    close();
 }
 

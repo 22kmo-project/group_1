@@ -77,10 +77,21 @@
     <bool>false</bool>
    </attribute>
   </widget>
+  <widget class="QLCDNumber" name="timer">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>370</y>
+     <width>64</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
   <zorder>tapahtumaTable</zorder>
   <zorder>backwardButton</zorder>
   <zorder>forwardButton</zorder>
   <zorder>closeButton</zorder>
+  <zorder>timer</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -100,6 +100,10 @@ void MainWindow::on_peruutaButton_clicked()
 {
     this -> close();
 }
+void MainWindow::showWindow() {
+    show();
+}
+
 void MainWindow::on_pushButton_1_clicked()
 {
     ui->lineEditKirjaudu->setText(ui->lineEditKirjaudu->text()+ "1");

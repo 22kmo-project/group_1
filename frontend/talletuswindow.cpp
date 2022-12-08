@@ -1,5 +1,6 @@
 #include "talletuswindow.h"
 #include "ui_talletuswindow.h"
+#include "bankwindow.h"
 
 talletusWindow::talletusWindow(QByteArray token,QString cardNumber,QWidget *parent) :
     QWidget(parent),
@@ -17,7 +18,6 @@ talletusWindow::talletusWindow(QByteArray token,QString cardNumber,QWidget *pare
     request.setRawHeader(QByteArray("Authorization"),(webToken));
     //WEBTOKEN LOPPU
     asiakasManager = new QNetworkAccessManager(this);
-
     connect(asiakasManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(asiakasSlot(QNetworkReply*)));
     reply = asiakasManager->get(request);
 }
@@ -29,13 +29,11 @@ talletusWindow::~talletusWindow()
 
 void talletusWindow::delay()
 {
-    int afkTimer=30; //afkTimer=30 tarkoittaa 30 sekuntia. Muokkaa lyhyemmäksi kun testailet.
+
+    int afkTimer=1;
     QTime dieTime= QTime::currentTime().addSecs(afkTimer);
      while (QTime::currentTime() < dieTime)
          QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-     qDebug()<<"afkTimer 30sec";
-     this->close(); //Tähän pitää keksiä järkevä funktio että menee aloitusnäkymään
-
 }
 
 void talletusWindow::talletusDelay()
@@ -47,6 +45,7 @@ void talletusWindow::talletusDelay()
 
 void talletusWindow::asiakasSlot(QNetworkReply *reply)
 {
+    aika = 30;
     QByteArray response_data=reply->readAll();
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
@@ -62,6 +61,8 @@ void talletusWindow::asiakasSlot(QNetworkReply *reply)
     saldoManager = new QNetworkAccessManager(this);
     connect(saldoManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(saldoSlot(QNetworkReply*)));
     reply = saldoManager->get(request);
+
+
 }
 
 void talletusWindow::saldoSlot(QNetworkReply *reply)
@@ -76,12 +77,23 @@ void talletusWindow::saldoSlot(QNetworkReply *reply)
     x = saldo.toDouble();
 
     ui->talletusLabel->setText("Syötä talletettava määrä");
-    delay();
+
+    for (aika = 30; aika >= 0; aika--) {
+        delay();
+        ui->timer->display(aika);
+
+    }
+    bankwindow *main = new bankwindow(webToken,card_number);
+    main->show();
+    close();
+
+
 
 }
 
 void talletusWindow::on_talletaButton_clicked()
 {
+    aika = 30;
     ui->talletusLabel->clear();
     sum=ui->lineEditMaara->text();
     ui->lineEditMaara->clear();
@@ -107,14 +119,16 @@ void talletusWindow::on_talletaButton_clicked()
 
     reply = talletusManager->put(request, QJsonDocument(jsonObj).toJson());
     ui->labelTalletus->show();
+
     for (int i = 5; i >= 1;i--) {
-        QString info ="Talletettu summa:" + sum + "\n" + "Uusi saldo: "+ uusiSaldo + "\n Suljetaan " +
+        QString info ="Talletettu summa:" + sum + "\n" + "Uusi saldo: "+ uusiSaldo + "\nSuljetaan " +
         QString::number(i);
         ui->labelTalletus->document()->setPlainText(info);
         talletusDelay();
     }
-    this->close();
-
+    bankwindow *main = new bankwindow(webToken,card_number);
+    main->show();
+    close();
 }
 
 void talletusWindow::talletusSlot(QNetworkReply *reply)
@@ -123,15 +137,21 @@ void talletusWindow::talletusSlot(QNetworkReply *reply)
     response_data=reply->readAll();
     reply->deleteLater();
     talletusManager->deleteLater();
+
+
 }
 
 void talletusWindow::on_peruutaButton_clicked()
 {
-    this->close();
+    bankwindow *bank = new bankwindow(webToken, card_number);
+    bank->show();
+    close();
 }
+
 
 void talletusWindow::on_pushButton_1_clicked()
 {
+    aika = 30;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "1");
     delay();
 }
@@ -139,6 +159,7 @@ void talletusWindow::on_pushButton_1_clicked()
 
 void talletusWindow::on_pushButton_2_clicked()
 {
+    aika = 30;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "2");
     delay();
 }
@@ -146,6 +167,7 @@ void talletusWindow::on_pushButton_2_clicked()
 
 void talletusWindow::on_pushButton_3_clicked()
 {
+    aika = 30;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "3");
     delay();
 }
@@ -153,6 +175,7 @@ void talletusWindow::on_pushButton_3_clicked()
 
 void talletusWindow::on_pushButton_4_clicked()
 {
+    aika = 30;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "4");
     delay();
 }
@@ -160,6 +183,7 @@ void talletusWindow::on_pushButton_4_clicked()
 
 void talletusWindow::on_pushButton_5_clicked()
 {
+    aika = 30;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "5");
     delay();
 }
@@ -167,6 +191,7 @@ void talletusWindow::on_pushButton_5_clicked()
 
 void talletusWindow::on_pushButton_6_clicked()
 {
+    aika = 30;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "6");
     delay();
 }
@@ -174,6 +199,7 @@ void talletusWindow::on_pushButton_6_clicked()
 
 void talletusWindow::on_pushButton_7_clicked()
 {
+    aika = 30;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "7");
     delay();
 }
@@ -181,6 +207,7 @@ void talletusWindow::on_pushButton_7_clicked()
 
 void talletusWindow::on_pushButton_8_clicked()
 {
+    aika = 30;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "8");
     delay();
 }
@@ -188,6 +215,7 @@ void talletusWindow::on_pushButton_8_clicked()
 
 void talletusWindow::on_pushButton_9_clicked()
 {
+    aika = 30;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "9");
     delay();
 }
@@ -195,6 +223,7 @@ void talletusWindow::on_pushButton_9_clicked()
 
 void talletusWindow::on_pushButton_0_clicked()
 {
+    aika = 30;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "0");
     delay();
 }

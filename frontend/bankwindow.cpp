@@ -1,4 +1,5 @@
 #include "bankwindow.h"
+#include "mainwindow.h"
 #include "ui_bankwindow.h"
 #include "url.h"
 #include "nostosummawindow.h"
@@ -9,7 +10,12 @@ bankwindow::bankwindow(QByteArray webToken,QString cardNumber,QWidget *parent) :
 {
     ui->setupUi(this);
     ui->labelLocked->hide();
+    ui->timer->setAutoFillBackground(true);// see the different if you comment that line out.
 
+    QPalette Pal = ui->timer->palette();
+    Pal.setColor(QPalette::Normal, QPalette::WindowText, Qt::black);
+    Pal.setColor(QPalette::Normal, QPalette::Window, Qt::red);
+    ui->timer->setPalette(Pal);
     //ui->labelAccount->setText(cardNumber);
     myCard=cardNumber;
     token = webToken;
@@ -53,7 +59,7 @@ void bankwindow::on_tapahtumaButton_clicked()
     qDebug () << "tapahtuma";
     objecttapahtumaWindow = new tapahtumaWindow(token,myCard);
     objecttapahtumaWindow->show();
-    this->hide();
+    this->close();
 }
 
 void bankwindow::dataSlot(QNetworkReply *reply)
@@ -86,7 +92,14 @@ void bankwindow::dataSlot(QNetworkReply *reply)
     }
     reply->deleteLater();
     dataManager->deleteLater();
-    delay30s();
+    for (int i = 10; i >= 0; i--) {
+        delay30s();
+        ui->timer->display(i);
+    }
+    MainWindow *main = new MainWindow;
+    main->show();
+    close();
+
 }
 
 void bankwindow::openNostoSummaWindow() //nosto nappii
@@ -106,8 +119,9 @@ void bankwindow::on_nostoButton_clicked() // nosto nappii
 
 void bankwindow::on_kirjauduUlosButton_clicked()
 {
-    qDebug () << "kirjaudu ulos";
-    this->close();
+    MainWindow *main = new MainWindow;
+    main->show();
+    close();
 }
 void bankwindow::delay()
 {
@@ -118,13 +132,11 @@ void bankwindow::delay()
 
 void bankwindow::delay30s()
 {
-    int afkTimer=30; //afkTimer=30 tarkoittaa 30 sekuntia. Muokkaa lyhyemmäksi kun testailet.
+    int afkTimer=1;
     QTime dieTime= QTime::currentTime().addSecs(afkTimer);
-     while (QTime::currentTime() < dieTime)
+     while (QTime::currentTime() < dieTime) {
          QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-     qDebug()<<"afkTimer 30sec";
-     this->close(); //Tähän pitää keksiä järkevä funktio että menee aloitusnäkymään
-
+     }
 }
 
 void bankwindow::on_talletusButton_clicked()
@@ -133,10 +145,6 @@ void bankwindow::on_talletusButton_clicked()
     objecttalletusWindow =new talletusWindow(token, myCard);
     objecttalletusWindow->show();
     this->close();
-}
-
-void bankwindow::showWindow() {
-    show();
 }
 
 

@@ -10,13 +10,8 @@
 tapahtumaWindow::tapahtumaWindow(QByteArray token,QString myCard,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::tapahtumaWindow)
-
-
 {
-
     ui->setupUi(this);
-
-
     webToken=token;
     card_number = myCard;
     qDebug()<<card_number;
@@ -45,12 +40,10 @@ tapahtumaWindow::~tapahtumaWindow()
 }
 void tapahtumaWindow::delay()
 {
-    int afkTimer=30;
+    int afkTimer=1;
     QTime dieTime= QTime::currentTime().addSecs(afkTimer);
      while (QTime::currentTime() < dieTime)
          QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-     qDebug()<<"afkTimer 30sec";
-     this->close();
 }
 void tapahtumaWindow::tapahtumaSlot(QNetworkReply *reply)
 {
@@ -77,7 +70,17 @@ void tapahtumaWindow::tapahtumaSlot(QNetworkReply *reply)
     asiakasManager = new QNetworkAccessManager(this);
     connect(asiakasManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(asiakasSlot(QNetworkReply*)));
     reply = asiakasManager->get(request);
+
+    for (i = 30; i >= 0; i--) {
+        delay();
+        ui->timer->display(i);
+
+    }
+    bankwindow *main = new bankwindow(webToken,card_number);
+    main->show();
+    close();
 }
+
 void tapahtumaWindow::asiakasSlot(QNetworkReply *reply)
 {
     m_TableHeader<<"ID"<<"Kortin numero"<<"Summa"<<"Päivämäärä"<<"Tapahtuma"<<lista;
@@ -137,17 +140,11 @@ void tapahtumaWindow::asiakasSlot(QNetworkReply *reply)
     delay();
 }
 
-void tapahtumaWindow::on_closeButton_clicked()
-{
 
-    QWidget *parent;
-    bankwindow *bank = new bankwindow(webToken, card_number, parent = nullptr);
-    connect(ui->closeButton,&QPushButton::clicked,bank,&bankwindow::showWindow);
-    connect(ui->closeButton,&QPushButton::clicked,this,&tapahtumaWindow::close_window);
-}
 
 void tapahtumaWindow::on_backwardButton_clicked()
 {
+    i = 30;
     qDebug() << "lastRowNumber entering back button: " <<lastVisibleRowNumber;
     qDebug() << "overTen entering back button: " <<OverTenCounter;
     qDebug() << "last increment entering back button: " <<lastIncrement;
@@ -183,6 +180,7 @@ void tapahtumaWindow::on_backwardButton_clicked()
 
 void tapahtumaWindow::on_forwardButton_clicked()
 {
+    i = 30;
     qDebug() << "lastRowNumber entering next button: " <<lastVisibleRowNumber;
     qDebug() << "overTen entering next button: " <<OverTenCounter;
     qDebug() << "last increment entering next button: " <<lastIncrement;
@@ -207,7 +205,12 @@ void tapahtumaWindow::on_forwardButton_clicked()
     qDebug() << "last increment leaving next button: " <<lastIncrement;
 }
 
-void tapahtumaWindow::close_window() {
+
+void tapahtumaWindow::on_closeButton_clicked()
+{
+    bankwindow *bank = new bankwindow(webToken, card_number);
+    bank->show();
     close();
 }
+
 

@@ -23,8 +23,6 @@ public:
     ~tapahtumaWindow();
     void setWebToken(const QByteArray &newWebToken);
     void delay();
-public slots:
-    void close_window();
 private slots:
     void on_closeButton_clicked();
     void tapahtumaSlot(QNetworkReply *reply);
@@ -49,5 +47,7 @@ private:
     int resetCounter=0;
     int minimumRows=0;
     int lastIncrement;
+    bool check = false;
+    int i;
 };
 #endif // TAPAHTUMAWINDOW_H

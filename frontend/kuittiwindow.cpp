@@ -5,6 +5,7 @@
 #include <QCoreApplication>
 #include <QHeaderView>
 #include <QMessageBox>
+#include "bankwindow.h"
 
 kuittiwindow::kuittiwindow(QByteArray token,QString cardnum,QWidget *parent) :
     QDialog(parent),
@@ -41,12 +42,11 @@ kuittiwindow::~kuittiwindow()
 
 void kuittiwindow::delay()
 {
-    int afkTimer=30; //afkTimer=30 tarkoittaa 30 sekuntia. Muokkaa lyhyemmäksi kun testailet.
+    int afkTimer=1;
     QTime dieTime= QTime::currentTime().addSecs(afkTimer);
      while (QTime::currentTime() < dieTime)
          QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-     qDebug()<<"afkTimer 30sec";
-     this->close(); //Tähän pitää keksiä järkevä funktio että menee aloitusnäkymään
+
 }
 
 void kuittiwindow::kuittiSlot(QNetworkReply *reply)
@@ -113,9 +113,23 @@ void kuittiwindow::asiakasSlot(QNetworkReply *reply)
     reply->deleteLater();
     asiakasManager->deleteLater();
     delay();
+    for (aika = 30; aika >= 0; aika--) {
+        delay();
+        ui->timer->display(aika);
+
+    }
+    bankwindow *main = new bankwindow(webToken,card_number);
+    main->show();
+    close();
+
 }
 
 void kuittiwindow::on_pushButton_clicked()
 {
-    this->close();
+    saldoWindow *saldo = new saldoWindow(webToken, card_number);
+    saldo->show();
+    close();
+}
+void kuittiwindow::close_window() {
+    close();
 }

@@ -21,6 +21,8 @@ public:
     ~saldoWindow();
     void setWebToken(const QByteArray &newWebToken);
     void delay();
+public slots:
+    void close_window();
 private slots:
     void saldoSlot (QNetworkReply *reply);
     void asiakasSlot (QNetworkReply *reply);

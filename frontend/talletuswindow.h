@@ -26,30 +26,19 @@ public:
 private slots:
     void on_talletaButton_clicked();
     void on_peruutaButton_clicked();
-
     void talletusSlot (QNetworkReply *reply);
     void asiakasSlot (QNetworkReply *reply);
     void saldoSlot (QNetworkReply *reply);
     void on_pushButton_1_clicked();
-
     void on_pushButton_2_clicked();
-
     void on_pushButton_3_clicked();
-
     void on_pushButton_4_clicked();
-
     void on_pushButton_5_clicked();
-
     void on_pushButton_6_clicked();
-
     void on_pushButton_7_clicked();
-
     void on_pushButton_8_clicked();
-
     void on_pushButton_9_clicked();
-
     void on_pushButton_0_clicked();
-
 private:
     Ui::talletusWindow *ui;
     QByteArray webToken;
@@ -64,6 +53,7 @@ private:
     QString saldo;
     double talletus;
     double x;
+    int aika;
 };
 
 #endif // TALLETUSWINDOW_H

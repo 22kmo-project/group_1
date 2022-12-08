@@ -22,6 +22,8 @@ public:
     ~kuittiwindow();
     void setWebToken(const QByteArray &newWebToken);
     void delay();
+public slots:
+    void close_window();
 private slots:
     void kuittiSlot(QNetworkReply *reply);
     void asiakasSlot(QNetworkReply *reply);
@@ -37,5 +39,6 @@ private:
     QByteArray response_data;
     QNetworkReply *reply;
     QString lista;
+    int aika;
 };
 #endif // KUITTIWINDOW_H

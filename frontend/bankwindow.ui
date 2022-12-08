@@ -135,6 +135,22 @@
     <string>Talletus</string>
    </property>
   </widget>
+  <widget class="QLCDNumber" name="timer">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>10</y>
+     <width>64</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <bold>false</bold>
+     <kerning>true</kerning>
+    </font>
+   </property>
+  </widget>
   <zorder>labelLocked</zorder>
   <zorder>talletusButton</zorder>
   <zorder>labelAccount</zorder>
@@ -144,6 +160,7 @@
   <zorder>kirjauduUlosButton</zorder>
   <zorder>labelCredit</zorder>
   <zorder>labelOmistaja</zorder>
+  <zorder>timer</zorder>
  </widget>
  <resources/>
  <connections/>

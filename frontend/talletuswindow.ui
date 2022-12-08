@@ -228,6 +228,16 @@
     </rect>
    </property>
   </widget>
+  <widget class="QLCDNumber" name="timer">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>270</y>
+     <width>64</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
