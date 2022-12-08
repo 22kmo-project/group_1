@@ -62,7 +62,7 @@ void bankwindow::setWebToken(const QByteArray &newWebToken)
 void bankwindow::on_saldoButton_clicked()
 {
     qDebug () << "saldo";
-    objectsaldoWindow = new saldoWindow(token,myCard);
+    objectsaldoWindow = new saldoWindow(token,myCard,cardType);
     objectsaldoWindow->show();
     this->close();
 }

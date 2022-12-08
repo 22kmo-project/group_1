@@ -125,8 +125,8 @@ void kuittiwindow::asiakasSlot(QNetworkReply *reply)
 
 void kuittiwindow::on_pushButton_clicked()
 {
-    saldoWindow *saldo = new saldoWindow(webToken, card_number);
-    saldo->show();
+    //saldoWindow *saldo = new saldoWindow(webToken, card_number);
+    //saldo->show();
     close();
 }
 void kuittiwindow::close_window() {
