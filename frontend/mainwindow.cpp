@@ -42,7 +42,6 @@ void MainWindow::on_loginButton_clicked()
         break;
     }
     kirjautuminen++;
-
 }
 
 void MainWindow::loginSlot(QNetworkReply *reply)
@@ -79,7 +78,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
                 objectKortinValinta=new kortinValintaWindow(token,cardNum);
                 objectKortinValinta->setWebToken("Bearer "+response_data);
                 objectKortinValinta->show();
-                this->hide();
+                this->close();
              }
         }
     }
@@ -89,9 +88,6 @@ void MainWindow::loginSlot(QNetworkReply *reply)
 void MainWindow::on_peruutaButton_clicked()
 {
     this -> close();
-}
-void MainWindow::showWindow() {
-    show();
 }
 
 void MainWindow::on_pushButton_1_clicked()
