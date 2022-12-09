@@ -66,7 +66,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
         kirjautuminen--;
         if (loginTries <= 0) {
             ui->labelKirjaudu->clear();
-            ui->labelKirjaudu->setText("Kortti lukittu.");
+            ui->labelKirjaudu->setText("Kortti lukittu. Aloita alusta.");
                     ui->loginButton->hide();
         }
     }
