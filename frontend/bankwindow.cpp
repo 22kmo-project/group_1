@@ -125,7 +125,7 @@ void bankwindow::dataSlot(QNetworkReply *reply)
 
     }
 
-    for (aika = 3; aika >= 0; aika--) {
+    for (aika = 30; aika >= 0; aika--) {
          delay();
          ui->timer->display(aika);
          if (aika == 0 && this->isHidden()==false) {
