@@ -58,6 +58,7 @@ private:
     QByteArray webToken;
     double nosto;
     double creditMax;
+    double nostoMaara;
     QString balance;
     QString usedCredit;
     QString creditLimit;

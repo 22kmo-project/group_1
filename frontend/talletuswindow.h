@@ -9,6 +9,7 @@
 #include <QJsonDocument>
 #include <QDebug>
 #include <QJsonArray>
+#include "talletuskuittiwindow.h"
 
 namespace Ui {
 class talletusWindow;
@@ -41,20 +42,29 @@ private slots:
     void on_pushButton_0_clicked();
     void on_pyyhiButton_clicked();
 
+    void on_kuittiButton_clicked();
+
 private:
     Ui::talletusWindow *ui;
     QByteArray webToken;
     QString card_number;
     QString account;
+    talletusKuittiWindow *objecttalletusKuittiWindow;
     QNetworkAccessManager *asiakasManager;
     QNetworkAccessManager *saldoManager;
     QNetworkAccessManager *talletusManager;
     QNetworkReply *reply;
     QByteArray response_data;
+    QString cardNum;
     QString sum;
     QString saldo;
     QString credit_limit;
     QString used_credit;
+    QString description;
+    QString transacSum;
+    QString id_transactions;
+    QString date;
+    double talletusMaara;
     double talletus;
     double x;
     int aika;

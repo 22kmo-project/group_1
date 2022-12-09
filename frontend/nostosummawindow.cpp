@@ -161,6 +161,7 @@ void nostoSummaWindow::on_pushButton20e_clicked()
 {
     aika = 10;
     qDebug()<<"20e";
+    nostoMaara=20;
     nosto=balance.toDouble();
     countMoney(nosto,20);
     delay();
@@ -170,6 +171,7 @@ void nostoSummaWindow::on_pushButton40e_clicked()
 {
     aika = 10;
     qDebug()<<"40e";
+    nostoMaara=40;
     nosto=balance.toDouble();
     countMoney(nosto,40);
     delay();
@@ -179,6 +181,7 @@ void nostoSummaWindow::on_pushButton60e_clicked()
 {
     aika = 10;
     qDebug()<<"60e";
+    nostoMaara=60;
     nosto=balance.toDouble();
     countMoney(nosto,60);
     delay();
@@ -188,6 +191,7 @@ void nostoSummaWindow::on_pushButton100e_clicked()
 {
     aika = 10;
     qDebug()<<"100e";
+    nostoMaara=100;
     nosto=balance.toDouble();
     countMoney(nosto,100);
     delay();
@@ -197,6 +201,7 @@ void nostoSummaWindow::on_pushButton200e_clicked()
 {
     aika = 10;
     qDebug()<<"200e";
+    nostoMaara=200;
     nosto=balance.toDouble();
     countMoney(nosto,200);
     delay();
@@ -206,6 +211,7 @@ void nostoSummaWindow::on_pushButton500e_clicked()
 {
     aika = 10;
     qDebug()<<"500e";
+    nostoMaara=500;
     nosto=balance.toDouble();
     countMoney(nosto,500);
     delay();
@@ -295,7 +301,8 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
 }
 void nostoSummaWindow::on_kuittiButton_clicked()
 {
-    objectkuittiwindow = new kuittiwindow(webToken, cardnum,credit);
+    qDebug()<<"nosto"<<nostoMaara;
+    objectkuittiwindow = new kuittiwindow(webToken, cardnum,credit,nostoMaara);
     objectkuittiwindow->show();
     this->close();
 }

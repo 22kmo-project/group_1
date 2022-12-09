@@ -17,6 +17,7 @@ SOURCES += \
     mainwindow.cpp \
     nostosummawindow.cpp \
     saldowindow.cpp \
+    talletuskuittiwindow.cpp \
     talletuswindow.cpp \
     tapahtumawindow.cpp \
     url.cpp
@@ -28,6 +29,7 @@ HEADERS += \
     mainwindow.h \
     nostosummawindow.h \
     saldowindow.h \
+    talletuskuittiwindow.h \
     talletuswindow.h \
     tapahtumawindow.h \
     url.h
@@ -39,6 +41,7 @@ FORMS += \
     mainwindow.ui \
     nostosummawindow.ui \
     saldowindow.ui \
+    talletuskuittiwindow.ui \
     talletuswindow.ui \
     tapahtumawindow.ui
 
