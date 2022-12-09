@@ -110,6 +110,20 @@ void talletusWindow::saldoSlot(QNetworkReply *reply)
 
 void talletusWindow::on_talletaButton_clicked()
 {
+    aika = 10;
+    ui->talletaButton->hide();
+    ui->pushButton_0->hide();
+    ui->pushButton_1->hide();
+    ui->pushButton_2->hide();
+    ui->pushButton_3->hide();
+    ui->pushButton_4->hide();
+    ui->pushButton_5->hide();
+    ui->pushButton_6->hide();
+    ui->pushButton_7->hide();
+    ui->pushButton_8->hide();
+    ui->pushButton_9->hide();
+    ui->pyyhiButton->hide();
+    ui->lineEditMaara->hide();
     ui->kuittiButton->show();
     if(credit==false){
     aika = 10;
@@ -140,19 +154,10 @@ void talletusWindow::on_talletaButton_clicked()
     reply = talletusManager->put(request, QJsonDocument(jsonObj).toJson());
     //ui->labelTalletus->show();
 
-    for (int i = 5; i >= 1;i--) {
-        QString info ="Talletettu summa:" + sum + "\n" + "Uusi saldo: "+ uusiSaldo + "\nSuljetaan " +
-        QString::number(i);
-        //ui->labelTalletus->document()->setPlainText(info);
-        talletusDelay();
-    }}
+    }
     else{
         close();
     }
-
-    bankwindow *main = new bankwindow(webToken,card_number,credit);
-    main->show();
-    close();
 
 }
 
