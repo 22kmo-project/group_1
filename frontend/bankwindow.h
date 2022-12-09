@@ -14,8 +14,6 @@
 #include <unistd.h>
 #include "talletuswindow.h"
 
-
-
 namespace Ui {
 class bankwindow;
 }
@@ -29,7 +27,6 @@ public:
     void setWebToken(const QByteArray &newWebToken);
     QString id_account;
     void delay();
-
 public slots:
     void closeWindow();
 private slots:
