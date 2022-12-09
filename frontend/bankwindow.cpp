@@ -7,9 +7,15 @@
 bankwindow::bankwindow(QByteArray webToken,QString cardNumber,bool credit,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::bankwindow)
+
 {
     ui->setupUi(this);
-    bankwindow::setWindowState(Qt::WindowMaximized);
+    qDebug()<<"bankwindow konstruktori";
+    MainWindow *main = new MainWindow;
+    connect(ui->kirjauduUlosButton,&QPushButton::clicked,main,&MainWindow::showWindow);
+    connect(ui->kirjauduUlosButton,&QPushButton::clicked,this,&bankwindow::closeWindow);
+
+    //bankwindow::setWindowState(Qt::WindowMaximized);
     ui->labelLocked->hide();
     ui->timer->setPalette(Qt::red);
     ui->timer->setAutoFillBackground(true);
@@ -44,6 +50,7 @@ bankwindow::bankwindow(QByteArray webToken,QString cardNumber,bool credit,QWidge
 }
 bankwindow::~bankwindow()
 {
+    qDebug() << "bankwindow destruktori";
     delete ui;
     delete objectnostoSummaWindow;
     objectnostoSummaWindow=nullptr;
@@ -51,19 +58,24 @@ bankwindow::~bankwindow()
     objectsaldoWindow=nullptr;
     delete objecttapahtumaWindow;
     objecttapahtumaWindow=nullptr;
+    delete objecttalletusWindow;
+    objecttalletusWindow =nullptr;
+
 }
 
 void bankwindow::setWebToken(const QByteArray &newWebToken)
 {
     token = newWebToken;
+
 }
 
 void bankwindow::on_saldoButton_clicked()
 {
+
     qDebug () << "saldo";
     objectsaldoWindow = new saldoWindow(token,myCard,cardType);
     objectsaldoWindow->show();
-    this->close();
+    closeWindow();
 }
 
 void bankwindow::on_tapahtumaButton_clicked()
@@ -71,11 +83,12 @@ void bankwindow::on_tapahtumaButton_clicked()
     qDebug () << "tapahtuma";
     objecttapahtumaWindow = new tapahtumaWindow(token,myCard,cardType);
     objecttapahtumaWindow->show();
-    this->close();
+    closeWindow();
 }
 
 void bankwindow::dataSlot(QNetworkReply *reply)
 {
+
     QByteArray response_data=reply->readAll();
     qDebug()<<"response data in dataslot, bankwindow.cpp: " << response_data;
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
@@ -90,6 +103,8 @@ void bankwindow::dataSlot(QNetworkReply *reply)
         ui->labelOmistaja->hide();
         ui->labelAccount->hide();
         ui->labelCredit->hide();
+        ui->timer->hide();
+        ui->talletusButton->hide();
         ui->kirjauduUlosButton->hide();
         ui->nostoButton->hide();
         ui->saldoButton->hide();
@@ -100,18 +115,20 @@ void bankwindow::dataSlot(QNetworkReply *reply)
             ui->labelLocked->document()->setPlainText(info);
             delay();
         }
-        this->close();
+        closeWindow();
+    }
+
+    for (aika = 30; aika >= 0; aika--) {
+         delay();
+         ui->timer->display(aika);
+         MainWindow *main = new MainWindow;
+         if (aika == 0 && this->isHidden()==false) {
+            main->show();
+            closeWindow();
+         }
     }
     reply->deleteLater();
     dataManager->deleteLater();
-    for (int i = 30; i >= 0; i--) {
-        delay();
-        ui->timer->display(i);
-    }
-    MainWindow *main = new MainWindow;
-    main->show();
-    this->close();
-
 }
 
 void bankwindow::on_nostoButton_clicked()
@@ -119,18 +136,22 @@ void bankwindow::on_nostoButton_clicked()
     qDebug () << "nosto";
     objectnostoSummaWindow =new nostoSummaWindow(token, myCard,cardType);
     objectnostoSummaWindow->show();
-    this->close();
+    closeWindow();
 }
 
-void bankwindow::on_kirjauduUlosButton_clicked()
-{
-    this->close();
+
+void bankwindow::closeWindow() {
+    close();
 }
+
 void bankwindow::delay()
 {
-    QTime dieTime= QTime::currentTime().addSecs(1);
-    while (QTime::currentTime() < dieTime)
-        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+
+        QTime dieTime= QTime::currentTime().addSecs(1);
+        while (QTime::currentTime() < dieTime)
+            QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+
+
 }
 
 void bankwindow::on_talletusButton_clicked()
@@ -138,7 +159,5 @@ void bankwindow::on_talletusButton_clicked()
     qDebug () << "talleta";
     objecttalletusWindow =new talletusWindow(token, myCard, cardType);
     objecttalletusWindow->show();
-    this->close();
+    closeWindow();
 }
-
-

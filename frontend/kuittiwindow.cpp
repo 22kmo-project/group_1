@@ -12,6 +12,7 @@ kuittiwindow::kuittiwindow(QByteArray token,QString cardnum,bool cardType,double
     ui(new Ui::kuittiwindow)
 {
     ui->setupUi(this);
+    qDebug()<<"kuittiwindow konstruktori";
     kuittiwindow::setWindowState(Qt::WindowMaximized);
     webToken = token;
     card_number = cardnum;
@@ -45,6 +46,7 @@ kuittiwindow::kuittiwindow(QByteArray token,QString cardnum,bool cardType,double
 
 kuittiwindow::~kuittiwindow()
 {
+    qDebug() << "kuitti destruktori";
     delete ui;
 }
 
@@ -102,10 +104,14 @@ void kuittiwindow::asiakasSlot(QNetworkReply *reply)
     for (aika = 10; aika >= 0; aika--) {
         delay();
         ui->timer->display(aika);
+
+        if (aika == 0&& this->isHidden()==false) {
+            bankwindow *bank = new bankwindow(webToken,card_number,credit);
+            bank->show();
+            close();
+        }
     }
-    bankwindow *main = new bankwindow(webToken,card_number,credit);
-    main->show();
-    close();
+
 }
 
 void kuittiwindow::on_pushButton_clicked()

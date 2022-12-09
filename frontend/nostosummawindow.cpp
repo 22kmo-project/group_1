@@ -8,6 +8,7 @@ nostoSummaWindow::nostoSummaWindow(QByteArray token, QString myCard, bool cardTy
     ui(new Ui::nostoSummaWindow)
 {
     ui->setupUi(this);
+    qDebug()<<"bankwindow konstruktori";
     nostoSummaWindow::setWindowState(Qt::WindowMaximized);
     webToken=token;
     cardnum=myCard;
@@ -58,6 +59,7 @@ nostoSummaWindow::nostoSummaWindow(QByteArray token, QString myCard, bool cardTy
 }
 nostoSummaWindow::~nostoSummaWindow()
 {
+    qDebug() << "destruktori";
     delete ui;
 }
 void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
@@ -86,8 +88,13 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
     for (aika = 10; aika >= 0; aika--) {
         delay();
         ui->timer->display(aika);
-
+        if (aika == 0&& this->isHidden()==false) {
+            bankwindow *bank = new bankwindow(webToken,cardnum,credit);
+            bank->show();
+            close();
+        }
     }
+    }else{
     bankwindow *main = new bankwindow(webToken,cardnum,credit);
     main->show();
     close();
@@ -116,10 +123,13 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
         for (aika = 10; aika >= 0; aika--) {
             delay();
             ui->timer->display(aika);
+            if (aika == 0) {
+                bankwindow *bank = new bankwindow(webToken,cardnum,credit);
+                bank->show();
+                close();
+            }
         }
-        bankwindow *main = new bankwindow(webToken,cardnum,credit);
-        main->show();
-        close();
+
     }
   }
 void nostoSummaWindow::balanceSlot(QNetworkReply *reply)
@@ -164,7 +174,6 @@ void nostoSummaWindow::on_pushButton20e_clicked()
     nostoMaara=20;
     nosto=balance.toDouble();
     countMoney(nosto,20);
-    delay();
     qDebug()<<nosto;
 }
 void nostoSummaWindow::on_pushButton40e_clicked()
@@ -174,7 +183,6 @@ void nostoSummaWindow::on_pushButton40e_clicked()
     nostoMaara=40;
     nosto=balance.toDouble();
     countMoney(nosto,40);
-    delay();
     qDebug()<<nosto;;
 }
 void nostoSummaWindow::on_pushButton60e_clicked()
@@ -184,7 +192,6 @@ void nostoSummaWindow::on_pushButton60e_clicked()
     nostoMaara=60;
     nosto=balance.toDouble();
     countMoney(nosto,60);
-    delay();
     qDebug()<<nosto;
 }
 void nostoSummaWindow::on_pushButton100e_clicked()
@@ -194,7 +201,6 @@ void nostoSummaWindow::on_pushButton100e_clicked()
     nostoMaara=100;
     nosto=balance.toDouble();
     countMoney(nosto,100);
-    delay();
     qDebug()<<nosto;
 }
 void nostoSummaWindow::on_pushButton200e_clicked()
@@ -204,7 +210,6 @@ void nostoSummaWindow::on_pushButton200e_clicked()
     nostoMaara=200;
     nosto=balance.toDouble();
     countMoney(nosto,200);
-    delay();
     qDebug()<<nosto;
 }
 void nostoSummaWindow::on_pushButton500e_clicked()
@@ -214,7 +219,6 @@ void nostoSummaWindow::on_pushButton500e_clicked()
     nostoMaara=500;
     nosto=balance.toDouble();
     countMoney(nosto,500);
-    delay();
     qDebug()<<nosto;
 }
 
@@ -262,7 +266,7 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
         connect(updateManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(updateSlot(QNetworkReply*)));
         reply = updateManager->put(request, QJsonDocument(jsonObj).toJson());
         balance = QString::number(omaSaldo);
-        ui->kyhny_info->setText("Massia jäljellä: " +balance);
+        ui->kyhny_info->setText("Katetta jäljellä: " +balance);
         ui->kuittiButton->show();
         }
     }
@@ -323,7 +327,6 @@ void nostoSummaWindow::on_muuButton_clicked()
     ui->seitsemanButton->show();
     ui->kahdeksanButton->show();
     ui->yhdeksanButton->show();
-    delay();
 }
 void nostoSummaWindow::on_confirmButton_clicked()
 {
@@ -354,61 +357,51 @@ void nostoSummaWindow::on_nollaButton_clicked()
 {
     aika = 10;
     ui->lineEdit->setText(ui->lineEdit->text()+ "0");
-    delay();
 }
 void nostoSummaWindow::on_yksiButton_clicked()
 {
     aika = 10;
     ui->lineEdit->setText(ui->lineEdit->text()+ "1");
-    delay();
 }
 void nostoSummaWindow::on_kaksiButton_clicked()
 {
     aika = 10;
     ui->lineEdit->setText(ui->lineEdit->text()+ "2");
-    delay();
 }
 void nostoSummaWindow::on_kolmeButton_clicked()
 {
     aika = 10;
     ui->lineEdit->setText(ui->lineEdit->text()+ "3");
-    delay();
 }
 void nostoSummaWindow::on_neljaButton_clicked()
 {
     aika = 10;
     ui->lineEdit->setText(ui->lineEdit->text()+ "4");
-    delay();
 }
 void nostoSummaWindow::on_viisiButton_clicked()
 {
     aika = 10;
     ui->lineEdit->setText(ui->lineEdit->text()+ "5");
-    delay();
 }
 void nostoSummaWindow::on_kuusiButton_clicked()
 {
     aika = 10;
     ui->lineEdit->setText(ui->lineEdit->text()+ "6");
-    delay();
 }
 void nostoSummaWindow::on_seitsemanButton_clicked()
 {
     aika = 10;
     ui->lineEdit->setText(ui->lineEdit->text()+ "7");
-    delay();
 }
 void nostoSummaWindow::on_kahdeksanButton_clicked()
 {
     aika = 10;
     ui->lineEdit->setText(ui->lineEdit->text()+ "8");
-    delay();
 }
 void nostoSummaWindow::on_yhdeksanButton_clicked()
 {
     aika = 10;
     ui->lineEdit->setText(ui->lineEdit->text()+ "9");
-    delay();
 }
 void nostoSummaWindow::on_kumiButton_clicked()
 {

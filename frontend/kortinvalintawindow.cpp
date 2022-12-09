@@ -6,6 +6,7 @@ kortinValintaWindow::kortinValintaWindow(QByteArray token,QString cardNum,QWidge
     ui(new Ui::kortinValintaWindow)
 {
     ui->setupUi(this);
+    qDebug()<<"kortinvalinta konstruktori";
     kortinValintaWindow::setWindowState(Qt::WindowMaximized);
     cardNumber=cardNum;
     webToken=token;
@@ -19,10 +20,12 @@ kortinValintaWindow::kortinValintaWindow(QByteArray token,QString cardNum,QWidge
     dataManager = new QNetworkAccessManager(this);
     connect(dataManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(dataSlot(QNetworkReply*)));
     reply = dataManager->get(request);
+
 }
 
 kortinValintaWindow::~kortinValintaWindow()
 {
+    qDebug() << "kortinvalinta destruktori";
     delete ui;
     delete objectBankWindow;
     objectBankWindow=nullptr;
@@ -72,4 +75,6 @@ void kortinValintaWindow::on_debitButton_clicked()
     objectBankWindow->setWebToken("Bearer "+response_data);
     objectBankWindow->show();
     this->close();
+
+
 }
