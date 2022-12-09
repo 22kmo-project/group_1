@@ -8,6 +8,7 @@ saldoWindow::saldoWindow(QByteArray token,QString cardnum,bool cardType, QWidget
     ui(new Ui::saldoWindow)
 {
     ui->setupUi(this);
+    qDebug()<<"saldo konstruktori";
     saldoWindow::setWindowState(Qt::WindowMaximized);
     card_number = cardnum;
     webToken=token;
@@ -83,10 +84,13 @@ void saldoWindow::saldoSlot(QNetworkReply *reply)
     for (int i = 10; i >= 0; i--) {
         delay();
         ui->timer->display(i);
+
+        if (i == 0&& this->isHidden()==false) {
+            bankwindow *bank = new bankwindow(webToken,card_number,credit);
+            bank->show();
+            close();
+        }
     }
-    bankwindow *main = new bankwindow(webToken,card_number,credit);
-    main->show();
-    close();
 }
 
 void saldoWindow::asiakasSlot(QNetworkReply *reply)

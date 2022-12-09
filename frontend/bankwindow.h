@@ -14,6 +14,8 @@
 #include <unistd.h>
 #include "talletuswindow.h"
 
+
+
 namespace Ui {
 class bankwindow;
 }
@@ -27,12 +29,14 @@ public:
     void setWebToken(const QByteArray &newWebToken);
     QString id_account;
     void delay();
+
+public slots:
+    void closeWindow();
 private slots:
     void dataSlot (QNetworkReply *reply);
     void on_saldoButton_clicked();
     void on_tapahtumaButton_clicked();
     void on_nostoButton_clicked();
-    void on_kirjauduUlosButton_clicked();
     void on_talletusButton_clicked();
 private:
     Ui::bankwindow *ui;
@@ -46,5 +50,7 @@ private:
     QNetworkReply *reply;
     QByteArray response_data;
     bool cardType;
+    int aika;
+
 };
 #endif // BANKWINDOW_H
