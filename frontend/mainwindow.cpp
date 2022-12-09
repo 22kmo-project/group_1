@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //MainWindow::setWindowState(Qt::WindowMaximized);
+    MainWindow::setWindowState(Qt::WindowMaximized);
     qDebug() << "konstruktori";
     ui->labelKirjaudu->setText("Anna kortin numero ja paina kirjaudu sisään");
 
