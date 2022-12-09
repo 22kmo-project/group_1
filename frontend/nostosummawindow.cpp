@@ -244,7 +244,7 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
               ui->nosto_info->setText("Tilillä ei riittävästi katetta.");
          }
 
-        if(omaSaldo>nostoSumma)
+        if(omaSaldo>=nostoSumma)
         {
         omaSaldo=omaSaldo-nostoSumma;
         ui->nosto_info->setText("Nosto onnistui");
@@ -269,14 +269,16 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
    if (credit==true)
     {
 
-        omaSaldo=omaSaldo+nostoSumma; //Tässä todenäköisesti virhe ?
-        //omaSaldo+nostoSumma = Se on oma debit saldo + nostettava summa ja se menee used credit miksi ?
+        omaSaldo=omaSaldo+nostoSumma;
 
+        creditMax=creditLimit.toDouble(); //tein headerii uuden muuttujan nimeltä creditMax, se on nyt creditLimit stringin double versio.
+        if(creditMax>=omaSaldo)
+        {
         ui->nosto_info->setText("Nosto onnistui");
         QJsonObject jsonObj;
-        jsonObj.insert("credit_limit",creditLimit);
+        jsonObj.insert("credit_limit",creditLimit); //jos joku tässä kusee nii tämä, Saattaa olla vääräs muodos menossa sisää
         jsonObj.insert("debit_balance",debitBalance);
-        jsonObj.insert("used_credit",omaSaldo); // Tänne menee ne omaSaldo+nostoSumma
+        jsonObj.insert("used_credit",omaSaldo);
         QString site_url=url::getBaseUrl()+"/accounts/"+id_account;
         QNetworkRequest request((site_url));
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -290,6 +292,11 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
         QString nostettu = QString::number(nostoSumma);
         ui->kyhny_info->setText("Nostettu: "+nostettu);
         ui->kuittiButton->show();
+        }
+        else
+        {
+             ui->nosto_info->setText("Tilillä ei riittävästi luottoa.");
+        }
     }
 }
 void nostoSummaWindow::on_kuittiButton_clicked()
