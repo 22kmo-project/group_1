@@ -9,7 +9,8 @@ talletusWindow::talletusWindow(QByteArray token,QString cardNumber,bool cardType
     ui->setupUi(this);
     qDebug()<<"talletus konstruktori";
     talletusWindow::setWindowState(Qt::WindowMaximized);
-    ui->labelTalletus->hide();
+    //ui->labelTalletus->hide();
+    ui->kuittiButton->hide();
     card_number = cardNumber;
     webToken=token;
 
@@ -109,12 +110,14 @@ void talletusWindow::saldoSlot(QNetworkReply *reply)
 
 void talletusWindow::on_talletaButton_clicked()
 {
+    ui->kuittiButton->show();
     if(credit==false){
     aika = 10;
     ui->talletusLabel->clear();
     sum=ui->lineEditMaara->text();
     ui->lineEditMaara->clear();
     qDebug()<<"summa"<<sum;
+    talletusMaara = sum.toDouble();
     double y = sum.toDouble();
     talletus=x + y;
     qDebug()<<"talletus"<<talletus;
@@ -135,12 +138,12 @@ void talletusWindow::on_talletaButton_clicked()
     talletusManager = new QNetworkAccessManager(this);
     connect(talletusManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(talletusSlot(QNetworkReply*)));
     reply = talletusManager->put(request, QJsonDocument(jsonObj).toJson());
-    ui->labelTalletus->show();
+    //ui->labelTalletus->show();
 
     for (int i = 5; i >= 1;i--) {
         QString info ="Talletettu summa:" + sum + "\n" + "Uusi saldo: "+ uusiSaldo + "\nSuljetaan " +
         QString::number(i);
-        ui->labelTalletus->document()->setPlainText(info);
+        //ui->labelTalletus->document()->setPlainText(info);
         talletusDelay();
     }}
     else{
@@ -239,5 +242,12 @@ void talletusWindow::on_pushButton_0_clicked()
 void talletusWindow::on_pyyhiButton_clicked()
 {
     ui->lineEditMaara->backspace();
+}
+
+void talletusWindow::on_kuittiButton_clicked()
+{
+    objecttalletusKuittiWindow = new talletusKuittiWindow(webToken, card_number,credit,talletusMaara);
+    objecttalletusKuittiWindow->show();
+    this->close();
 }
 

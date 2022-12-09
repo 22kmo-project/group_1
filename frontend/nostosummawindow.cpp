@@ -95,6 +95,11 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
         }
     }
     }else{
+    bankwindow *main = new bankwindow(webToken,cardnum,credit);
+    main->show();
+    close();
+
+    }if(credit==true){
         QByteArray response_data=reply->readAll();
         qDebug()<<response_data;
         QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
@@ -141,12 +146,13 @@ void nostoSummaWindow::balanceSlot(QNetworkReply *reply)
     qDebug()<<"balance on:" << balance;
     ui->kyhny_info->setText("Tilillä katetta: "+balance);
     }
-    else{
+    if(credit==true) //else
+        {
         QByteArray response_data=reply->readAll();
         qDebug()<<response_data;
         QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
         QJsonObject json_obj = json_doc.object();
-        balance=QString::number(json_obj["used_credit"].toDouble());
+        balance=QString::number(json_obj["used_credit"].toDouble()); //täällä saldo paikalle otetaan used_credit miksi ?
         debitBalance = QString::number(json_obj["debit_balance"].toDouble());
         creditLimit = QString::number(json_obj["credit_limit"].toDouble());
         qDebug()<<"balance on:" << balance;
@@ -165,6 +171,7 @@ void nostoSummaWindow::on_pushButton20e_clicked()
 {
     aika = 10;
     qDebug()<<"20e";
+    nostoMaara=20;
     nosto=balance.toDouble();
     countMoney(nosto,20);
     qDebug()<<nosto;
@@ -173,6 +180,7 @@ void nostoSummaWindow::on_pushButton40e_clicked()
 {
     aika = 10;
     qDebug()<<"40e";
+    nostoMaara=40;
     nosto=balance.toDouble();
     countMoney(nosto,40);
     qDebug()<<nosto;;
@@ -181,6 +189,7 @@ void nostoSummaWindow::on_pushButton60e_clicked()
 {
     aika = 10;
     qDebug()<<"60e";
+    nostoMaara=60;
     nosto=balance.toDouble();
     countMoney(nosto,60);
     qDebug()<<nosto;
@@ -189,6 +198,7 @@ void nostoSummaWindow::on_pushButton100e_clicked()
 {
     aika = 10;
     qDebug()<<"100e";
+    nostoMaara=100;
     nosto=balance.toDouble();
     countMoney(nosto,100);
     qDebug()<<nosto;
@@ -197,6 +207,7 @@ void nostoSummaWindow::on_pushButton200e_clicked()
 {
     aika = 10;
     qDebug()<<"200e";
+    nostoMaara=200;
     nosto=balance.toDouble();
     countMoney(nosto,200);
     qDebug()<<nosto;
@@ -205,6 +216,7 @@ void nostoSummaWindow::on_pushButton500e_clicked()
 {
     aika = 10;
     qDebug()<<"500e";
+    nostoMaara=500;
     nosto=balance.toDouble();
     countMoney(nosto,500);
     qDebug()<<nosto;
@@ -227,14 +239,17 @@ void nostoSummaWindow::delay()
 
 void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
 {
-    if(omaSaldo<nostoSumma)
-    {
 
-        ui->nosto_info->setText("Tilillä ei riittävästi katetta.");
-    }
 
      if(credit==false)
     {
+         if(omaSaldo<nostoSumma)
+         {
+              ui->nosto_info->setText("Tilillä ei riittävästi katetta.");
+         }
+
+        if(omaSaldo>=nostoSumma)
+        {
         omaSaldo=omaSaldo-nostoSumma;
         ui->nosto_info->setText("Nosto onnistui");
         QJsonObject jsonObj;
@@ -253,15 +268,19 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
         balance = QString::number(omaSaldo);
         ui->kyhny_info->setText("Katetta jäljellä: " +balance);
         ui->kuittiButton->show();
+        }
     }
-  else if (credit==true)
+   if (credit==true)
     {
-    
+
         omaSaldo=omaSaldo+nostoSumma;
 
+        creditMax=creditLimit.toDouble(); //tein headerii uuden muuttujan nimeltä creditMax, se on nyt creditLimit stringin double versio.
+        if(creditMax>=omaSaldo)
+        {
         ui->nosto_info->setText("Nosto onnistui");
         QJsonObject jsonObj;
-        jsonObj.insert("credit_limit",creditLimit);
+        jsonObj.insert("credit_limit",creditLimit); //jos joku tässä kusee nii tämä, Saattaa olla vääräs muodos menossa sisää
         jsonObj.insert("debit_balance",debitBalance);
         jsonObj.insert("used_credit",omaSaldo);
         QString site_url=url::getBaseUrl()+"/accounts/"+id_account;
@@ -277,16 +296,23 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
         QString nostettu = QString::number(nostoSumma);
         ui->kyhny_info->setText("Nostettu: "+nostettu);
         ui->kuittiButton->show();
+        }
+        else
+        {
+             ui->nosto_info->setText("Tilillä ei riittävästi luottoa.");
+        }
     }
 }
 void nostoSummaWindow::on_kuittiButton_clicked()
 {
-    objectkuittiwindow = new kuittiwindow(webToken, cardnum,credit);
+    qDebug()<<"nosto"<<nostoMaara;
+    objectkuittiwindow = new kuittiwindow(webToken, cardnum,credit,nostoMaara);
     objectkuittiwindow->show();
     this->close();
 }
 void nostoSummaWindow::on_muuButton_clicked()
-{   aika = 10;
+{
+    aika = 10;
     ui->lineEdit->show();
     ui->muu_info->show();
     ui->confirmButton->show();

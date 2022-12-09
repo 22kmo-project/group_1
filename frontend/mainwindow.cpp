@@ -67,16 +67,19 @@ void MainWindow::loginSlot(QNetworkReply *reply)
         qDebug() << "login tries" << loginTries;
         ui->lineEditKirjaudu->clear();
         ui->labelKirjaudu->setText("Väärä pin. Syötä pin uudelleen. Yrityksiä: "  + QString::number(loginTries));
+        ui->loginButton->hide();
         kirjautuminen--;
-        if (loginTries == 0) {
+        if (loginTries <= 0) {
             ui->labelKirjaudu->clear();
             ui->labelKirjaudu->setText("Kortti lukittu.");
+                    ui->loginButton->hide();
         }
     }
     else {
         if(QString::compare(response_data,"-4078")==0){
             ui->lineEditKirjaudu->clear();
             ui->labelInfo->setText("Virhe tietokanta yhteydessä");
+            ui->loginButton->hide();
             kirjautuminen--;
         }
         else {

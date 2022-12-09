@@ -218,16 +218,6 @@
     <string>0</string>
    </property>
   </widget>
-  <widget class="QPlainTextEdit" name="labelTalletus">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>401</width>
-     <height>301</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLCDNumber" name="timer">
    <property name="geometry">
     <rect>
@@ -251,25 +241,19 @@
     <string>Pyyhi</string>
    </property>
   </widget>
-  <zorder>lineEditMaara</zorder>
-  <zorder>talletusLabel</zorder>
-  <zorder>talletaButton</zorder>
-  <zorder>peruutaButton</zorder>
-  <zorder>saldoLabel</zorder>
-  <zorder>summaLabel</zorder>
-  <zorder>pushButton_1</zorder>
-  <zorder>pushButton_2</zorder>
-  <zorder>pushButton_3</zorder>
-  <zorder>pushButton_4</zorder>
-  <zorder>pushButton_5</zorder>
-  <zorder>pushButton_6</zorder>
-  <zorder>pushButton_7</zorder>
-  <zorder>pushButton_8</zorder>
-  <zorder>pushButton_9</zorder>
-  <zorder>pushButton_0</zorder>
-  <zorder>timer</zorder>
-  <zorder>pyyhiButton</zorder>
-  <zorder>labelTalletus</zorder>
+  <widget class="QPushButton" name="kuittiButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>160</y>
+     <width>83</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Kuitti</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

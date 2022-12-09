@@ -1,5 +1,5 @@
-#include "kuittiwindow.h"
-#include "ui_kuittiwindow.h"
+#include "talletuskuittiwindow.h"
+#include "ui_talletuskuittiwindow.h"
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QCoreApplication>
@@ -7,17 +7,16 @@
 #include <QMessageBox>
 #include "bankwindow.h"
 
-kuittiwindow::kuittiwindow(QByteArray token,QString cardnum,bool cardType,double nostoMaara,QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::kuittiwindow)
+talletusKuittiWindow::talletusKuittiWindow(QByteArray token,QString cardnum,bool cardType,double talletusMaara,QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::talletusKuittiWindow)
 {
     ui->setupUi(this);
-    qDebug()<<"kuittiwindow konstruktori";
-    kuittiwindow::setWindowState(Qt::WindowMaximized);
+    talletusKuittiWindow::setWindowState(Qt::WindowMaximized);
     webToken = token;
     card_number = cardnum;
-    nosto=QString::number(nostoMaara);;
-    qDebug()<<"nosto"<<nostoMaara;
+    talletus=QString::number(talletusMaara);;
+    qDebug()<<"nosto"<<talletusMaara;
     if(cardType==true)//debit käytössä = false , credit käytössä = true
     {
         credit=true;
@@ -44,13 +43,12 @@ kuittiwindow::kuittiwindow(QByteArray token,QString cardnum,bool cardType,double
     reply = kuittiManager->get(request);
 }
 
-kuittiwindow::~kuittiwindow()
+talletusKuittiWindow::~talletusKuittiWindow()
 {
-    qDebug() << "kuitti destruktori";
     delete ui;
 }
 
-void kuittiwindow::delay()
+void talletusKuittiWindow::delay()
 {
     int afkTimer=1;
     QTime dieTime= QTime::currentTime().addSecs(afkTimer);
@@ -58,7 +56,7 @@ void kuittiwindow::delay()
          QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
 
-void kuittiwindow::kuittiSlot(QNetworkReply *reply)
+void talletusKuittiWindow::kuittiSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
@@ -76,11 +74,9 @@ void kuittiwindow::kuittiSlot(QNetworkReply *reply)
 
     connect(asiakasManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(asiakasSlot(QNetworkReply*)));
     reply = asiakasManager->get(request);
-
-
 }
 
-void kuittiwindow::asiakasSlot(QNetworkReply *reply)
+void talletusKuittiWindow::asiakasSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
@@ -90,36 +86,28 @@ void kuittiwindow::asiakasSlot(QNetworkReply *reply)
     creditLimit = QString::number(json_obj["credit_limit"].toDouble());
     QDateTime time= QDateTime::currentDateTime();
     QString date = time.toString("dd.MM.yyyy hh:mm:ss");
-    if(credit==false){
-    ui->labelKuitti->setText("Kuitti tapahtumasta\n\nNostettu summa: " + nosto + "\nUusi saldo: " + debitBalance +
+
+    ui->labelKuitti->setText("Kuitti tapahtumasta\n\nTalletettu summa: " + talletus + "\nUusi saldo: " + debitBalance +
                              "\nKortin omistaja: " + card_owner+ "\nKortin numero: " + cardNum + "\nPäivämäärä: " + date);
-}
-    else
-    {
-    ui->labelKuitti->setText("Kuitti tapahtumasta\n\nNostettu summa: " + nosto + "\nKäytetty luotto: " + usedCredit +
-                             "\nLuottoraja:" + creditLimit +
-                             "\nKortin omistaja: " + card_owner+ "\nKortin numero: " + cardNum + "\nPäivämäärä: " + date);
-    }
+
 
     for (aika = 10; aika >= 0; aika--) {
         delay();
         ui->timer->display(aika);
-
-        if (aika == 0&& this->isHidden()==false) {
-            bankwindow *bank = new bankwindow(webToken,card_number,credit);
-            bank->show();
-            close();
-        }
     }
-
+    bankwindow *main = new bankwindow(webToken,card_number,credit);
+    main->show();
+    close();
 }
 
-void kuittiwindow::on_pushButton_clicked()
+void talletusKuittiWindow::on_pushButton_clicked()
 {
     bankwindow *main = new bankwindow(webToken,card_number,credit);
     main->show();
     close();
 }
-void kuittiwindow::close_window() {
+
+void talletusKuittiWindow::close_window()
+{
     close();
 }
