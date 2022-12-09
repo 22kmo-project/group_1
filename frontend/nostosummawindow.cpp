@@ -92,7 +92,7 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
     main->show();
     close();
 
-    }else{
+    }if(credit==true){
         QByteArray response_data=reply->readAll();
         qDebug()<<response_data;
         QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
@@ -136,12 +136,13 @@ void nostoSummaWindow::balanceSlot(QNetworkReply *reply)
     qDebug()<<"balance on:" << balance;
     ui->kyhny_info->setText("Tilillä katetta: "+balance);
     }
-    else{
+    if(credit==true) //else
+        {
         QByteArray response_data=reply->readAll();
         qDebug()<<response_data;
         QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
         QJsonObject json_obj = json_doc.object();
-        balance=QString::number(json_obj["used_credit"].toDouble());
+        balance=QString::number(json_obj["used_credit"].toDouble()); //täällä saldo paikalle otetaan used_credit miksi ?
         debitBalance = QString::number(json_obj["debit_balance"].toDouble());
         creditLimit = QString::number(json_obj["credit_limit"].toDouble());
         qDebug()<<"balance on:" << balance;
@@ -234,14 +235,17 @@ void nostoSummaWindow::delay()
 
 void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
 {
-    if(omaSaldo<nostoSumma)
-    {
 
-        ui->nosto_info->setText("Tilillä ei riittävästi katetta.");
-    }
 
      if(credit==false)
     {
+         if(omaSaldo<nostoSumma)
+         {
+              ui->nosto_info->setText("Tilillä ei riittävästi katetta.");
+         }
+
+        if(omaSaldo>nostoSumma)
+        {
         omaSaldo=omaSaldo-nostoSumma;
         ui->nosto_info->setText("Nosto onnistui");
         QJsonObject jsonObj;
@@ -260,17 +264,19 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
         balance = QString::number(omaSaldo);
         ui->kyhny_info->setText("Massia jäljellä: " +balance);
         ui->kuittiButton->show();
+        }
     }
-  else if (credit==true)
+   if (credit==true)
     {
-    
-        omaSaldo=omaSaldo+nostoSumma;
+
+        omaSaldo=omaSaldo+nostoSumma; //Tässä todenäköisesti virhe ?
+        //omaSaldo+nostoSumma = Se on oma debit saldo + nostettava summa ja se menee used credit miksi ?
 
         ui->nosto_info->setText("Nosto onnistui");
         QJsonObject jsonObj;
         jsonObj.insert("credit_limit",creditLimit);
         jsonObj.insert("debit_balance",debitBalance);
-        jsonObj.insert("used_credit",omaSaldo);
+        jsonObj.insert("used_credit",omaSaldo); // Tänne menee ne omaSaldo+nostoSumma
         QString site_url=url::getBaseUrl()+"/accounts/"+id_account;
         QNetworkRequest request((site_url));
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -294,7 +300,8 @@ void nostoSummaWindow::on_kuittiButton_clicked()
     this->close();
 }
 void nostoSummaWindow::on_muuButton_clicked()
-{   aika = 10;
+{
+    aika = 10;
     ui->lineEdit->show();
     ui->muu_info->show();
     ui->confirmButton->show();
