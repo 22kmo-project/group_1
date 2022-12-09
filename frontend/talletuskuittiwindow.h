@@ -1,5 +1,5 @@
-#ifndef KUITTIWINDOW_H
-#define KUITTIWINDOW_H
+#ifndef TALLETUSKUITTIWINDOW_H
+#define TALLETUSKUITTIWINDOW_H
 #include <QtNetwork>
 #include <QWidget>
 #include <QTableWidget>
@@ -9,17 +9,19 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include "url.h"
+#include <QWidget>
 
-namespace Ui{
-class kuittiwindow;
+namespace Ui {
+class talletusKuittiWindow;
 }
 
-class kuittiwindow : public QDialog
+class talletusKuittiWindow : public QWidget
 {
     Q_OBJECT
+
 public:
-    explicit kuittiwindow(QByteArray token,QString cardnum,bool cardType,double nostoMaara,QWidget *parent = nullptr);
-    ~kuittiwindow();
+    explicit talletusKuittiWindow(QByteArray token,QString cardnum,bool cardType,double talletusMaara,QWidget *parent = nullptr);
+    ~talletusKuittiWindow();
     void setWebToken(const QByteArray &newWebToken);
     void delay();
 public slots:
@@ -29,11 +31,9 @@ private slots:
     void asiakasSlot(QNetworkReply *reply);
     void on_pushButton_clicked();
 private:
-    QTableWidget* m_pTableWidget;
-    QStringList m_TableHeader;
-    Ui::kuittiwindow *ui;
+    Ui::talletusKuittiWindow *ui;
     QString card_number;
-    QString nosto;
+    QString talletus;
     QByteArray webToken;
     QNetworkAccessManager *kuittiManager;
     QNetworkAccessManager *asiakasManager;
@@ -49,4 +49,5 @@ private:
     QString usedCredit;
     QString creditLimit;
 };
-#endif // KUITTIWINDOW_H
+
+#endif // TALLETUSKUITTIWINDOW_H
