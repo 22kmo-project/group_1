@@ -244,7 +244,7 @@
   <widget class="QPushButton" name="kuittiButton">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>150</x>
      <y>160</y>
      <width>83</width>
      <height>29</height>

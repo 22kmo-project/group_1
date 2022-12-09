@@ -177,6 +177,14 @@ void nostoSummaWindow::on_pushButton20e_clicked()
     nosto=balance.toDouble();
     countMoney(nosto,20);
     qDebug()<<nosto;
+    ui->pushButton20e->hide();
+    ui->pushButton40e->hide();
+    ui->pushButton60e->hide();
+    ui->pushButton100e->hide();
+    ui->pushButton200e->hide();
+    ui->pushButton500e->hide();
+    ui->muuButton->hide();
+    ui->label->hide();
 }
 void nostoSummaWindow::on_pushButton40e_clicked()
 {
@@ -186,6 +194,14 @@ void nostoSummaWindow::on_pushButton40e_clicked()
     nosto=balance.toDouble();
     countMoney(nosto,40);
     qDebug()<<nosto;;
+    ui->pushButton20e->hide();
+    ui->pushButton40e->hide();
+    ui->pushButton60e->hide();
+    ui->pushButton100e->hide();
+    ui->pushButton200e->hide();
+    ui->pushButton500e->hide();
+    ui->muuButton->hide();
+    ui->label->hide();
 }
 void nostoSummaWindow::on_pushButton60e_clicked()
 {
@@ -195,6 +211,14 @@ void nostoSummaWindow::on_pushButton60e_clicked()
     nosto=balance.toDouble();
     countMoney(nosto,60);
     qDebug()<<nosto;
+    ui->pushButton20e->hide();
+    ui->pushButton40e->hide();
+    ui->pushButton60e->hide();
+    ui->pushButton100e->hide();
+    ui->pushButton200e->hide();
+    ui->pushButton500e->hide();
+    ui->muuButton->hide();
+    ui->label->hide();
 }
 void nostoSummaWindow::on_pushButton100e_clicked()
 {
@@ -204,6 +228,14 @@ void nostoSummaWindow::on_pushButton100e_clicked()
     nosto=balance.toDouble();
     countMoney(nosto,100);
     qDebug()<<nosto;
+    ui->pushButton20e->hide();
+    ui->pushButton40e->hide();
+    ui->pushButton60e->hide();
+    ui->pushButton100e->hide();
+    ui->pushButton200e->hide();
+    ui->pushButton500e->hide();
+    ui->muuButton->hide();
+    ui->label->hide();
 }
 void nostoSummaWindow::on_pushButton200e_clicked()
 {
@@ -213,6 +245,14 @@ void nostoSummaWindow::on_pushButton200e_clicked()
     nosto=balance.toDouble();
     countMoney(nosto,200);
     qDebug()<<nosto;
+    ui->pushButton20e->hide();
+    ui->pushButton40e->hide();
+    ui->pushButton60e->hide();
+    ui->pushButton100e->hide();
+    ui->pushButton200e->hide();
+    ui->pushButton500e->hide();
+    ui->muuButton->hide();
+    ui->label->hide();
 }
 void nostoSummaWindow::on_pushButton500e_clicked()
 {
@@ -222,6 +262,14 @@ void nostoSummaWindow::on_pushButton500e_clicked()
     nosto=balance.toDouble();
     countMoney(nosto,500);
     qDebug()<<nosto;
+    ui->pushButton20e->hide();
+    ui->pushButton40e->hide();
+    ui->pushButton60e->hide();
+    ui->pushButton100e->hide();
+    ui->pushButton200e->hide();
+    ui->pushButton500e->hide();
+    ui->muuButton->hide();
+    ui->label->hide();
 }
 
 void nostoSummaWindow::on_suljeButton_clicked()
@@ -351,6 +399,27 @@ void nostoSummaWindow::on_confirmButton_clicked()
         ui->jakolabel->show();
         qDebug()<<"Nosto luku on virheellinen";
     }
+    ui->pushButton20e->hide();
+    ui->pushButton40e->hide();
+    ui->pushButton60e->hide();
+    ui->pushButton100e->hide();
+    ui->pushButton200e->hide();
+    ui->pushButton500e->hide();
+    ui->muuButton->hide();
+    ui->label->hide();
+    ui->kumiButton->hide();
+    ui->nollaButton->hide();
+    ui->yksiButton->hide();
+    ui->kaksiButton->hide();
+    ui->kolmeButton->hide();
+    ui->neljaButton->hide();
+    ui->viisiButton->hide();
+    ui->kuusiButton->hide();
+    ui->seitsemanButton->hide();
+    ui->kahdeksanButton->hide();
+    ui->yhdeksanButton->hide();
+    ui->confirmButton->hide();
+    ui->lineEdit->hide();
 }
 void nostoSummaWindow::close_window() {
     close();
