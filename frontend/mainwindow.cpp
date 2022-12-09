@@ -6,7 +6,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    MainWindow::setWindowState(Qt::WindowMaximized);
+    this->setStyleSheet("background-image: url(:/icons/talvi.jpg)");
+    this->setWindowState(Qt::WindowMaximized);
     qDebug() << "mainwindow konstruktori";
     ui->labelKirjaudu->setText("Anna kortin numero ja paina kirjaudu sisään");
 }

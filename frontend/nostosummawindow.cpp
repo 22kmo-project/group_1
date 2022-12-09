@@ -8,8 +8,8 @@ nostoSummaWindow::nostoSummaWindow(QByteArray token, QString myCard, bool cardTy
     ui(new Ui::nostoSummaWindow)
 {
     ui->setupUi(this);
+    this->setWindowState(Qt::WindowMaximized);
     qDebug()<<"nostosumma konstruktori";
-    nostoSummaWindow::setWindowState(Qt::WindowMaximized);
     webToken=token;
     cardnum=myCard;
     ui->timer->setPalette(Qt::red);

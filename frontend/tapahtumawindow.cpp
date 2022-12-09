@@ -12,8 +12,8 @@ tapahtumaWindow::tapahtumaWindow(QByteArray token,QString myCard,bool cardType,Q
     ui(new Ui::tapahtumaWindow)
 {
     ui->setupUi(this);
+    this->setWindowState(Qt::WindowMaximized);
     qDebug()<<"tapahtuma konstruktori";
-    tapahtumaWindow::setWindowState(Qt::WindowMaximized);
     webToken=token;
     card_number = myCard;
     qDebug()<<card_number;

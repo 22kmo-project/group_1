@@ -13,14 +13,14 @@ bankwindow::bankwindow(QByteArray webToken,QString cardNumber,bool credit,QWidge
 
 {
     ui->setupUi(this);
+    this->setStyleSheet("background-image: url(:/icons/talvi.jpg)");
+    this->setWindowState(Qt::WindowMaximized);
     qDebug()<<"bankwindow konstruktori";
 
     objectmainWindow = new MainWindow;
 
     connect(ui->kirjauduUlosButton,&QPushButton::clicked,objectmainWindow,&MainWindow::showWindow);
     connect(ui->kirjauduUlosButton,&QPushButton::clicked,this,&bankwindow::closeWindow);
-
-    //bankwindow::setWindowState(Qt::WindowMaximized);
     ui->labelLocked->hide();
     ui->timer->setPalette(Qt::red);
     ui->timer->setAutoFillBackground(true);
@@ -106,8 +106,8 @@ void bankwindow::dataSlot(QNetworkReply *reply)
     qDebug()<<"kortti: " <<cardType;
     if (omistaja == "LOCKED") {
         ui->labelOmistaja->hide();
-        ui->labelAccount->hide();
-        ui->labelCredit->hide();
+        //ui->labelAccount->hide();
+        //ui->labelCredit->hide();
         ui->timer->hide();
         ui->talletusButton->hide();
         ui->kirjauduUlosButton->hide();
