@@ -4,6 +4,9 @@
 #include "url.h"
 #include "nostosummawindow.h"
 
+MainWindow *objectmainWindow;
+
+
 bankwindow::bankwindow(QByteArray webToken,QString cardNumber,bool credit,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::bankwindow)
@@ -11,8 +14,10 @@ bankwindow::bankwindow(QByteArray webToken,QString cardNumber,bool credit,QWidge
 {
     ui->setupUi(this);
     qDebug()<<"bankwindow konstruktori";
-    MainWindow *main = new MainWindow;
-    connect(ui->kirjauduUlosButton,&QPushButton::clicked,main,&MainWindow::showWindow);
+
+    objectmainWindow = new MainWindow;
+
+    connect(ui->kirjauduUlosButton,&QPushButton::clicked,objectmainWindow,&MainWindow::showWindow);
     connect(ui->kirjauduUlosButton,&QPushButton::clicked,this,&bankwindow::closeWindow);
 
     //bankwindow::setWindowState(Qt::WindowMaximized);
@@ -115,15 +120,16 @@ void bankwindow::dataSlot(QNetworkReply *reply)
             ui->labelLocked->document()->setPlainText(info);
             delay();
         }
+        objectmainWindow->showWindow();
         closeWindow();
+
     }
 
-    for (aika = 30; aika >= 0; aika--) {
+    for (aika = 3; aika >= 0; aika--) {
          delay();
          ui->timer->display(aika);
-         MainWindow *main = new MainWindow;
          if (aika == 0 && this->isHidden()==false) {
-            main->show();
+            objectmainWindow->show();
             closeWindow();
          }
     }
@@ -146,10 +152,9 @@ void bankwindow::closeWindow() {
 
 void bankwindow::delay()
 {
-
-        QTime dieTime= QTime::currentTime().addSecs(1);
-        while (QTime::currentTime() < dieTime)
-            QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+    QTime dieTime= QTime::currentTime().addSecs(1);
+    while (QTime::currentTime() < dieTime)
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 
 
 }

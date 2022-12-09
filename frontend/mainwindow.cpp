@@ -5,14 +5,10 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    if (this->isHidden()==true) {
-        ui->setupUi(this);
-        MainWindow::setWindowState(Qt::WindowMaximized);
-        qDebug() << "mainwindow konstruktori";
-        ui->labelKirjaudu->setText("Anna kortin numero ja paina kirjaudu sisään");
-    }
-
-
+    ui->setupUi(this);
+    MainWindow::setWindowState(Qt::WindowMaximized);
+    qDebug() << "mainwindow konstruktori";
+    ui->labelKirjaudu->setText("Anna kortin numero ja paina kirjaudu sisään");
 }
 
 MainWindow::~MainWindow()
@@ -66,8 +62,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
         loginTries = loginTries - 1;
         qDebug() << "login tries" << loginTries;
         ui->lineEditKirjaudu->clear();
-        ui->labelKirjaudu->setText("Väärä pin. Syötä pin uudelleen. Yrityksiä: "  + QString::number(loginTries));
-        ui->loginButton->hide();
+        ui->labelKirjaudu->setText("Pin väärin,yritä uudelleen.Yrityksiä: "  + QString::number(loginTries));
         kirjautuminen--;
         if (loginTries <= 0) {
             ui->labelKirjaudu->clear();
@@ -85,9 +80,12 @@ void MainWindow::loginSlot(QNetworkReply *reply)
         else {
             if(test==0){
                 ui->lineEditKirjaudu->clear();
-                ui->labelInfo->setText("Tunnus ja salasana eivät täsmää");
-                ui->loginButton->hide();
-                kirjautuminen--;
+                for (int i = 3; i >=0;i--) {
+                    QString info = "Tunnus ja pin ei täsmää. Yritä uudelleen "+ QString::number(i) +"s kuluttua...";
+                    ui->labelInfo->setText(info);
+                    delay();
+                }
+                on_peruutaButton_clicked();
             }
              else {
                 objectKortinValinta=new kortinValintaWindow(token,cardNum);
@@ -99,6 +97,12 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     }
     reply->deleteLater();
     loginManager->deleteLater();
+}
+void MainWindow::delay()
+{
+    QTime dieTime= QTime::currentTime().addSecs(1);
+    while (QTime::currentTime() < dieTime)
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
 void MainWindow::on_peruutaButton_clicked() //tämä ois "restart"
 {
