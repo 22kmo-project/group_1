@@ -94,10 +94,13 @@ void talletusKuittiWindow::asiakasSlot(QNetworkReply *reply)
     for (aika = 10; aika >= 0; aika--) {
         delay();
         ui->timer->display(aika);
+        if (aika == 0&& this->isHidden()==false) {
+            bankwindow *bank = new bankwindow(webToken,card_number,credit);
+            bank->show();
+            this->close();
+        }
     }
-    bankwindow *main = new bankwindow(webToken,card_number,credit);
-    main->show();
-    close();
+
 }
 
 void talletusKuittiWindow::on_pushButton_clicked()

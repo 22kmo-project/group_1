@@ -8,7 +8,7 @@ nostoSummaWindow::nostoSummaWindow(QByteArray token, QString myCard, bool cardTy
     ui(new Ui::nostoSummaWindow)
 {
     ui->setupUi(this);
-    qDebug()<<"bankwindow konstruktori";
+    qDebug()<<"nostosumma konstruktori";
     nostoSummaWindow::setWindowState(Qt::WindowMaximized);
     webToken=token;
     cardnum=myCard;
@@ -95,8 +95,8 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
         }
     }
     }else{
-    bankwindow *main = new bankwindow(webToken,cardnum,credit);
-    main->show();
+    bankwindow *bank = new bankwindow(webToken,cardnum,credit);
+    bank->show();
     close();
 
     }if(credit==true){
@@ -123,7 +123,7 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
         for (aika = 10; aika >= 0; aika--) {
             delay();
             ui->timer->display(aika);
-            if (aika == 0) {
+            if (aika == 0&& this->isHidden()==false) {
                 bankwindow *bank = new bankwindow(webToken,cardnum,credit);
                 bank->show();
                 close();
@@ -148,6 +148,7 @@ void nostoSummaWindow::balanceSlot(QNetworkReply *reply)
     }
     if(credit==true) //else
         {
+
         QByteArray response_data=reply->readAll();
         qDebug()<<response_data;
         QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
@@ -157,11 +158,13 @@ void nostoSummaWindow::balanceSlot(QNetworkReply *reply)
         creditLimit = QString::number(json_obj["credit_limit"].toDouble());
         qDebug()<<"balance on:" << balance;
         ui->kyhny_info->setText("Luottoraja on: "+creditLimit + "\nKäytetty: " + balance);
+
     }
 }
 
 void nostoSummaWindow::updateSlot(QNetworkReply *reply)
 {
+
     response_data=reply->readAll();
     reply->deleteLater();
     updateManager->deleteLater();
