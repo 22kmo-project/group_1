@@ -57,6 +57,7 @@ private:
     Ui::nostoSummaWindow *ui;
     QByteArray webToken;
     double nosto;
+    double creditMax;
     QString balance;
     QString usedCredit;
     QString creditLimit;
