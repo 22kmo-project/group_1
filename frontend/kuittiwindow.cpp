@@ -12,6 +12,7 @@ kuittiwindow::kuittiwindow(QByteArray token,QString cardnum,bool cardType,QWidge
     ui(new Ui::kuittiwindow)
 {
     ui->setupUi(this);
+    qDebug()<<"kuittiwindow konstruktori";
     kuittiwindow::setWindowState(Qt::WindowMaximized);
     webToken = token;
     card_number = cardnum;
@@ -131,7 +132,7 @@ void kuittiwindow::asiakasSlot(QNetworkReply *reply)
         delay();
         ui->timer->display(aika);
 
-        if (aika == 0) {
+        if (aika == 0&& this->isHidden()==false) {
             bankwindow *bank = new bankwindow(webToken,card_number,credit);
             bank->show();
             close();

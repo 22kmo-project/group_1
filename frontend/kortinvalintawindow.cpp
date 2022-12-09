@@ -6,6 +6,7 @@ kortinValintaWindow::kortinValintaWindow(QByteArray token,QString cardNum,QWidge
     ui(new Ui::kortinValintaWindow)
 {
     ui->setupUi(this);
+    qDebug()<<"kortinvalinta konstruktori";
     kortinValintaWindow::setWindowState(Qt::WindowMaximized);
     cardNumber=cardNum;
     webToken=token;
@@ -74,4 +75,6 @@ void kortinValintaWindow::on_debitButton_clicked()
     objectBankWindow->setWebToken("Bearer "+response_data);
     objectBankWindow->show();
     this->close();
+
+
 }

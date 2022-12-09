@@ -5,10 +5,13 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
-    MainWindow::setWindowState(Qt::WindowMaximized);
-    qDebug() << "konstruktori";
-    ui->labelKirjaudu->setText("Anna kortin numero ja paina kirjaudu sisään");
+    if (this->isHidden()==true) {
+        ui->setupUi(this);
+        MainWindow::setWindowState(Qt::WindowMaximized);
+        qDebug() << "mainwindow konstruktori";
+        ui->labelKirjaudu->setText("Anna kortin numero ja paina kirjaudu sisään");
+    }
+
 
 }
 
@@ -18,6 +21,8 @@ MainWindow::~MainWindow()
     delete ui;
     delete objectKortinValinta;
     objectKortinValinta=nullptr;
+    delete objectBankWindow;
+    objectBankWindow=nullptr;
 }
 
 void MainWindow::on_loginButton_clicked()
@@ -45,6 +50,9 @@ void MainWindow::on_loginButton_clicked()
         break;
     }
     kirjautuminen++;
+}
+void MainWindow::showWindow() {
+         show();
 }
 
 void MainWindow::loginSlot(QNetworkReply *reply)

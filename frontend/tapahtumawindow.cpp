@@ -12,6 +12,7 @@ tapahtumaWindow::tapahtumaWindow(QByteArray token,QString myCard,bool cardType,Q
     ui(new Ui::tapahtumaWindow)
 {
     ui->setupUi(this);
+    qDebug()<<"tapahtuma konstruktori";
     tapahtumaWindow::setWindowState(Qt::WindowMaximized);
     webToken=token;
     card_number = myCard;
@@ -90,10 +91,10 @@ void tapahtumaWindow::tapahtumaSlot(QNetworkReply *reply)
     for (aika = 10; aika >= 0; aika--) {
         delay();
         ui->timer->display(aika);
-        if (aika == 0) {
+        if (aika == 0&& this->isHidden()==false) {
             bankwindow *bank = new bankwindow(webToken,card_number,credit);
             bank->show();
-            close();
+            this->close();
         }
     }
 

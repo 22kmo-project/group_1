@@ -7,6 +7,7 @@ talletusWindow::talletusWindow(QByteArray token,QString cardNumber,bool cardType
     ui(new Ui::talletusWindow)
 {
     ui->setupUi(this);
+    qDebug()<<"talletus konstruktori";
     talletusWindow::setWindowState(Qt::WindowMaximized);
     ui->labelTalletus->hide();
     card_number = cardNumber;
@@ -97,7 +98,7 @@ void talletusWindow::saldoSlot(QNetworkReply *reply)
         delay();
         ui->timer->display(aika);
 
-        if (aika == 0) {
+        if (aika == 0&& this->isHidden()==false) {
             bankwindow *main = new bankwindow(webToken,card_number,credit);
             main->show();
             close();

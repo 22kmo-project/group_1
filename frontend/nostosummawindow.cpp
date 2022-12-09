@@ -8,6 +8,7 @@ nostoSummaWindow::nostoSummaWindow(QByteArray token, QString myCard, bool cardTy
     ui(new Ui::nostoSummaWindow)
 {
     ui->setupUi(this);
+    qDebug()<<"bankwindow konstruktori";
     nostoSummaWindow::setWindowState(Qt::WindowMaximized);
     webToken=token;
     cardnum=myCard;
@@ -87,7 +88,7 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
     for (aika = 10; aika >= 0; aika--) {
         delay();
         ui->timer->display(aika);
-        if (aika == 0) {
+        if (aika == 0&& this->isHidden()==false) {
             bankwindow *bank = new bankwindow(webToken,cardnum,credit);
             bank->show();
             close();
@@ -250,7 +251,7 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
         connect(updateManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(updateSlot(QNetworkReply*)));
         reply = updateManager->put(request, QJsonDocument(jsonObj).toJson());
         balance = QString::number(omaSaldo);
-        ui->kyhny_info->setText("Massia jäljellä: " +balance);
+        ui->kyhny_info->setText("Katetta jäljellä: " +balance);
         ui->kuittiButton->show();
     }
   else if (credit==true)
