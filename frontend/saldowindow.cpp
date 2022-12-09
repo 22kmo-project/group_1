@@ -8,6 +8,7 @@ saldoWindow::saldoWindow(QByteArray token,QString cardnum,bool cardType, QWidget
     ui(new Ui::saldoWindow)
 {
     ui->setupUi(this);
+    this->setStyleSheet("background-image: url(:/icons/talvi.jpg)");
     this->setWindowState(Qt::WindowMaximized);
     qDebug()<<"saldo konstruktori";
     card_number = cardnum;

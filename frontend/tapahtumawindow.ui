@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>1920</width>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
   <widget class="QPushButton" name="forwardButton">
    <property name="geometry">
     <rect>
-     <x>350</x>
-     <y>370</y>
+     <x>980</x>
+     <y>590</y>
      <width>75</width>
      <height>24</height>
     </rect>
@@ -32,8 +32,8 @@
   <widget class="QPushButton" name="backwardButton">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>370</y>
+     <x>780</x>
+     <y>590</y>
      <width>75</width>
      <height>24</height>
     </rect>
@@ -45,8 +45,8 @@
   <widget class="QPushButton" name="closeButton">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>370</y>
+     <x>880</x>
+     <y>590</y>
      <width>75</width>
      <height>24</height>
     </rect>
@@ -58,17 +58,17 @@
   <widget class="QTableWidget" name="tapahtumaTable">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>581</width>
-     <height>351</height>
+     <x>470</x>
+     <y>50</y>
+     <width>871</width>
+     <height>521</height>
     </rect>
    </property>
    <property name="verticalScrollBarPolicy">
-    <enum>Qt::ScrollBarAlwaysOn</enum>
+    <enum>Qt::ScrollBarAsNeeded</enum>
    </property>
    <property name="horizontalScrollBarPolicy">
-    <enum>Qt::ScrollBarAlwaysOn</enum>
+    <enum>Qt::ScrollBarAsNeeded</enum>
    </property>
    <attribute name="horizontalHeaderStretchLastSection">
     <bool>false</bool>
@@ -80,8 +80,8 @@
   <widget class="QLCDNumber" name="timer">
    <property name="geometry">
     <rect>
-     <x>520</x>
-     <y>370</y>
+     <x>1150</x>
+     <y>590</y>
      <width>64</width>
      <height>23</height>
     </rect>
