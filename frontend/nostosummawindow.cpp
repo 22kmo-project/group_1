@@ -164,7 +164,6 @@ void nostoSummaWindow::balanceSlot(QNetworkReply *reply)
 
 void nostoSummaWindow::updateSlot(QNetworkReply *reply)
 {
-
     response_data=reply->readAll();
     reply->deleteLater();
     updateManager->deleteLater();
