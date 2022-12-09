@@ -118,7 +118,7 @@ void bankwindow::dataSlot(QNetworkReply *reply)
         closeWindow();
     }
 
-    for (aika = 3; aika >= 0; aika--) {
+    for (aika = 30; aika >= 0; aika--) {
          delay();
          ui->timer->display(aika);
          MainWindow *main = new MainWindow;
