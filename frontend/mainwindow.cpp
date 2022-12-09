@@ -41,6 +41,7 @@ void MainWindow::on_loginButton_clicked()
         loginManager = new QNetworkAccessManager(this);
         connect(loginManager, SIGNAL (finished(QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
         reply = loginManager->post(request, QJsonDocument(jsonObj).toJson());
+        ui->lineEditKirjaudu->text();
         break;
     }
     kirjautuminen++;
@@ -74,6 +75,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
             if(test==0){
                 ui->lineEditKirjaudu->clear();
                 ui->labelInfo->setText("Tunnus ja salasana eivät täsmää");
+                ui->loginButton->hide();
                 kirjautuminen--;
             }
              else {
@@ -87,9 +89,14 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     reply->deleteLater();
     loginManager->deleteLater();
 }
-void MainWindow::on_peruutaButton_clicked()
+void MainWindow::on_peruutaButton_clicked() //tämä ois "restart"
 {
-    this->close();
+    ui->lineEditKirjaudu->clear();
+    kirjautuminen=1;
+    ui->labelKirjaudu->setText("Anna kortin numero ja paina kirjaudu sisään");
+    ui->labelInfo->setText("");
+    ui->loginButton->show();
+    ui->lineEditKirjaudu->setEchoMode(QLineEdit::Normal);
 }
 
 void MainWindow::on_pushButton_1_clicked()
