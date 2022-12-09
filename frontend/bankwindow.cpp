@@ -41,6 +41,8 @@ bankwindow::bankwindow(QByteArray webToken,QString cardNumber,bool credit,QWidge
     dataManager = new QNetworkAccessManager(this);
     connect(dataManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(dataSlot(QNetworkReply*)));
     reply = dataManager->get(request);
+
+
 }
 bankwindow::~bankwindow()
 {
@@ -52,6 +54,8 @@ bankwindow::~bankwindow()
     objectsaldoWindow=nullptr;
     delete objecttapahtumaWindow;
     objecttapahtumaWindow=nullptr;
+    delete objecttalletusWindow;
+    objecttalletusWindow =nullptr;
 
 }
 
@@ -62,10 +66,12 @@ void bankwindow::setWebToken(const QByteArray &newWebToken)
 
 void bankwindow::on_saldoButton_clicked()
 {
+
     qDebug () << "saldo";
     objectsaldoWindow = new saldoWindow(token,myCard,cardType);
     objectsaldoWindow->show();
     this->close();
+
 }
 
 void bankwindow::on_tapahtumaButton_clicked()
@@ -111,10 +117,13 @@ void bankwindow::dataSlot(QNetworkReply *reply)
     for (int i = 30; i >= 0; i--) {
         delay();
         ui->timer->display(i);
+        if (i == 0) {
+            MainWindow *main = new MainWindow;
+            main->show();
+            this->close();
+        }
     }
-    MainWindow *main = new MainWindow;
-    main->show();
-    this->close();
+
 
 }
 
@@ -128,9 +137,9 @@ void bankwindow::on_nostoButton_clicked()
 
 void bankwindow::on_kirjauduUlosButton_clicked()
 {
-     MainWindow *main = new MainWindow;
+    MainWindow *main = new MainWindow;
     main->show();
-    QApplication::quit();
+    this->close();
 }
 void bankwindow::delay()
 {

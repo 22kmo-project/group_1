@@ -130,10 +130,14 @@ void kuittiwindow::asiakasSlot(QNetworkReply *reply)
     for (aika = 10; aika >= 0; aika--) {
         delay();
         ui->timer->display(aika);
+
+        if (aika == 0) {
+            bankwindow *bank = new bankwindow(webToken,card_number,credit);
+            bank->show();
+            close();
+        }
     }
-    bankwindow *main = new bankwindow(webToken,card_number,credit);
-    main->show();
-    close();
+
 }
 
 void kuittiwindow::on_pushButton_clicked()

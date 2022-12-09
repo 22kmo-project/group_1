@@ -19,6 +19,7 @@ kortinValintaWindow::kortinValintaWindow(QByteArray token,QString cardNum,QWidge
     dataManager = new QNetworkAccessManager(this);
     connect(dataManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(dataSlot(QNetworkReply*)));
     reply = dataManager->get(request);
+
 }
 
 kortinValintaWindow::~kortinValintaWindow()

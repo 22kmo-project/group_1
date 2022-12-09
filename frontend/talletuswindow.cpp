@@ -96,10 +96,14 @@ void talletusWindow::saldoSlot(QNetworkReply *reply)
     for (aika = 10; aika >= 0; aika--) {
         delay();
         ui->timer->display(aika);
+
+        if (aika == 0) {
+            bankwindow *main = new bankwindow(webToken,card_number,credit);
+            main->show();
+            close();
+        }
     }
-    bankwindow *main = new bankwindow(webToken,card_number,credit);
-    main->show();
-    close();
+
 }
 
 void talletusWindow::on_talletaButton_clicked()
@@ -166,14 +170,12 @@ void talletusWindow::on_pushButton_1_clicked()
 {
     aika = 10;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "1");
-    delay();
 }
 
 void talletusWindow::on_pushButton_2_clicked()
 {
     aika = 10;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "2");
-    delay();
 }
 
 
@@ -181,7 +183,6 @@ void talletusWindow::on_pushButton_3_clicked()
 {
     aika = 10;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "3");
-    delay();
 }
 
 
@@ -189,7 +190,6 @@ void talletusWindow::on_pushButton_4_clicked()
 {
     aika = 10;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "4");
-    delay();
 }
 
 
@@ -197,7 +197,6 @@ void talletusWindow::on_pushButton_5_clicked()
 {
     aika = 10;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "5");
-    delay();
 }
 
 
@@ -205,7 +204,6 @@ void talletusWindow::on_pushButton_6_clicked()
 {
     aika = 10;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "6");
-    delay();
 }
 
 
@@ -213,7 +211,6 @@ void talletusWindow::on_pushButton_7_clicked()
 {
     aika = 10;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "7");
-    delay();
 }
 
 
@@ -221,7 +218,6 @@ void talletusWindow::on_pushButton_8_clicked()
 {
     aika = 10;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "8");
-    delay();
 }
 
 
@@ -229,7 +225,6 @@ void talletusWindow::on_pushButton_9_clicked()
 {
     aika = 10;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "9");
-    delay();
 }
 
 
@@ -237,7 +232,6 @@ void talletusWindow::on_pushButton_0_clicked()
 {
     aika = 10;
     ui->lineEditMaara->setText(ui->lineEditMaara->text()+ "0");
-    delay();
 }
 
 

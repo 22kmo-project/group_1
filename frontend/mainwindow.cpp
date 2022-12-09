@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     //MainWindow::setWindowState(Qt::WindowMaximized);
     qDebug() << "konstruktori";
     ui->labelKirjaudu->setText("Anna kortin numero ja paina kirjaudu sisään");
+
 }
 
 MainWindow::~MainWindow()
@@ -79,7 +80,7 @@ void MainWindow::loginSlot(QNetworkReply *reply)
                 objectKortinValinta=new kortinValintaWindow(token,cardNum);
                 objectKortinValinta->setWebToken("Bearer "+response_data);
                 objectKortinValinta->show();
-                this->close();
+                this->hide();
              }
         }
     }
@@ -88,7 +89,6 @@ void MainWindow::loginSlot(QNetworkReply *reply)
 }
 void MainWindow::on_peruutaButton_clicked()
 {
-
     this->close();
 }
 

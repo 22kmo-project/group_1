@@ -90,10 +90,13 @@ void tapahtumaWindow::tapahtumaSlot(QNetworkReply *reply)
     for (aika = 10; aika >= 0; aika--) {
         delay();
         ui->timer->display(aika);
+        if (aika == 0) {
+            bankwindow *bank = new bankwindow(webToken,card_number,credit);
+            bank->show();
+            close();
+        }
     }
-    bankwindow *main = new bankwindow(webToken,card_number,credit);
-    main->show();
-    close();
+
 }
 
 void tapahtumaWindow::asiakasSlot(QNetworkReply *reply)
@@ -152,7 +155,6 @@ void tapahtumaWindow::asiakasSlot(QNetworkReply *reply)
     qDebug() << "OverTenCounter and totalrows:" << numbersAboveTen << totalRows;
     reply->deleteLater();
     asiakasManager->deleteLater();
-    delay();
 }
 
 void tapahtumaWindow::on_backwardButton_clicked()

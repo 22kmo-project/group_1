@@ -83,10 +83,13 @@ void saldoWindow::saldoSlot(QNetworkReply *reply)
     for (int i = 10; i >= 0; i--) {
         delay();
         ui->timer->display(i);
+
+        if (i == 0) {
+            bankwindow *bank = new bankwindow(webToken,card_number,credit);
+            bank->show();
+            close();
+        }
     }
-    bankwindow *main = new bankwindow(webToken,card_number,credit);
-    main->show();
-    close();
 }
 
 void saldoWindow::asiakasSlot(QNetworkReply *reply)
