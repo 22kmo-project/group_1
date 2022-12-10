@@ -12,12 +12,10 @@ kuittiwindow::kuittiwindow(QByteArray token,QString cardnum,bool cardType,double
     ui(new Ui::kuittiwindow)
 {
     ui->setupUi(this);
-    qDebug()<<"kuittiwindow konstruktori";
     kuittiwindow::setWindowState(Qt::WindowMaximized);
     webToken = token;
     card_number = cardnum;
     nosto=QString::number(nostoMaara);;
-    qDebug()<<"nosto"<<nostoMaara;
     if(cardType==true)//debit käytössä = false , credit käytössä = true
     {
         credit=true;
@@ -35,9 +33,7 @@ kuittiwindow::kuittiwindow(QByteArray token,QString cardnum,bool cardType,double
 
     QString site_url=url::getBaseUrl()+"cards/" + card_number;
     QNetworkRequest request((site_url));
-    //WEBTOKEN ALKU
     request.setRawHeader(QByteArray("Authorization"),(webToken));
-    //WEBTOKEN LOPPU
     kuittiManager = new QNetworkAccessManager(this);
 
     connect(kuittiManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(kuittiSlot(QNetworkReply*)));
@@ -69,9 +65,7 @@ void kuittiwindow::kuittiSlot(QNetworkReply *reply)
 
     QString site_url=url::getBaseUrl()+"accounts/" + account;
     QNetworkRequest request((site_url));
-    //WEBTOKEN ALKU
     request.setRawHeader(QByteArray("Authorization"),(webToken));
-    //WEBTOKEN LOPPU
     asiakasManager = new QNetworkAccessManager(this);
 
     connect(asiakasManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(asiakasSlot(QNetworkReply*)));

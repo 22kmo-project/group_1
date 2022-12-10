@@ -12,7 +12,6 @@ tapahtumaWindow::tapahtumaWindow(QByteArray token,QString myCard,bool cardType,Q
     ui(new Ui::tapahtumaWindow)
 {
     ui->setupUi(this);
-    qDebug()<<"tapahtuma konstruktori";
     tapahtumaWindow::setWindowState(Qt::WindowMaximized);
     webToken=token;
     card_number = myCard;
@@ -43,7 +42,6 @@ tapahtumaWindow::tapahtumaWindow(QByteArray token,QString myCard,bool cardType,Q
 
     QString site_url=url::getBaseUrl()+"cards/" + card_number;
     QNetworkRequest request((site_url));
-    qDebug()<<site_url;
     //WEBTOKEN ALKU
     request.setRawHeader(QByteArray("Authorization"),(webToken));
     //WEBTOKEN LOPPU
@@ -67,7 +65,6 @@ void tapahtumaWindow::tapahtumaSlot(QNetworkReply *reply)
     QByteArray response_data=reply->readAll();
     qDebug()<<response_data;
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-    QJsonArray json_array = json_doc.array();
     QJsonObject json_obj = json_doc.object();
     QString account = QString::number(json_obj["id_account"].toInt());
     QString card_number = QString::number(json_obj["card_number"].toInt());
