@@ -349,6 +349,7 @@ void nostoSummaWindow::on_confirmButton_clicked()
     ui->lineEdit->clear();
     ui->muu_info->clear();
     int y = nostoluku.toDouble();
+    nostoMaara=y;
     nosto=balance.toDouble();
     if (y%10==0)
     {
