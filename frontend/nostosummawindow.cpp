@@ -130,6 +130,7 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
 void nostoSummaWindow::balanceSlot(QNetworkReply *reply)
 {
 
+
     if(credit==false){
     QByteArray response_data=reply->readAll();
     qDebug()<<response_data;
@@ -153,14 +154,20 @@ void nostoSummaWindow::balanceSlot(QNetworkReply *reply)
         qDebug()<<"balance on:" << balance;
         ui->kyhny_info->setText("Luottoraja on: "+creditLimit + "\nKäytetty: " + balance);
     }
+
+    QByteArray response_data=reply->readAll();
+    QString site_url=url::getBaseUrl()+"transactions/";
+    qDebug()<<site_url;
+    QNetworkRequest request((site_url));
+    //WEBTOKEN ALKU
+    request.setRawHeader(QByteArray("Authorization"),(webToken));
+    //WEBTOKEN LOPPU
+    transactionManager = new QNetworkAccessManager(this);
+    connect(transactionManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(transactionSlot(QNetworkReply*)));
+    reply = transactionManager->get(request);
 }
 
-void nostoSummaWindow::updateSlot(QNetworkReply *reply)
-{
-    response_data=reply->readAll();
-    reply->deleteLater();
-    updateManager->deleteLater();
-}
+
 
 void nostoSummaWindow::on_pushButton20e_clicked()
 {
@@ -280,10 +287,43 @@ void nostoSummaWindow::delay()
          QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 }
 
+void nostoSummaWindow::transactionSlot(QNetworkReply *reply){
+
+    QByteArray response_data=reply->readAll();
+    qDebug()<<response_data;
+    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+    QJsonArray json_array = json_doc.array();
+    QJsonArray array = {};
+    QJsonArray rightIDList = {};
+    QJsonObject obj;
+    int listIndex = 0;
+    for (int i = 0; i < json_array.size();i++) {
+        array.insert(i,json_array.at(i));
+        QJsonValue items = json_array.at(i);
+        obj = items.toObject();
+        QString id_transactions = QString::number(obj["id_transactions"].toInt());
+        QString card_numbers = QString::number(obj["card_number"].toInt());
+        QString sums = QString::number(obj["sum"].toInt());
+        QString dates = obj["date"].toString();
+        QString descriptions = obj["description"].toString();
+        rightIDList.insert(listIndex,id_transactions);
+        listIndex++;
+    }
+    QJsonValue lastItem = rightIDList.last();
+    lastID = lastItem.toString().toInt()+1;
+    qDebug() << "last transactions ID: " << lastID;
+
+}
+void nostoSummaWindow::updateSlot(QNetworkReply *reply)
+{
+    response_data=reply->readAll();
+    reply->deleteLater();
+    updateManager->deleteLater();
+}
 void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
 {
-
-
+    QDateTime time= QDateTime::currentDateTime();
+    QString date = time.toString("dd.MM.yyyy hh:mm:ss");
      if(credit==false)
     {
          if (nostoSumma <= 0) {
@@ -291,6 +331,23 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
          }else if(omaSaldo<nostoSumma){
               ui->nosto_info->setText("Tilillä ei riittävästi katetta.");
          }else if(omaSaldo>=nostoSumma){
+
+            qDebug() << lastID;
+            QJsonObject jsonObjTrans;
+            jsonObjTrans.insert("id_transactions",lastID);
+            jsonObjTrans.insert("card_number",cardnum);
+            jsonObjTrans.insert("sum",nostoSumma);
+            jsonObjTrans.insert("date",date);
+            jsonObjTrans.insert("description","nosto debit");
+            QString site_url2=url::getBaseUrl()+"/transactions/";
+            QNetworkRequest request2((site_url2));
+
+            //WEBTOKEN ALKU
+
+            //WEBTOKEN LOPPU
+
+
+
             omaSaldo=omaSaldo-nostoSumma;
             ui->nosto_info->setText("Nosto onnistui");
             QJsonObject jsonObj;
@@ -298,14 +355,18 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
             jsonObj.insert("credit_limit",creditLimit);
             jsonObj.insert("used_credit",usedCredit);
             QString site_url=url::getBaseUrl()+"/accounts/"+id_account;
+
             QNetworkRequest request((site_url));
             request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+            request2.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
             //WEBTOKEN ALKU
             request.setRawHeader(QByteArray("Authorization"),(webToken));
+            request2.setRawHeader(QByteArray("Authorization"),(webToken));
             //WEBTOKEN LOPPU
             updateManager = new QNetworkAccessManager(this);
-            connect(updateManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(updateSlot(QNetworkReply*)));
+            connect(updateManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(updateSlot(QNetworkReply*)));
             reply = updateManager->put(request, QJsonDocument(jsonObj).toJson());
+            reply = updateManager->post(request2, QJsonDocument(jsonObjTrans).toJson());
             balance = QString::number(omaSaldo);
             ui->kyhny_info->setText("Katetta jäljellä: " +balance);
             ui->kuittiButton->show();
@@ -313,7 +374,6 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
     }
     if (credit==true)
     {
-
 
         omaSaldo=omaSaldo+nostoSumma;
 
@@ -323,6 +383,16 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
         }else if(creditMax>=omaSaldo)
         {
         ui->nosto_info->setText("Nosto onnistui");
+        qDebug() << lastID;
+        QJsonObject jsonObjTrans;
+        jsonObjTrans.insert("id_transactions",lastID);
+        jsonObjTrans.insert("card_number",cardnum);
+        jsonObjTrans.insert("sum",nostoSumma);
+        jsonObjTrans.insert("date",date);
+        jsonObjTrans.insert("description","nosto credit");
+        QString site_url2=url::getBaseUrl()+"/transactions/";
+        QNetworkRequest request2((site_url2));
+
         QJsonObject jsonObj;
         jsonObj.insert("credit_limit",creditLimit); //jos joku tässä kusee nii tämä, Saattaa olla vääräs muodos menossa sisää
         jsonObj.insert("debit_balance",debitBalance);
@@ -330,12 +400,15 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
         QString site_url=url::getBaseUrl()+"/accounts/"+id_account;
         QNetworkRequest request((site_url));
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+        request2.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
         //WEBTOKEN ALKU
         request.setRawHeader(QByteArray("Authorization"),(webToken));
+        request2.setRawHeader(QByteArray("Authorization"),(webToken));
         //WEBTOKEN LOPPU
         updateManager = new QNetworkAccessManager(this);
         connect(updateManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(updateSlot(QNetworkReply*)));
         reply = updateManager->put(request, QJsonDocument(jsonObj).toJson());
+        reply = updateManager->post(request2, QJsonDocument(jsonObjTrans).toJson());
         balance = QString::number(omaSaldo);
         QString nostettu = QString::number(nostoSumma);
         ui->kyhny_info->setText("Nostettu: "+nostettu);
@@ -347,6 +420,7 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
         }
     }
 }
+
 void nostoSummaWindow::on_kuittiButton_clicked()
 {
 
@@ -377,6 +451,8 @@ void nostoSummaWindow::on_muuButton_clicked()
 }
 void nostoSummaWindow::on_confirmButton_clicked()
 {
+    QDateTime time= QDateTime::currentDateTime();
+    QString date = time.toString("dd.MM.yyyy hh:mm:ss");
     aika = 10;
     ui->nosto_info->setText("");
     ui->jakolabel->hide();
@@ -389,6 +465,22 @@ void nostoSummaWindow::on_confirmButton_clicked()
     nosto=balance.toDouble();
     if (y%10==0)
     {
+        qDebug() << lastID;
+        QJsonObject jsonObjTrans;
+        jsonObjTrans.insert("id_transactions",lastID);
+       jsonObjTrans.insert("card_number",cardnum);
+        jsonObjTrans.insert("sum",nostoluku);
+        jsonObjTrans.insert("date",date);
+        jsonObjTrans.insert("description","nosto muu summa");
+        QString site_url2=url::getBaseUrl()+"/transactions/";
+        QNetworkRequest request2((site_url2));
+        request2.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+        //WEBTOKEN ALKU
+        request2.setRawHeader(QByteArray("Authorization"),(webToken));
+        //WEBTOKEN LOPPU
+        updateManager = new QNetworkAccessManager(this);
+        connect(updateManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(updateSlot(QNetworkReply*)));
+        reply = updateManager->post(request2, QJsonDocument(jsonObjTrans).toJson());
         countMoney(nosto,y);
     } else
     {

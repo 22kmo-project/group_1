@@ -24,6 +24,7 @@ public:
     explicit nostoSummaWindow(QByteArray token, QString myCard,bool cardType, QWidget *parent = nullptr);
     ~nostoSummaWindow();
     void setWebToken(const QByteArray &newWebToken);
+    int lastID;
 public slots:
     void close_window();
 private slots:
@@ -36,6 +37,7 @@ private slots:
     void nostoSlot (QNetworkReply *reply);
     void balanceSlot (QNetworkReply *reply);
     void updateSlot (QNetworkReply *reply);
+    void transactionSlot(QNetworkReply *reply);
     void on_suljeButton_clicked();
     void delay();
     void countMoney(double balance, double amount);
@@ -67,6 +69,7 @@ private:
     QNetworkAccessManager *nostoManager;
     QNetworkAccessManager *balanceManager;
     QNetworkAccessManager *updateManager;
+    QNetworkAccessManager *transactionManager;
     QString id_account;
     QNetworkReply *reply;
     QByteArray response_data;
