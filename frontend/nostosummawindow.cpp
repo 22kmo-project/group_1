@@ -294,12 +294,20 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
      if(credit==false)
     {
          if (nostoSumma <= 0) {
-            ui->nosto_info->setText("Virheellinen summa syötetty.");
+            for (int i = 3; i >= 0; i--) {
+                delay();
+                ui->timer->display(i);
+                ui->nosto_info->setText("Virheellinen summa syötetty.Suljetaan");
+                if (i == 0&& this->isHidden()==false) {
+                    bankwindow *bank = new bankwindow(webToken,cardnum,credit);
+                    bank->show();
+                    close();
+                }
+            }
          }else if(omaSaldo<nostoSumma){
               ui->nosto_info->setText("Tilillä ei riittävästi katetta.");
          }else if(omaSaldo>=nostoSumma){
 
-            qDebug() << lastID;
             QJsonObject jsonObjTrans;
             jsonObjTrans.insert("id_transactions",lastID);
             jsonObjTrans.insert("card_number",cardnum);
@@ -308,13 +316,6 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
             jsonObjTrans.insert("description","nosto debit");
             QString site_url2=url::getBaseUrl()+"/transactions/";
             QNetworkRequest request2((site_url2));
-
-            //WEBTOKEN ALKU
-
-            //WEBTOKEN LOPPU
-
-
-
             omaSaldo=omaSaldo-nostoSumma;
             ui->nosto_info->setText("Nosto onnistui");
             QJsonObject jsonObj;
@@ -351,7 +352,6 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
         }else if(creditMax>=omaSaldo)
         {
         ui->nosto_info->setText("Nosto onnistui");
-        qDebug() << lastID;
         QJsonObject jsonObjTrans;
         jsonObjTrans.insert("id_transactions",lastID);
         jsonObjTrans.insert("card_number",cardnum);
@@ -430,21 +430,6 @@ void nostoSummaWindow::on_confirmButton_clicked()
     nosto=balance.toDouble();
     if (y%10==0)
     {
-        /*QJsonObject jsonObjTrans;
-        jsonObjTrans.insert("id_transactions",lastID);
-        jsonObjTrans.insert("card_number",cardnum);
-        jsonObjTrans.insert("sum",nostoluku);
-        jsonObjTrans.insert("date",date);
-        jsonObjTrans.insert("description","nosto muu summa");
-        QString site_url2=url::getBaseUrl()+"/transactions/";
-        QNetworkRequest request2((site_url2));
-        request2.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-        //WEBTOKEN ALKU
-        //request2.setRawHeader(QByteArray("Authorization"),(webToken));
-        //WEBTOKEN LOPPU
-        updateManager = new QNetworkAccessManager(this);
-        connect(updateManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(updateSlot(QNetworkReply*)));
-        reply = updateManager->post(request2, QJsonDocument(jsonObjTrans).toJson());*/
         countMoney(nosto,y);
     } else
     {
