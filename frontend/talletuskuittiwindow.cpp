@@ -12,7 +12,7 @@ talletusKuittiWindow::talletusKuittiWindow(QByteArray token,QString cardnum,bool
     ui(new Ui::talletusKuittiWindow)
 {
     ui->setupUi(this);
-    talletusKuittiWindow::setWindowState(Qt::WindowMaximized);
+    this->setWindowState(Qt::WindowMaximized);
     webToken = token;
     card_number = cardnum;
     talletus=QString::number(talletusMaara);;

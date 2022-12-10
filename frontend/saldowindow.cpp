@@ -8,7 +8,9 @@ saldoWindow::saldoWindow(QByteArray token,QString cardnum,bool cardType, QWidget
     ui(new Ui::saldoWindow)
 {
     ui->setupUi(this);
-    saldoWindow::setWindowState(Qt::WindowMaximized);
+    this->setStyleSheet("background-image: url(:/icons/talvi.jpg)");
+    this->setWindowState(Qt::WindowMaximized);
+    qDebug()<<"saldo konstruktori";
     card_number = cardnum;
     webToken=token;
     ui->timer->setPalette(Qt::red);
@@ -16,6 +18,14 @@ saldoWindow::saldoWindow(QByteArray token,QString cardnum,bool cardType, QWidget
     QPalette Pal = ui->timer->palette();
     Pal.setColor(QPalette::Normal, QPalette::WindowText, Qt::red);
     Pal.setColor(QPalette::Normal, QPalette::Window, Qt::black);
+    ui->tableWidget->setRowCount(5);
+    ui->tableWidget->setColumnCount(5);
+    ui->tableWidget->verticalHeader()->setVisible(false);
+    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->tableWidget->setShowGrid(false);
+    ui->tableWidget->setStyleSheet("QTableView {selection-background-color: green;}");
     ui->timer->setPalette(Pal);
     if(cardType==true)//debit käytössä = false , credit käytössä = true
     {
@@ -93,7 +103,7 @@ void saldoWindow::asiakasSlot(QNetworkReply *reply)
     QString account;
     account = QString::number(json_obj["id_account"].toInt());
     ui->labelSaldo->setText("Saldo: "+Saldo);
-    QString site_url=url::getBaseUrl()+"transactions/"+account;
+    QString site_url=url::getBaseUrl()+"transactions/";
     QNetworkRequest request((site_url));
     request.setRawHeader(QByteArray("Authorization"),(webToken));
     tapahtumaManager = new QNetworkAccessManager(this);
@@ -109,7 +119,7 @@ void saldoWindow::asiakasSlot(QNetworkReply *reply)
         QString account;
         account = QString::number(json_obj["id_account"].toInt());
         ui->labelSaldo->setText("Luottoraja: "+creditLimit+"\n"+"Käytetty luotto: "+usedCredit);
-        QString site_url=url::getBaseUrl()+"transactions/"+account;
+        QString site_url=url::getBaseUrl()+"transactions/";
 
         QNetworkRequest request((site_url));
         request.setRawHeader(QByteArray("Authorization"),(webToken));
@@ -123,18 +133,53 @@ void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
     QByteArray response_data=reply->readAll();
     qDebug()<<response_data;
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-    QJsonObject json_obj = json_doc.object();
-    QString id_transactions = QString::number(json_obj["id_transactions"].toInt());
-    QString card_number = QString::number(json_obj["card_number"].toInt());
-    QString sum = QString::number(json_obj["sum"].toInt());
-    QString date = json_obj["date"].toString();
+    QJsonArray json_array = json_doc.array();
+    QJsonArray array = {};
+    QJsonArray omatTapahtumat = {};
+    QJsonArray omatTapahtumatVikat = {};
+    QString id_transactions;
     QString lista;
+    QJsonValue values;
+    int listaIndex = 0;
 
-    lista += "Transaction: " + id_transactions + "\nCard number: "+card_number + "\nSum: "+sum + "\nDate: "+date;
-    ui->labelTapahtuma->setText(lista);
-    reply->deleteLater();
-    tapahtumaManager->deleteLater();
+    for (int i = 0; i < json_array.size();i++) {
+        array.insert(i,json_array.at(i));
+        QJsonValue items = json_array.at(i);
+        QJsonObject obj = items.toObject();
+        id_transactions = QString::number(obj["id_transactions"].toInt());
+        QString card_numbers = QString::number(obj["card_number"].toInt());
+        QString sums = QString::number(obj["sum"].toInt());
+        QString dates = obj["date"].toString();
+        QString descriptions = obj["description"].toString();
+        if (card_numbers == saldoWindow::card_number) {
+            omatTapahtumat.insert(listaIndex,items);
+            listaIndex++;
 
+        }
+
+
+    }
+    int size = omatTapahtumat.size() -5;
+    for (int i = 0;i <5;i++) {
+        omatTapahtumatVikat.insert(i,omatTapahtumat.at(size));
+        qDebug() << "LISÄTTY: " << omatTapahtumat.at(size);
+        QJsonValue items = omatTapahtumatVikat.at(i);
+        QJsonObject obj = items.toObject();
+        id_transactions = QString::number(obj["id_transactions"].toInt());
+        QString numerot= QString::number(obj["card_number"].toInt());
+        QString summat = QString::number(obj["sum"].toInt());
+        QString pvm = obj["date"].toString();
+        QString kuvaus = obj["description"].toString();
+        lista += "Transaction: " + id_transactions + "Card number: "+numerot + "Sum: "+summat + "Date: "+pvm + "Description: "+kuvaus+"\n";
+        m_TableHeader<<"ID"<<"Kortin numero"<<"Summa"<<"Päivämäärä"<<"Tapahtuma";
+        ui->tableWidget->setHorizontalHeaderLabels(m_TableHeader);
+        ui->tableWidget->setItem(i, 0, new QTableWidgetItem(id_transactions));
+        ui->tableWidget->setItem(i, 1, new QTableWidgetItem(numerot));
+        ui->tableWidget->setItem(i, 2, new QTableWidgetItem(summat));
+        ui->tableWidget->setItem(i, 3, new QTableWidgetItem(pvm));
+        ui->tableWidget->setItem(i, 4, new QTableWidgetItem(kuvaus));
+        size++;
+    }
 }
 
 void saldoWindow::on_suljeButton_clicked()

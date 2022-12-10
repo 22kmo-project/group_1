@@ -6,7 +6,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    MainWindow::setWindowState(Qt::WindowMaximized);
+
+    this->setStyleSheet("background-image: url(:/icons/talvi.jpg)");
+    this->setWindowState(Qt::WindowMaximized);
+
     qDebug() << "mainwindow konstruktori";
     ui->labelKirjaudu->setText("Anna kortin numero ja paina kirjaudu sisään");
 }
@@ -72,7 +75,8 @@ void MainWindow::loginSlot(QNetworkReply *reply)
     else {
         if(QString::compare(response_data,"-4078")==0){
             ui->lineEditKirjaudu->clear();
-            ui->labelInfo->setText("Virhe tietokanta yhteydessä");
+            ui->labelKirjaudu->clear();
+            ui->labelKirjaudu->setText("Virhe tietokanta yhteydessä");
             ui->loginButton->hide();
             kirjautuminen--;
         }
@@ -81,7 +85,8 @@ void MainWindow::loginSlot(QNetworkReply *reply)
                 ui->lineEditKirjaudu->clear();
                 for (int i = 3; i >=0;i--) {
                     QString info = "Tunnus ja pin ei täsmää. Yritä uudelleen "+ QString::number(i) +"s kuluttua...";
-                    ui->labelInfo->setText(info);
+                    ui->labelKirjaudu->clear();
+                    ui->labelKirjaudu->setText(info);
                     delay();
                 }
                 on_peruutaButton_clicked();
@@ -108,7 +113,6 @@ void MainWindow::on_peruutaButton_clicked() //tämä ois "restart"
     ui->lineEditKirjaudu->clear();
     kirjautuminen=1;
     ui->labelKirjaudu->setText("Anna kortin numero ja paina kirjaudu sisään");
-    ui->labelInfo->setText("");
     ui->loginButton->show();
     ui->lineEditKirjaudu->setEchoMode(QLineEdit::Normal);
 }

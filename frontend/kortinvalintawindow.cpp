@@ -6,7 +6,8 @@ kortinValintaWindow::kortinValintaWindow(QByteArray token,QString cardNum,QWidge
     ui(new Ui::kortinValintaWindow)
 {
     ui->setupUi(this);
-    kortinValintaWindow::setWindowState(Qt::WindowMaximized);
+    this->setWindowState(Qt::WindowMaximized);
+    qDebug()<<"kortinvalinta konstruktori";
     cardNumber=cardNum;
     webToken=token;
     QString site_url=url::getBaseUrl()+"cards/"+cardNumber;

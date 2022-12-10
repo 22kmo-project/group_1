@@ -6,21 +6,35 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>1920</width>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Saldo</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-image: url(:/icons/talvi.jpg);</string>
   </property>
   <widget class="QLabel" name="labelSaldo">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>130</y>
-     <width>331</width>
-     <height>61</height>
+     <x>840</x>
+     <y>140</y>
+     <width>301</width>
+     <height>71</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
    </property>
    <property name="text">
     <string/>
@@ -29,11 +43,16 @@
   <widget class="QPushButton" name="suljeButton">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>240</y>
-     <width>83</width>
-     <height>29</height>
+     <x>920</x>
+     <y>250</y>
+     <width>150</width>
+     <height>81</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>SULJE</string>
@@ -42,11 +61,22 @@
   <widget class="QLabel" name="labelAsiakas">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>40</y>
-     <width>321</width>
-     <height>81</height>
+     <x>1150</x>
+     <y>10</y>
+     <width>461</width>
+     <height>200</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
    </property>
    <property name="text">
     <string/>
@@ -55,26 +85,23 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="labelTapahtuma">
-   <property name="geometry">
-    <rect>
-     <x>260</x>
-     <y>70</y>
-     <width>131</width>
-     <height>191</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
   <widget class="QLCDNumber" name="timer">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>840</x>
      <y>10</y>
-     <width>64</width>
-     <height>23</height>
+     <width>300</width>
+     <height>100</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>10</y>
+     <width>581</width>
+     <height>201</height>
     </rect>
    </property>
   </widget>

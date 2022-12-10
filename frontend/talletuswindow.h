@@ -24,12 +24,14 @@ public:
     ~talletusWindow();
     void delay();
     void talletusDelay();
+    int lastID;
 private slots:
     void on_talletaButton_clicked();
     void on_peruutaButton_clicked();
     void talletusSlot (QNetworkReply *reply);
     void asiakasSlot (QNetworkReply *reply);
     void saldoSlot (QNetworkReply *reply);
+    void transactionSlot(QNetworkReply *reply);
     void on_pushButton_1_clicked();
     void on_pushButton_2_clicked();
     void on_pushButton_3_clicked();
@@ -53,6 +55,7 @@ private:
     QNetworkAccessManager *asiakasManager;
     QNetworkAccessManager *saldoManager;
     QNetworkAccessManager *talletusManager;
+    QNetworkAccessManager *transactionManager;
     QNetworkReply *reply;
     QByteArray response_data;
     QString cardNum;

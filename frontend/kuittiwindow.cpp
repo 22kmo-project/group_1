@@ -12,7 +12,7 @@ kuittiwindow::kuittiwindow(QByteArray token,QString cardnum,bool cardType,double
     ui(new Ui::kuittiwindow)
 {
     ui->setupUi(this);
-    kuittiwindow::setWindowState(Qt::WindowMaximized);
+    this->setWindowState(Qt::WindowMaximized);
     webToken = token;
     card_number = cardnum;
     nosto=QString::number(nostoMaara);;
