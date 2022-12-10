@@ -272,10 +272,7 @@ void nostoSummaWindow::transactionSlot(QNetworkReply *reply){
         QJsonValue items = json_array.at(i);
         obj = items.toObject();
         QString id_transactions = QString::number(obj["id_transactions"].toInt());
-        QString card_numbers = QString::number(obj["card_number"].toInt());
-        QString sums = QString::number(obj["sum"].toInt());
-        QString dates = obj["date"].toString();
-        QString descriptions = obj["description"].toString();
+
         rightIDList.insert(listIndex,id_transactions);
         listIndex++;
     }
@@ -377,7 +374,6 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
         request.setRawHeader(QByteArray("Authorization"),(webToken));
         request2.setRawHeader(QByteArray("Authorization"),(webToken));
         //WEBTOKEN LOPPU
-        request.setRawHeader(QByteArray("Authorization"),(webToken));
         updateManager = new QNetworkAccessManager(this);
         connect(updateManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(updateSlot(QNetworkReply*)));
         reply = updateManager->put(request, QJsonDocument(jsonObj).toJson());
@@ -434,10 +430,9 @@ void nostoSummaWindow::on_confirmButton_clicked()
     nosto=balance.toDouble();
     if (y%10==0)
     {
-        qDebug() << lastID;
-        QJsonObject jsonObjTrans;
+        /*QJsonObject jsonObjTrans;
         jsonObjTrans.insert("id_transactions",lastID);
-       jsonObjTrans.insert("card_number",cardnum);
+        jsonObjTrans.insert("card_number",cardnum);
         jsonObjTrans.insert("sum",nostoluku);
         jsonObjTrans.insert("date",date);
         jsonObjTrans.insert("description","nosto muu summa");
@@ -445,11 +440,11 @@ void nostoSummaWindow::on_confirmButton_clicked()
         QNetworkRequest request2((site_url2));
         request2.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
         //WEBTOKEN ALKU
-        request2.setRawHeader(QByteArray("Authorization"),(webToken));
+        //request2.setRawHeader(QByteArray("Authorization"),(webToken));
         //WEBTOKEN LOPPU
         updateManager = new QNetworkAccessManager(this);
         connect(updateManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(updateSlot(QNetworkReply*)));
-        reply = updateManager->post(request2, QJsonDocument(jsonObjTrans).toJson());
+        reply = updateManager->post(request2, QJsonDocument(jsonObjTrans).toJson());*/
         countMoney(nosto,y);
     } else
     {

@@ -98,10 +98,6 @@ void talletusWindow::transactionSlot(QNetworkReply *reply){
         QJsonValue items = json_array.at(i);
         obj = items.toObject();
         QString id_transactions = QString::number(obj["id_transactions"].toInt());
-        QString card_numbers = QString::number(obj["card_number"].toInt());
-        QString sums = QString::number(obj["sum"].toInt());
-        QString dates = obj["date"].toString();
-        QString descriptions = obj["description"].toString();
         rightIDList.insert(listIndex,id_transactions);
         listIndex++;
     }
@@ -194,7 +190,7 @@ void talletusWindow::on_talletaButton_clicked()
     request2.setRawHeader(QByteArray("Authorization"),(webToken));
 
     talletusManager = new QNetworkAccessManager(this);
-    connect(talletusManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(talletusSlot(QNetworkReply*)));
+    connect(talletusManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(talletusSlot(QNetworkReply*)));
     reply = talletusManager->put(request, QJsonDocument(jsonObj).toJson());
     reply = talletusManager->post(request2, QJsonDocument(jsonObjTrans).toJson());
 
