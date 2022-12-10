@@ -39,24 +39,6 @@
      <string>Kirjaudu sisään</string>
     </property>
    </widget>
-   <widget class="QLabel" name="labelInfo">
-    <property name="geometry">
-     <rect>
-      <x>620</x>
-      <y>50</y>
-      <width>760</width>
-      <height>120</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>24</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButton_1">
     <property name="geometry">
      <rect>
@@ -109,6 +91,9 @@
     </property>
     <property name="text">
      <string>3</string>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_4">
@@ -310,9 +295,9 @@
    <widget class="QLabel" name="labelKirjaudu">
     <property name="geometry">
      <rect>
-      <x>620</x>
+      <x>600</x>
       <y>150</y>
-      <width>760</width>
+      <width>801</width>
       <height>120</height>
      </rect>
     </property>
@@ -358,8 +343,26 @@
       <pointsize>24</pointsize>
      </font>
     </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="lineWidth">
+     <number>2</number>
+    </property>
+    <property name="midLineWidth">
+     <number>0</number>
+    </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string/>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -397,7 +400,6 @@
    <zorder>peruutaButton</zorder>
    <zorder>lineEditKirjaudu</zorder>
    <zorder>pyyhiButton</zorder>
-   <zorder>labelInfo</zorder>
    <zorder>labelKirjaudu</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">

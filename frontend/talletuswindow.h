@@ -32,7 +32,6 @@ private slots:
     void asiakasSlot (QNetworkReply *reply);
     void saldoSlot (QNetworkReply *reply);
     void transactionSlot(QNetworkReply *reply);
-    void updateSlot(QNetworkReply *reply);
     void on_pushButton_1_clicked();
     void on_pushButton_2_clicked();
     void on_pushButton_3_clicked();
@@ -57,7 +56,6 @@ private:
     QNetworkAccessManager *saldoManager;
     QNetworkAccessManager *talletusManager;
     QNetworkAccessManager *transactionManager;
-    QNetworkAccessManager *updateManager;
     QNetworkReply *reply;
     QByteArray response_data;
     QString cardNum;

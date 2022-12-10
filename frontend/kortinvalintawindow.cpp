@@ -6,7 +6,6 @@ kortinValintaWindow::kortinValintaWindow(QByteArray token,QString cardNum,QWidge
     ui(new Ui::kortinValintaWindow)
 {
     ui->setupUi(this);
-    //this->setStyleSheet("background-image: url(:/icons/talvi.jpg)");
     this->setWindowState(Qt::WindowMaximized);
     qDebug()<<"kortinvalinta konstruktori";
     cardNumber=cardNum;

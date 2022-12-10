@@ -27,6 +27,7 @@ private slots:
     void tapahtumaSlot (QNetworkReply *reply);
     void on_suljeButton_clicked();
 private:
+    QStringList m_TableHeader;
     Ui::saldoWindow *ui;
     QByteArray webToken;
     QString card_number;

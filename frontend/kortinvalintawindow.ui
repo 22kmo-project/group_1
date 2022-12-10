@@ -12,46 +12,16 @@
   </property>
   <property name="palette">
    <palette>
-    <active>
-     <colorrole role="Window">
-      <brush brushstyle="SolidPattern">
-       <color alpha="255">
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
-    </active>
-    <inactive>
-     <colorrole role="Window">
-      <brush brushstyle="SolidPattern">
-       <color alpha="255">
-        <red>46</red>
-        <green>47</green>
-        <blue>48</blue>
-       </color>
-      </brush>
-     </colorrole>
-    </inactive>
-    <disabled>
-     <colorrole role="Window">
-      <brush brushstyle="SolidPattern">
-       <color alpha="255">
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
-    </disabled>
+    <active/>
+    <inactive/>
+    <disabled/>
    </palette>
   </property>
   <property name="windowTitle">
    <string>Kortinvalinta</string>
   </property>
   <property name="autoFillBackground">
-   <bool>true</bool>
+   <bool>false</bool>
   </property>
   <widget class="QPushButton" name="creditButton">
    <property name="geometry">
@@ -74,7 +44,7 @@
   <widget class="QPushButton" name="debitButton">
    <property name="geometry">
     <rect>
-     <x>990</x>
+     <x>970</x>
      <y>510</y>
      <width>171</width>
      <height>61</height>
@@ -92,9 +62,9 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>790</x>
+     <x>770</x>
      <y>360</y>
-     <width>531</width>
+     <width>301</width>
      <height>91</height>
     </rect>
    </property>
@@ -102,6 +72,12 @@
     <font>
      <pointsize>24</pointsize>
     </font>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
    </property>
    <property name="text">
     <string>Valitse kortin tyyppi </string>
