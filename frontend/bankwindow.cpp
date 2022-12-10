@@ -42,13 +42,10 @@ bankwindow::bankwindow(QByteArray webToken,QString cardNumber,bool credit,QWidge
     qDebug()<<"cardtype"<<cardType;
     myCard=cardNumber;
     token = webToken;
-    qDebug()<<"constru webtoken"<<token;
-    qDebug()<<"constru crdnumber"<<myCard;
+
     QString site_url=url::getBaseUrl()+"cards/"+myCard;
     QNetworkRequest request((site_url));
-    //WEBTOKEN ALKU
     request.setRawHeader(QByteArray("Authorization"),(webToken));
-    //WEBTOKEN LOPPU
     dataManager = new QNetworkAccessManager(this);
     connect(dataManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(dataSlot(QNetworkReply*)));
     reply = dataManager->get(request);
@@ -76,8 +73,6 @@ void bankwindow::setWebToken(const QByteArray &newWebToken)
 
 void bankwindow::on_saldoButton_clicked()
 {
-
-    qDebug () << "saldo";
     objectsaldoWindow = new saldoWindow(token,myCard,cardType);
     objectsaldoWindow->show();
     closeWindow();
@@ -85,7 +80,6 @@ void bankwindow::on_saldoButton_clicked()
 
 void bankwindow::on_tapahtumaButton_clicked()
 {
-    qDebug () << "tapahtuma";
     objecttapahtumaWindow = new tapahtumaWindow(token,myCard,cardType);
     objecttapahtumaWindow->show();
     closeWindow();
@@ -139,7 +133,6 @@ void bankwindow::dataSlot(QNetworkReply *reply)
 
 void bankwindow::on_nostoButton_clicked()
 {
-    qDebug () << "nosto";
     objectnostoSummaWindow =new nostoSummaWindow(token, myCard,cardType);
     objectnostoSummaWindow->show();
     closeWindow();
@@ -161,7 +154,6 @@ void bankwindow::delay()
 
 void bankwindow::on_talletusButton_clicked()
 {
-    qDebug () << "talleta";
     objecttalletusWindow =new talletusWindow(token, myCard, cardType);
     objecttalletusWindow->show();
     closeWindow();

@@ -30,9 +30,7 @@ saldoWindow::saldoWindow(QByteArray token,QString cardnum,bool cardType, QWidget
     QString site_url=url::getBaseUrl()+"cards/"+card_number;
     QNetworkRequest request((site_url));
     qDebug()<<site_url;
-    //WEBTOKEN ALKU
     request.setRawHeader(QByteArray("Authorization"),(webToken));
-    //WEBTOKEN LOPPU
     saldoManager = new QNetworkAccessManager(this);
     connect(saldoManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(saldoSlot(QNetworkReply*)));
     reply = saldoManager->get(request);
@@ -55,7 +53,6 @@ void saldoWindow::delay()
 void saldoWindow::saldoSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
-    qDebug()<< "response data: " <<response_data;
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
     QString account = QString::number(json_obj["id_account"].toInt());
@@ -65,19 +62,13 @@ void saldoWindow::saldoSlot(QNetworkReply *reply)
     QString lista;
 
     lista += "Account: " + account + "\nCard number: "+card_number + "\nDebit/Credit: "+debit_credit + "\nCard owner: "+card_owner;
-    lista += "Account: " + account + "\nCard number: "+card_number + "\nDebit/Credit: "+debit_credit + "\nCard owner: "+card_owner;
-    qDebug()<<"cards data in saldowindow: "<<card_number<<debit_credit<<card_owner;
-    qDebug()<<"id_account in saldowindow: "<<account;
-    qDebug()<<"cards data in saldowindow: "<<account<<card_number<<debit_credit<<card_owner;
     ui->labelAsiakas->setText(lista);
     reply->deleteLater();
     saldoManager->deleteLater();
+
     QString site_url=url::getBaseUrl()+"accounts/"+account;
-    qDebug()<<site_url;
     QNetworkRequest request((site_url));
-    //WEBTOKEN ALKU
     request.setRawHeader(QByteArray("Authorization"),(webToken));
-    //WEBTOKEN LOPPU
     asiakasManager = new QNetworkAccessManager(this);
     connect(asiakasManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(asiakasSlot(QNetworkReply*)));
     reply = asiakasManager->get(request);
@@ -98,20 +89,15 @@ void saldoWindow::asiakasSlot(QNetworkReply *reply)
 {
     if(credit==false){
     QByteArray response_data=reply->readAll();
-    qDebug()<<response_data;
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
     QString Saldo=QString::number(json_obj["debit_balance"].toDouble());
     QString account;
     account = QString::number(json_obj["id_account"].toInt());
-    qDebug()<<Saldo;
     ui->labelSaldo->setText("Saldo: "+Saldo);
     QString site_url=url::getBaseUrl()+"transactions/"+account;
-    qDebug()<<site_url;
     QNetworkRequest request((site_url));
-    //WEBTOKEN ALKU
     request.setRawHeader(QByteArray("Authorization"),(webToken));
-    //WEBTOKEN LOPPU
     tapahtumaManager = new QNetworkAccessManager(this);
     connect(tapahtumaManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(tapahtumaSlot(QNetworkReply*)));
     reply = tapahtumaManager->get(request);}
@@ -126,11 +112,9 @@ void saldoWindow::asiakasSlot(QNetworkReply *reply)
         account = QString::number(json_obj["id_account"].toInt());
         ui->labelSaldo->setText("Luottoraja: "+creditLimit+"\n"+"Käytetty luotto: "+usedCredit);
         QString site_url=url::getBaseUrl()+"transactions/"+account;
-        qDebug()<<site_url;
+
         QNetworkRequest request((site_url));
-        //WEBTOKEN ALKU
         request.setRawHeader(QByteArray("Authorization"),(webToken));
-        //WEBTOKEN LOPPU
         tapahtumaManager = new QNetworkAccessManager(this);
         connect(tapahtumaManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(tapahtumaSlot(QNetworkReply*)));
         reply = tapahtumaManager->get(request);
@@ -149,7 +133,6 @@ void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
     QString lista;
 
     lista += "Transaction: " + id_transactions + "\nCard number: "+card_number + "\nSum: "+sum + "\nDate: "+date;
-    qDebug()<<"pöö" <<id_transactions<<card_number<<sum<<date;
     ui->labelTapahtuma->setText(lista);
     reply->deleteLater();
     tapahtumaManager->deleteLater();

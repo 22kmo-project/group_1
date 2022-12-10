@@ -7,9 +7,7 @@ talletusWindow::talletusWindow(QByteArray token,QString cardNumber,bool cardType
     ui(new Ui::talletusWindow)
 {
     ui->setupUi(this);
-    qDebug()<<"talletus konstruktori";
     talletusWindow::setWindowState(Qt::WindowMaximized);
-    //ui->labelTalletus->hide();
     ui->kuittiButton->hide();
     card_number = cardNumber;
     webToken=token;
@@ -31,10 +29,7 @@ talletusWindow::talletusWindow(QByteArray token,QString cardNumber,bool cardType
     }
     QString site_url=url::getBaseUrl()+"cards/"+card_number;
     QNetworkRequest request((site_url));
-    qDebug()<<site_url;
-    //WEBTOKEN ALKU
     request.setRawHeader(QByteArray("Authorization"),(webToken));
-    //WEBTOKEN LOPPU
     asiakasManager = new QNetworkAccessManager(this);
     connect(asiakasManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(asiakasSlot(QNetworkReply*)));
     reply = asiakasManager->get(request);
@@ -68,32 +63,66 @@ void talletusWindow::asiakasSlot(QNetworkReply *reply)
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
     account = QString::number(json_obj["id_account"].toInt());
-    qDebug()<<"account"<<account;
 
     QString site_url=url::getBaseUrl()+"accounts/"+account;
-        qDebug()<<site_url;
     QNetworkRequest request((site_url));
-    //WEBTOKEN ALKU
     request.setRawHeader(QByteArray("Authorization"),(webToken));
-    //WEBTOKEN LOPPU
     saldoManager = new QNetworkAccessManager(this);
     connect(saldoManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(saldoSlot(QNetworkReply*)));
     reply = saldoManager->get(request);
+
+    QString site_url2=url::getBaseUrl()+"transactions/";
+    qDebug()<<site_url2;
+    QNetworkRequest request2((site_url2));
+    //WEBTOKEN ALKU
+    request.setRawHeader(QByteArray("Authorization"),(webToken));
+    //WEBTOKEN LOPPU
+    transactionManager = new QNetworkAccessManager(this);
+    connect(transactionManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(transactionSlot(QNetworkReply*)));
+    reply = transactionManager->get(request2);
+
+
+}
+void talletusWindow::transactionSlot(QNetworkReply *reply){
+
+    QByteArray response_data=reply->readAll();
+    qDebug()<<response_data;
+    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+    QJsonArray json_array = json_doc.array();
+    QJsonArray array = {};
+    QJsonArray rightIDList = {};
+    QJsonObject obj;
+    int listIndex = 0;
+    for (int i = 0; i < json_array.size();i++) {
+        array.insert(i,json_array.at(i));
+        QJsonValue items = json_array.at(i);
+        obj = items.toObject();
+        QString id_transactions = QString::number(obj["id_transactions"].toInt());
+        QString card_numbers = QString::number(obj["card_number"].toInt());
+        QString sums = QString::number(obj["sum"].toInt());
+        QString dates = obj["date"].toString();
+        QString descriptions = obj["description"].toString();
+        rightIDList.insert(listIndex,id_transactions);
+        listIndex++;
+    }
+    QJsonValue lastItem = rightIDList.last();
+    lastID = lastItem.toString().toInt()+1;
+    qDebug() << "last transactions ID: " << lastID;
+
 }
 
 void talletusWindow::saldoSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
-    qDebug()<<response_data;
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
 
     saldo=QString::number(json_obj["debit_balance"].toDouble());
     credit_limit=QString::number(json_obj["credit_limit"].toDouble());
     used_credit=QString::number(json_obj["used_credit"].toDouble());
-    qDebug()<<"saldo"<<saldo;
     x = saldo.toDouble();
     ui->talletusLabel->setText("Syötä talletettava määrä");
+
 
     for (aika = 10; aika >= 0; aika--) {
         delay();
@@ -105,6 +134,7 @@ void talletusWindow::saldoSlot(QNetworkReply *reply)
             close();
         }
     }
+
 
 }
 
@@ -126,15 +156,26 @@ void talletusWindow::on_talletaButton_clicked()
     ui->lineEditMaara->hide();
     ui->kuittiButton->show();
     if(credit==false){
+        QDateTime time= QDateTime::currentDateTime();
+        QString date = time.toString("dd.MM.yyyy hh:mm:ss");
+
+        QJsonObject jsonObjTrans;
+        jsonObjTrans.insert("id_transactions",lastID);
+        jsonObjTrans.insert("card_number",card_number);
+
+        jsonObjTrans.insert("date",date);
+        jsonObjTrans.insert("description","talletus");
+        QString site_url2=url::getBaseUrl()+"/transactions/";
+        QNetworkRequest request2((site_url2));
+
     aika = 10;
     ui->talletusLabel->clear();
     sum=ui->lineEditMaara->text();
     ui->lineEditMaara->clear();
-    qDebug()<<"summa"<<sum;
     talletusMaara = sum.toDouble();
     double y = sum.toDouble();
     talletus=x + y;
-    qDebug()<<"talletus"<<talletus;
+
     QJsonObject jsonObj;
     jsonObj.insert("debit_balance",talletus);
     jsonObj.insert("credit_limit",credit_limit);
@@ -142,17 +183,20 @@ void talletusWindow::on_talletaButton_clicked()
     QString uusiSaldo = QString::number(talletus);
     ui->saldoLabel->setText("Saldo: " + uusiSaldo);
     ui->summaLabel->setText("Talletettu summa: " + sum);
+    jsonObjTrans.insert("sum",y);
     QString site_url=url::getBaseUrl()+"/accounts/"+account;
-    QNetworkRequest request((site_url));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
-    //WEBTOKEN ALKU
+    QNetworkRequest request((site_url));
+
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request2.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader(QByteArray("Authorization"),(webToken));
-    //WEBTOKEN LOPPU
+    request2.setRawHeader(QByteArray("Authorization"),(webToken));
+
     talletusManager = new QNetworkAccessManager(this);
     connect(talletusManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(talletusSlot(QNetworkReply*)));
     reply = talletusManager->put(request, QJsonDocument(jsonObj).toJson());
-    //ui->labelTalletus->show();
+    reply = talletusManager->post(request2, QJsonDocument(jsonObjTrans).toJson());
 
     }
     else{
@@ -166,6 +210,7 @@ void talletusWindow::talletusSlot(QNetworkReply *reply)
     response_data=reply->readAll();
     reply->deleteLater();
     talletusManager->deleteLater();
+
 }
 
 void talletusWindow::on_peruutaButton_clicked()
@@ -255,4 +300,3 @@ void talletusWindow::on_kuittiButton_clicked()
     objecttalletusKuittiWindow->show();
     this->close();
 }
-
