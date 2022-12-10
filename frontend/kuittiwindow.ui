@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>594</width>
-    <height>342</height>
+    <width>1862</width>
+    <height>1002</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,11 +16,16 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>500</x>
-     <y>310</y>
-     <width>80</width>
-     <height>24</height>
+     <x>790</x>
+     <y>620</y>
+     <width>241</width>
+     <height>91</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>SULJE</string>
@@ -29,21 +34,26 @@
   <widget class="QLCDNumber" name="timer">
    <property name="geometry">
     <rect>
-     <x>430</x>
-     <y>310</y>
-     <width>64</width>
-     <height>23</height>
+     <x>1763</x>
+     <y>962</y>
+     <width>91</width>
+     <height>31</height>
     </rect>
    </property>
   </widget>
   <widget class="QLabel" name="labelKuitti">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>50</y>
-     <width>361</width>
-     <height>211</height>
+     <x>690</x>
+     <y>180</y>
+     <width>521</width>
+     <height>391</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>TextLabel</string>
