@@ -19,11 +19,16 @@
   <widget class="QPushButton" name="forwardButton">
    <property name="geometry">
     <rect>
-     <x>980</x>
+     <x>1000</x>
      <y>590</y>
-     <width>75</width>
-     <height>24</height>
+     <width>121</width>
+     <height>51</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>&gt;&gt;&gt;</string>
@@ -32,11 +37,16 @@
   <widget class="QPushButton" name="backwardButton">
    <property name="geometry">
     <rect>
-     <x>780</x>
+     <x>734</x>
      <y>590</y>
-     <width>75</width>
-     <height>24</height>
+     <width>121</width>
+     <height>51</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>&lt;&lt;&lt;</string>
@@ -45,11 +55,16 @@
   <widget class="QPushButton" name="closeButton">
    <property name="geometry">
     <rect>
-     <x>880</x>
+     <x>870</x>
      <y>590</y>
-     <width>75</width>
-     <height>24</height>
+     <width>121</width>
+     <height>51</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>SULJE</string>
@@ -63,6 +78,11 @@
      <width>871</width>
      <height>521</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
    </property>
    <property name="verticalScrollBarPolicy">
     <enum>Qt::ScrollBarAsNeeded</enum>
@@ -80,10 +100,10 @@
   <widget class="QLCDNumber" name="timer">
    <property name="geometry">
     <rect>
-     <x>1150</x>
-     <y>590</y>
-     <width>64</width>
-     <height>23</height>
+     <x>1543</x>
+     <y>872</y>
+     <width>91</width>
+     <height>31</height>
     </rect>
    </property>
   </widget>
