@@ -88,8 +88,8 @@
   <widget class="QLCDNumber" name="timer">
    <property name="geometry">
     <rect>
-     <x>1720</x>
-     <y>880</y>
+     <x>1730</x>
+     <y>930</y>
      <width>101</width>
      <height>41</height>
     </rect>
