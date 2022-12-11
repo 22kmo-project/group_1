@@ -159,7 +159,7 @@ void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
 
 
     }
-    int size = omatTapahtumat.size() -5;
+    int size = omatTapahtumat.size() -1;
     for (int i = 0;i <5;i++) {
         omatTapahtumatVikat.insert(i,omatTapahtumat.at(size));
         qDebug() << "LISÄTTY: " << omatTapahtumat.at(size);
