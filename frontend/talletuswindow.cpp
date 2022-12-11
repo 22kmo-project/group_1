@@ -177,7 +177,7 @@ void talletusWindow::on_talletaButton_clicked()
     jsonObj.insert("credit_limit",credit_limit);
     jsonObj.insert("used_credit",used_credit);
     QString uusiSaldo = QString::number(talletus);
-    ui->saldoLabel->setText("Saldo: " + uusiSaldo);
+    ui->saldoLabel->setText("Uusi Saldo: " + uusiSaldo);
     ui->summaLabel->setText("Talletettu summa: " + sum);
     jsonObjTrans.insert("sum",y);
     QString site_url=url::getBaseUrl()+"/accounts/"+account;
