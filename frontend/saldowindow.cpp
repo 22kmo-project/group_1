@@ -178,7 +178,7 @@ void saldoWindow::tapahtumaSlot(QNetworkReply *reply) {
         ui->tableWidget->setItem(i, 2, new QTableWidgetItem(summat));
         ui->tableWidget->setItem(i, 3, new QTableWidgetItem(pvm));
         ui->tableWidget->setItem(i, 4, new QTableWidgetItem(kuvaus));
-        size++;
+        size--;
     }
 }
 
