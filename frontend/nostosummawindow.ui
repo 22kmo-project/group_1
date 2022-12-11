@@ -316,9 +316,9 @@
   <widget class="QLabel" name="jakolabel">
    <property name="geometry">
     <rect>
-     <x>710</x>
+     <x>700</x>
      <y>430</y>
-     <width>451</width>
+     <width>481</width>
      <height>81</height>
     </rect>
    </property>
@@ -338,7 +338,7 @@
     <number>2</number>
    </property>
    <property name="text">
-    <string>Nostoja voi tehdä 10 euron välein!</string>
+    <string>Nostoja voi tehdä vain 10 euron välein!</string>
    </property>
   </widget>
   <widget class="QPushButton" name="confirmButton">
