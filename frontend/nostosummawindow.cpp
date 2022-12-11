@@ -300,7 +300,7 @@ void nostoSummaWindow::countMoney(double omaSaldo, double nostoSumma)
             for (int i = 3; i >= 0; i--) {
                 delay();
                 ui->timer->display(i);
-                ui->nosto_info->setText("Virheellinen summa syötetty.Suljetaan");
+                ui->nosto_info->setText("Virheellinen summa. Suljetaan...");
                 if (i == 0&& this->isHidden()==false) {
                     bankwindow *bank = new bankwindow(webToken,cardnum,credit);
                     bank->show();
