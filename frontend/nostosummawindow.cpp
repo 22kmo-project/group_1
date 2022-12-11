@@ -444,6 +444,7 @@ void nostoSummaWindow::on_confirmButton_clicked()
     ui->pushButton500e->hide();
     ui->muuButton->hide();
     ui->label->hide();
+    ui->muu_info->hide();
     ui->kumiButton->hide();
     ui->nollaButton->hide();
     ui->yksiButton->hide();
