@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>kortinValintaWindow</class>
  <widget class="QWidget" name="kortinValintaWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -24,6 +27,9 @@
    <bool>false</bool>
   </property>
   <widget class="QPushButton" name="creditButton">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>710</x>
@@ -42,6 +48,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="debitButton">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>970</x>
@@ -60,11 +69,14 @@
    </property>
   </widget>
   <widget class="QLabel" name="label">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
-     <x>770</x>
+     <x>740</x>
      <y>360</y>
-     <width>301</width>
+     <width>371</width>
      <height>91</height>
     </rect>
    </property>
@@ -83,6 +95,9 @@
     <string>Valitse kortin tyyppi </string>
    </property>
   </widget>
+  <zorder>label</zorder>
+  <zorder>creditButton</zorder>
+  <zorder>debitButton</zorder>
  </widget>
  <resources/>
  <connections/>

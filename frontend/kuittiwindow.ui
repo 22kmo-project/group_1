@@ -55,6 +55,12 @@
      <pointsize>16</pointsize>
     </font>
    </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
    <property name="text">
     <string>TextLabel</string>
    </property>

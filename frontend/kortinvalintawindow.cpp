@@ -1,11 +1,16 @@
 #include "kortinvalintawindow.h"
 #include "ui_kortinvalintawindow.h"
-
+#include <QApplication>
+#include <QDesktopWidget>
+#include <QCoreApplication>
+#include <QHeaderView>
+#include <QMessageBox>
 kortinValintaWindow::kortinValintaWindow(QByteArray token,QString cardNum,QWidget *parent) :
-    QWidget(parent),
+    QDialog(parent),
     ui(new Ui::kortinValintaWindow)
 {
     ui->setupUi(this);
+    this->setStyleSheet("background-image: url(:/icons/talvi.jpg)");
     this->setWindowState(Qt::WindowMaximized);
     qDebug()<<"kortinvalinta konstruktori";
     cardNumber=cardNum;

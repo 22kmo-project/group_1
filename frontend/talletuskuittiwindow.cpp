@@ -8,10 +8,11 @@
 #include "bankwindow.h"
 
 talletusKuittiWindow::talletusKuittiWindow(QByteArray token,QString cardnum,bool cardType,double talletusMaara,QWidget *parent) :
-    QWidget(parent),
+    QDialog(parent),
     ui(new Ui::talletusKuittiWindow)
 {
     ui->setupUi(this);
+    this->setStyleSheet("background-image: url(:/icons/talvi.jpg)");
     this->setWindowState(Qt::WindowMaximized);
     webToken = token;
     card_number = cardnum;

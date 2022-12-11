@@ -8,6 +8,7 @@ nostoSummaWindow::nostoSummaWindow(QByteArray token, QString myCard, bool cardTy
     ui(new Ui::nostoSummaWindow)
 {
     ui->setupUi(this);
+    this->setStyleSheet("background-image: url(:/icons/talvi.jpg)");
     this->setWindowState(Qt::WindowMaximized);
     qDebug()<<"nostosumma konstruktori";
     webToken=token;
@@ -34,7 +35,7 @@ nostoSummaWindow::nostoSummaWindow(QByteArray token, QString myCard, bool cardTy
     connect(nostoManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(nostoSlot(QNetworkReply*)));
     reply = nostoManager->get(request);
 
-    ui->tiliLabel->setText(myCard);
+    ui->nimi_label->setText(myCard+"\n");
     ui->kuittiButton->hide();
     ui->lineEdit->hide();
     ui->muu_info->hide();
@@ -68,7 +69,7 @@ void nostoSummaWindow::nostoSlot(QNetworkReply *reply)
     QString Saldo=QString::number(json_obj["debit_balance"].toDouble());
 
     id_account=QString::number(json_obj["id_account"].toInt());
-    ui->nimi_label->setText(omistaja);
+    ui->nimi_label->setText("Kortin numero: " + cardnum + "\nKortin omistaja: " +omistaja);
 
     QString site_url=url::getBaseUrl()+"accounts/"+id_account;
     QNetworkRequest request((site_url));
@@ -272,10 +273,7 @@ void nostoSummaWindow::transactionSlot(QNetworkReply *reply){
         QJsonValue items = json_array.at(i);
         obj = items.toObject();
         QString id_transactions = QString::number(obj["id_transactions"].toInt());
-        QString card_numbers = QString::number(obj["card_number"].toInt());
-        QString sums = QString::number(obj["sum"].toInt());
-        QString dates = obj["date"].toString();
-        QString descriptions = obj["description"].toString();
+
         rightIDList.insert(listIndex,id_transactions);
         listIndex++;
     }

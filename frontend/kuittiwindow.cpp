@@ -12,6 +12,7 @@ kuittiwindow::kuittiwindow(QByteArray token,QString cardnum,bool cardType,double
     ui(new Ui::kuittiwindow)
 {
     ui->setupUi(this);
+    this->setStyleSheet("background-image: url(:/icons/talvi.jpg)");
     this->setWindowState(Qt::WindowMaximized);
     webToken = token;
     card_number = cardnum;
