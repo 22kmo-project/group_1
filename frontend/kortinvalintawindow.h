@@ -7,7 +7,7 @@ namespace Ui {
 class kortinValintaWindow;
 }
 
-class kortinValintaWindow : public QWidget
+class kortinValintaWindow : public QDialog
 {
     Q_OBJECT
 public:

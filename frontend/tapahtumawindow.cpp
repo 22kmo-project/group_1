@@ -12,6 +12,7 @@ tapahtumaWindow::tapahtumaWindow(QByteArray token,QString myCard,bool cardType,Q
     ui(new Ui::tapahtumaWindow)
 {
     ui->setupUi(this);
+    this->setStyleSheet("background-image: url(:/icons/talvi.jpg)");
     this->setWindowState(Qt::WindowMaximized);
     qDebug()<<"tapahtuma konstruktori";
     webToken=token;

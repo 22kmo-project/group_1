@@ -3,12 +3,14 @@
 #include "bankwindow.h"
 
 talletusWindow::talletusWindow(QByteArray token,QString cardNumber,bool cardType,QWidget *parent) :
-    QWidget(parent),
+    QDialog(parent),
     ui(new Ui::talletusWindow)
 {
     ui->setupUi(this);
-    talletusWindow::setWindowState(Qt::WindowMaximized);
+    this->setStyleSheet("background-image: url(:/icons/talvi.jpg)");
+    this->setWindowState(Qt::WindowMaximized);
     ui->kuittiButton->hide();
+    ui->summaLabel->hide();
     card_number = cardNumber;
     webToken=token;
 
@@ -150,8 +152,22 @@ void talletusWindow::on_talletaButton_clicked()
     ui->pushButton_9->hide();
     ui->pyyhiButton->hide();
     ui->lineEditMaara->hide();
+    ui->talletusLabel->hide();
     ui->kuittiButton->show();
-    if(credit==false){
+    ui->summaLabel->show();
+
+    sum=ui->lineEditMaara->text();
+    ui->lineEditMaara->clear();
+    talletusMaara = sum.toDouble();
+    double y = sum.toDouble();
+    talletus=x + y;
+    if(y<=0){
+            qDebug()<<"summa on 0";
+            ui->summaLabel->setText("Ei mahdollinen");
+            ui->saldoLabel->setText("Määrän oltava yli 0");
+            ui->kuittiButton->hide();
+    }
+    else if(y>=0){
         QDateTime time= QDateTime::currentDateTime();
         QString date = time.toString("dd.MM.yyyy hh:mm:ss");
 
@@ -165,12 +181,6 @@ void talletusWindow::on_talletaButton_clicked()
         QNetworkRequest request2((site_url2));
 
     aika = 10;
-    ui->talletusLabel->clear();
-    sum=ui->lineEditMaara->text();
-    ui->lineEditMaara->clear();
-    talletusMaara = sum.toDouble();
-    double y = sum.toDouble();
-    talletus=x + y;
 
     QJsonObject jsonObj;
     jsonObj.insert("debit_balance",talletus);

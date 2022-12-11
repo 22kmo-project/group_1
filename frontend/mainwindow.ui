@@ -17,6 +17,11 @@
     <disabled/>
    </palette>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>9</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Kirjautuminen</string>
   </property>
@@ -32,7 +37,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>16</pointsize>
+      <pointsize>12</pointsize>
      </font>
     </property>
     <property name="text">
@@ -379,7 +384,7 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>16</pointsize>
+      <pointsize>12</pointsize>
      </font>
     </property>
     <property name="text">
@@ -408,7 +413,7 @@
      <x>0</x>
      <y>0</y>
      <width>1590</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>

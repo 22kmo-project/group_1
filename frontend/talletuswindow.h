@@ -15,7 +15,7 @@ namespace Ui {
 class talletusWindow;
 }
 
-class talletusWindow : public QWidget
+class talletusWindow : public QDialog
 {
     Q_OBJECT
 
