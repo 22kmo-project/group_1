@@ -8,7 +8,7 @@ MainWindow *objectmainWindow;
 
 
 bankwindow::bankwindow(QByteArray webToken,QString cardNumber,bool credit,QWidget *parent) :
-    /*QDialog(parent),*/
+    QDialog(parent),
     ui(new Ui::bankwindow)
 
 {
