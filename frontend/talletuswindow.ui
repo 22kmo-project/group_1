@@ -362,6 +362,31 @@
     <string>Kuitti</string>
    </property>
   </widget>
+  <widget class="QLabel" name="labelOmistaja">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>60</y>
+     <width>711</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Segoe UI</family>
+     <pointsize>24</pointsize>
+    </font>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Panel</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
   <zorder>saldoLabel</zorder>
   <zorder>kuittiButton</zorder>
   <zorder>lineEditMaara</zorder>
@@ -381,6 +406,7 @@
   <zorder>pushButton_0</zorder>
   <zorder>pyyhiButton</zorder>
   <zorder>timer</zorder>
+  <zorder>labelOmistaja</zorder>
  </widget>
  <resources/>
  <connections/>

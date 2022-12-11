@@ -65,7 +65,10 @@ void talletusWindow::asiakasSlot(QNetworkReply *reply)
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
     account = QString::number(json_obj["id_account"].toInt());
+    QString omistaja=json_obj["card_owner"].toString();
+    QString number = QString::number(json_obj["card_number"].toInt());
 
+    ui->labelOmistaja->setText("Kortin omistaja: " +omistaja + "\nKortin Numero: " + number);
     QString site_url=url::getBaseUrl()+"accounts/"+account;
     QNetworkRequest request((site_url));
     request.setRawHeader(QByteArray("Authorization"),(webToken));
