@@ -13,6 +13,7 @@ bankwindow::bankwindow(QByteArray webToken,QString cardNumber,bool credit,QWidge
 
 {
     ui->setupUi(this);
+
     this->setStyleSheet("background-image: url(:/icons/talvi.jpg)");
     this->setWindowState(Qt::WindowMaximized);
     qDebug()<<"bankwindow konstruktori";
